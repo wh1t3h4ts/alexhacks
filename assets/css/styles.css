@@ -3,18 +3,16 @@ body, html {
   height: 100%;
   margin: 0;
   font-family: 'Cantarell', 'Segoe UI', 'Ubuntu', 'sans-serif';
-  background: linear-gradient(120deg, #233447 0%, #1a222d 100%);
+  background-color: var(--wallpaper-navy);
+  background-image: url("../images/kali-ascii.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: #e5e5e5;
   overflow: hidden;
 }
-#desktop-bg {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 0;
-  background: linear-gradient(120deg, #233447 0%, #1a222d 100%);
-  /* abstract lines */
-  pointer-events: none;
-}
+
 /* GNOME Top Panel (Status Bar) */
 #gnome-top-panel {
   position: fixed;
