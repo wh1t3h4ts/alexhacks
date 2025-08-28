@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kali GNOME Portfolio</title>
+  <title>alexhacks</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="icon" href="assets/img/kali.jpeg">
@@ -69,7 +69,7 @@
     <button class="dock-icon" data-section="terminal" aria-label="Terminal"><i class="bi bi-terminal"></i></button>
     <button class="dock-icon" data-section="files" aria-label="Files"><i class="bi bi-folder2"></i></button>
     <button class="dock-icon" data-section="calculator" aria-label="Calculator"><i class="bi bi-calculator"></i></button>
-    <button class="dock-icon" data-section="settings" aria-label="Settings"><i class="bi bi-gear"></i></button>
+    <button class="dock-icon" data-section="menu" aria-label="Menu"><i class="bi bi-grid-3x3-gap-fill"></i></button>
   </div>
   <!-- Bootstrap Icons CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -78,9 +78,23 @@
   <div id="desktop-bg"></div>
 
   <!-- GNOME Windows (hidden by default) -->
+  <!-- GNOME Terminal Window -->
+  <div id="gnome-terminal-window" class="gnome-window" style="display:none; min-width:600px; min-height:340px; top:80px; left:120px;">
+    <div class="gnome-titlebar">
+      <span class="title">Terminal</span>
+      <div class="window-btns ms-auto">
+        <span class="window-btn min" title="Minimize"></span>
+        <span class="window-btn max" title="Maximize"></span>
+        <span class="window-btn close" title="Close"></span>
+      </div>
+    </div>
+    <div class="terminal-area" id="terminal-area">
+      <!-- Terminal content will be rendered here by JS -->
+    </div>
+  </div>
   <div id="windows-container"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/gnome-portfolio.js"></script>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>

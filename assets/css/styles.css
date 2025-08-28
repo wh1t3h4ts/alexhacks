@@ -1,10 +1,126 @@
+/* GNOME Terminal Window Styles */
+.gnome-window {
+  position: absolute;
+  background: var(--window-bg, #2E3440);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px #000a;
+  color: var(--text-primary, #fff);
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  animation: zoomIn 0.3s;
+  min-width: 400px;
+  min-height: 300px;
+  overflow: hidden;
+}
+.gnome-titlebar {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  background: var(--panel-bg, #1E1E1E);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 0 12px;
+  cursor: move;
+  user-select: none;
+}
+.gnome-titlebar .title {
+  font-weight: bold;
+  color: var(--text-secondary, rgba(255,255,255,0.75));
+  font-size: 1rem;
+}
+.window-btns {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+.window-btn {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1.5px solid #222;
+  margin-left: 2px;
+  cursor: pointer;
+}
+.window-btn.close { background: var(--btn-close, #E06C75); }
+.window-btn.min { background: var(--btn-min, #E5C07B); }
+.window-btn.max { background: var(--btn-max, #98C379); }
+
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes zoomOut {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.8); opacity: 0; }
+}
+
+.terminal-area {
+  background: #0C0C0C;
+  color: #E5E5E5;
+  font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+  font-size: 1.05rem;
+  flex: 1;
+  padding: 18px 18px 12px 18px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  min-height: 220px;
+  outline: none;
+  user-select: text;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.terminal-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  line-height: 1.6;
+}
+.terminal-prompt {
+  font-weight: 500;
+  font-family: inherit;
+}
+.prompt-user {
+  color: #00FFFF;
+}
+.prompt-path {
+  color: #61AFEF;
+}
+.prompt-git {
+  color: #98C379;
+}
+.prompt-symbol {
+  color: #fff;
+  margin-right: 4px;
+}
+.terminal-cmd {
+  color: #E5E5E5;
+  font-family: inherit;
+}
+.terminal-cursor {
+  display: inline-block;
+  width: 10px;
+  color: #fff;
+  background: none;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.terminal-output {
+  color: #E5E5E5;
+  margin-left: 2.5em;
+  font-family: inherit;
+  white-space: pre-wrap;
+}
 /* GNOME/Kali Linux Theme Custom CSS */
 body, html {
   height: 100%;
   margin: 0;
   font-family: 'Cantarell', 'Segoe UI', 'Ubuntu', 'sans-serif';
   background-color: var(--wallpaper-navy);
-  background-image: url("../images/kali-ascii.png");
+  background-image: url("../images/kali-bg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -149,21 +265,13 @@ body, html {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  opacity: 0;
-  pointer-events: none;
-  transform: scale(0.85);
-  transition: opacity 0.25s cubic-bezier(.4,2,.6,1), transform 0.32s cubic-bezier(.4,2,.6,1);
+  /* Remove default opacity/pointer-events/transform so window is visible when display:flex */
 }
-.gnome-window.zoom-in {
-  opacity: 1;
-  pointer-events: auto;
-  transform: scale(1.02);
+.gnome-window.zoomIn {
+  animation: zoomIn 0.3s;
 }
-.gnome-window.zoom-out {
-  opacity: 0;
-  pointer-events: none;
-  transform: scale(0.85);
-  transition: opacity 0.18s cubic-bezier(.4,2,.6,1), transform 0.22s cubic-bezier(.4,2,.6,1);
+.gnome-window.zoomOut {
+  animation: zoomOut 0.3s;
 }
 .gnome-window .window-titlebar {
   height: 36px;
