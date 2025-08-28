@@ -1,0 +1,259 @@
+/* GNOME/Kali Linux Theme Custom CSS */
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Cantarell', 'Segoe UI', 'Ubuntu', 'sans-serif';
+  background: linear-gradient(120deg, #233447 0%, #1a222d 100%);
+  color: #e5e5e5;
+  overflow: hidden;
+}
+#desktop-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  background: linear-gradient(120deg, #233447 0%, #1a222d 100%);
+  /* abstract lines */
+  pointer-events: none;
+}
+/* GNOME Top Panel (Status Bar) */
+#gnome-top-panel {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 36px;
+  background: #1e1e1e;
+  z-index: 200;
+  box-shadow: 0 2px 8px #000a;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-family: 'Cantarell', 'Segoe UI', 'Ubuntu', sans-serif;
+  padding: 0;
+  min-width: 0;
+}
+.panel-menu {
+  color: rgba(255,255,255,0.85);
+  font-weight: 500;
+  background: none;
+  border: none;
+  padding: 2px 16px 2px 12px;
+  border-radius: 6px;
+  transition: color 0.18s, background 0.18s;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.panel-menu:hover, .panel-menu:focus, .panel-menu[aria-expanded="true"] {
+  color: #00aaff;
+  background: #2b2b2b;
+}
+.gnome-dropdown {
+  background: #232526 !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  min-width: 160px;
+  box-shadow: 0 4px 24px #000a;
+  padding: 4px 0;
+}
+.gnome-dropdown .dropdown-item {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.98rem;
+  border-radius: 5px;
+  transition: background 0.15s, color 0.15s;
+}
+.gnome-dropdown .dropdown-item:hover, .gnome-dropdown .dropdown-item:focus {
+  background: #2b2b2b;
+  color: #00aaff;
+}
+.gnome-clock {
+  color: #fff;
+  font-family: monospace;
+  font-size: 1.08rem;
+  letter-spacing: 0.5px;
+  background: none;
+  padding: 0 12px;
+  border-radius: 6px;
+  min-width: 60px;
+  display: inline-block;
+}
+.gnome-tray-icon {
+  color: rgba(255,255,255,0.85) !important;
+  transition: color 0.18s, background 0.18s;
+  border-radius: 50%;
+  padding: 2px 7px 2px 7px !important;
+  margin: 0 1px;
+}
+.gnome-tray-icon:hover, .gnome-tray-icon:focus {
+  color: #00aaff !important;
+  background: #232526;
+}
+/* Dock (GNOME style) */
+#gnome-dock {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 101;
+  background: rgba(30, 30, 30, 0.85);
+  border-radius: 20px;
+  padding: 8px 22px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.32), 0 1.5px 0 #3a3a3a inset;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  transition: transform 0.2s cubic-bezier(.4,2,.6,1), box-shadow 0.2s;
+}
+#gnome-dock:hover {
+  transform: translateX(-50%) scale(1.02);
+  box-shadow: 0 12px 40px 0 rgba(0,120,255,0.10), 0 8px 32px 0 rgba(0,0,0,0.32);
+}
+.dock-icon {
+  background: none;
+  border: none;
+  margin: 0 2px;
+  padding: 0;
+  outline: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b8c7ce;
+  font-size: 1.7rem;
+  transition: all 0.2s cubic-bezier(.4,2,.6,1);
+  box-shadow: none;
+  position: relative;
+}
+.dock-icon:hover, .dock-icon:focus {
+  background: rgba(40, 80, 180, 0.10);
+  transform: scale(1.1);
+  box-shadow: 0 0 10px 0 rgba(0,120,255,0.6);
+  color: #00adef;
+  outline: none;
+}
+.dock-icon.active, .dock-icon:active {
+  background: rgba(0,173,239,0.18);
+  box-shadow: 0 0 0 4px rgba(0,173,239,0.10);
+  color: #00adef;
+}
+/* GNOME App Window Chrome */
+.gnome-window {
+  position: absolute;
+  min-width: 340px;
+  min-height: 260px;
+  max-width: 90vw;
+  max-height: 80vh;
+  background: #232526;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px #000a, 0 1.5px 0 #3a3a3a inset;
+  z-index: 200;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.85);
+  transition: opacity 0.25s cubic-bezier(.4,2,.6,1), transform 0.32s cubic-bezier(.4,2,.6,1);
+}
+.gnome-window.zoom-in {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1.02);
+}
+.gnome-window.zoom-out {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.85);
+  transition: opacity 0.18s cubic-bezier(.4,2,.6,1), transform 0.22s cubic-bezier(.4,2,.6,1);
+}
+.gnome-window .window-titlebar {
+  height: 36px;
+  background: linear-gradient(90deg, #232526 80%, #00adef22 100%);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  cursor: move;
+  user-select: none;
+  border-bottom: 1px solid #232526;
+}
+.window-titlebar .window-controls {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+.window-controls button {
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  margin-left: 2px;
+  background: #444;
+  transition: background 0.2s;
+  box-shadow: 0 1px 2px #0004;
+}
+.window-controls .close {
+  background: #e06c75;
+}
+.window-controls .minimize {
+  background: #e5c07b;
+}
+.window-controls .maximize {
+  background: #98c379;
+}
+.window-controls button:hover {
+  filter: brightness(1.2);
+}
+.gnome-window .window-content {
+  flex: 1 1 auto;
+  padding: 24px 20px 20px 20px;
+  overflow-y: auto;
+  background: #232526;
+  border-radius: 0 0 14px 14px;
+}
+@media (max-width: 768px) {
+  #gnome-top-panel {
+    height: 36px;
+    font-size: 0.98rem;
+    padding: 0 2px;
+  }
+  .panel-menu {
+    padding: 2px 8px 2px 8px;
+    font-size: 0.97rem;
+  }
+  .gnome-clock {
+    font-size: 0.98rem;
+    padding: 0 6px;
+    min-width: 44px;
+  }
+  .gnome-tray-icon {
+    font-size: 1.05rem !important;
+    padding: 2px 4px 2px 4px !important;
+  }
+  #gnome-dock {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: unset;
+    width: 100vw;
+    height: 60px;
+    border-radius: 0;
+    padding: 6px 12px;
+    justify-content: center;
+    transform: none;
+    gap: 8px;
+  }
+  .dock-icon {
+    margin: 0 6px;
+    width: 38px;
+    height: 38px;
+    font-size: 1.3rem;
+  }
+  .gnome-window {
+    min-width: 90vw;
+    min-height: 60vh;
+    left: 50% !important;
+    top: 55% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+}

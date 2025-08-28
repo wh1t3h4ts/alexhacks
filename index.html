@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kali GNOME Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/gnome-theme.css">
+  <link rel="icon" href="assets/img/kali.jpeg">
+</head>
+<body>
+  <!-- GNOME Top Panel (Status Bar) -->
+  <nav id="gnome-top-panel" class="navbar navbar-expand px-2">
+    <div class="container-fluid flex-nowrap justify-content-between align-items-center" style="min-width:0;">
+      <!-- Left: Applications & Places -->
+      <div class="d-flex align-items-center gap-2 flex-shrink-0">
+        <div class="dropdown">
+          <button class="btn btn-sm panel-menu dropdown-toggle" type="button" id="appsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Applications
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark gnome-dropdown" aria-labelledby="appsDropdown">
+            <li><a class="dropdown-item" href="#">Text Editor</a></li>
+            <li><a class="dropdown-item" href="#">Terminal</a></li>
+            <li><a class="dropdown-item" href="#">Files</a></li>
+            <li><a class="dropdown-item" href="#">Browser</a></li>
+          </ul>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-sm panel-menu dropdown-toggle" type="button" id="placesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Places
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark gnome-dropdown" aria-labelledby="placesDropdown">
+            <li><a class="dropdown-item" href="#">Home</a></li>
+            <li><a class="dropdown-item" href="#">Documents</a></li>
+            <li><a class="dropdown-item" href="#">Downloads</a></li>
+            <li><a class="dropdown-item" href="#">Pictures</a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- Center: Clock -->
+      <div class="mx-auto text-center flex-grow-1" style="min-width:0;">
+        <span id="gnome-clock" class="gnome-clock"></span>
+      </div>
+      <!-- Right: System Tray Icons -->
+      <div class="d-flex align-items-center gap-3 flex-shrink-0">
+        <button class="btn btn-link btn-sm p-0 text-white-50 gnome-tray-icon" title="WiFi"><i class="bi bi-wifi" style="font-size:1.2rem;"></i></button>
+        <button class="btn btn-link btn-sm p-0 text-white-50 gnome-tray-icon" title="Battery"><i class="bi bi-battery-half" style="font-size:1.2rem;"></i></button>
+        <button class="btn btn-link btn-sm p-0 text-white-50 gnome-tray-icon" title="Volume"><i class="bi bi-volume-up" style="font-size:1.2rem;"></i></button>
+        <div class="dropdown">
+          <button class="btn btn-link btn-sm p-0 text-white-50 gnome-tray-icon dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="User">
+            <i class="bi bi-person-circle" style="font-size:1.2rem;"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark gnome-dropdown dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Log Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- GNOME Dock (Bottom Panel) -->
+  <div id="gnome-dock" class="d-flex justify-content-center align-items-center">
+    <button class="dock-icon" data-section="home" aria-label="Home"><i class="bi bi-house-door"></i></button>
+    <button class="dock-icon" data-section="browser" aria-label="Browser"><i class="bi bi-globe2"></i></button>
+    <button class="dock-icon" data-section="mail" aria-label="Mail"><i class="bi bi-envelope"></i></button>
+    <button class="dock-icon" data-section="terminal" aria-label="Terminal"><i class="bi bi-terminal"></i></button>
+    <button class="dock-icon" data-section="files" aria-label="Files"><i class="bi bi-folder2"></i></button>
+    <button class="dock-icon" data-section="calculator" aria-label="Calculator"><i class="bi bi-calculator"></i></button>
+    <button class="dock-icon" data-section="settings" aria-label="Settings"><i class="bi bi-gear"></i></button>
+  </div>
+  <!-- Bootstrap Icons CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  <!-- Desktop Wallpaper Background -->
+  <div id="desktop-bg"></div>
+
+  <!-- GNOME Windows (hidden by default) -->
+  <div id="windows-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/gnome-portfolio.js"></script>
+</body>
+</html>
