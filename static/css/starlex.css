@@ -182,7 +182,8 @@ p {
 
 .page-content {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -579,46 +580,39 @@ p {
   outline-offset: 2px;
 }
 
-/* Subscription Plans Grid - Square Cards Layout */
+/* Subscription Plans Grid - Flexbox Layout for Single Row */
 .plans-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--spacing-xl);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
-  justify-items: stretch;
+  justify-content: space-between;
+  align-items: stretch;
 }
 
 @media (min-width: 640px) {
   .plans-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-xl);
-    max-width: 1200px;
+    justify-content: space-between;
   }
 }
 
 @media (min-width: 1024px) {
   .plans-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-xl);
-    max-width: 1200px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
   }
 }
 
-@media (min-width: 1280px) {
-  .plans-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--spacing-xl);
-    max-width: 1200px;
-  }
-}
-
-/* Plan Cards - Rectangular Aspect Ratio for More Button Space */
+/* Plan Cards - Flexbox Layout for Equal Distribution */
 .plan-card {
-  width: 100%;
-  aspect-ratio: 4 / 5;
+  flex: 1;
+  min-width: 400px;
+  max-width: 600px;
+  min-height: 140px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -698,12 +692,12 @@ p {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  padding: var(--spacing-xl);
+  padding: var(--spacing-lg) var(--spacing-xl);
   height: 100%;
 }
 
 .plan-card .card-footer {
-  padding: var(--spacing-xl);
+  padding: var(--spacing-lg) var(--spacing-xl);
   border-top: 1px solid var(--glass-border);
   background: rgba(255, 255, 255, 0.02);
   flex-shrink: 0;
@@ -711,37 +705,39 @@ p {
 
 .plan-card .plan-price {
   font-family: var(--font-family-heading);
-  font-size: var(--font-size-4xl);
+  font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
-  margin: var(--spacing-md) 0;
+  margin: var(--spacing-sm) 0 var(--spacing-xs);
   text-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
 }
 
 .plan-card .plan-name {
   font-family: var(--font-family-heading);
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   color: var(--color-heading);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
 }
 
 .plan-card .plan-duration {
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
 }
 
 .plan-card .badge {
-  margin: var(--spacing-md) 0;
+  margin: var(--spacing-sm) 0 var(--spacing-md);
 }
 
 .plan-card .btn {
   margin-top: auto;
   width: 100%;
-  padding: var(--spacing-md) var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-lg);
   font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
   min-height: 48px;
+  border-radius: var(--radius-md);
 }
 
 /* Spacing */
@@ -1675,9 +1671,15 @@ nav {
   }
 
   .plans-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: var(--spacing-lg);
     padding: 0 var(--spacing-md);
+  }
+
+  .plan-card {
+    min-width: unset;
+    max-width: unset;
+    width: 100%;
   }
 
   .modal-dialog {
@@ -1699,9 +1701,9 @@ nav {
   h2 { font-size: var(--font-size-2xl); }
   h3 { font-size: var(--font-size-xl); }
 
-  /* Mobile plan cards - more square for better mobile experience */
+  /* Mobile plan cards - optimized compact height for mobile */
   .plan-card {
-    aspect-ratio: 5 / 6;
+    min-height: 125px;
   }
 
   /* Mobile menu styles */
@@ -1723,9 +1725,18 @@ nav {
 
 @media (min-width: 640px) {
   .plans-grid {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 1200px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
   }
+
+  .plan-card {
+    flex: 1;
+    min-width: 500px;
+    max-width: calc(50% - var(--spacing-md));
+  }
+
   .navbar-toggler { display: none; }
   .navbar-nav { display: flex; }
 }
@@ -1736,8 +1747,17 @@ nav {
   }
 
   .plans-grid {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 1200px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: var(--spacing-xl);
+    max-width: 1400px;
+    padding: 0 var(--spacing-xl);
+  }
+
+  .plan-card {
+    flex: 1;
+    min-width: 200px;
+    max-width: none;
   }
 
   /* Sidebar becomes visible */
@@ -1748,8 +1768,17 @@ nav {
 
 @media (min-width: 1280px) {
   .plans-grid {
-    grid-template-columns: repeat(4, 1fr);
-    max-width: 1200px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: var(--spacing-xl);
+    max-width: 1400px;
+    padding: 0 var(--spacing-xl);
+  }
+
+  .plan-card {
+    flex: 1;
+    min-width: 180px;
+    max-width: none;
   }
 
   .container {
