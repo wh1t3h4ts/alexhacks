@@ -1,14 +1,4 @@
-{% extends 'base.html' %}    <div class="plan-card card cursor-pointer focus-ring" data-plan-id="{{ plan.id }}" tabindex="0" role="button" aria-label="Select {{ plan.name }}">
-      <div class="text-center">
-        <div class="plan-price">{{ plan.price }} KES</div>
-        <div class="plan-name">{{ plan.name }}</div>
-        <div class="plan-duration">{{ plan.duration_minutes }} minutes unlimited</div>
-        <div class="badge badge-primary mb-4">Unlimited Access</div>
-        <button type="button" class="btn btn-primary btn-full select-plan-btn" data-plan-id="{{ plan.id }}">
-          Subscribe
-        </button>
-      </div>
-    </div>atic %}
+{% extends 'base.html' %}
 {% block title %}Choose Your Plan - Starlex WiFi{% endblock %}
 {% block nav %}
   <li><a href="{% url 'portal:landing' %}" class="nav-link active">Home</a></li>
@@ -28,6 +18,7 @@
   <form method="post" action="{% url 'portal:choose_plan' %}" id="plan-form">
     {% csrf_token %}
     <input type="hidden" name="mac" value="{{ mac|default:'unknown' }}">
+    <input type="hidden" name="plan_id" id="selectedPlan" value="">
     <div class="plans-grid">
       {% for plan in plans %}
       <div class="plan-card card cursor-pointer focus-ring" data-plan-id="{{ plan.id }}" tabindex="0" role="button" aria-label="Select {{ plan.name }}">

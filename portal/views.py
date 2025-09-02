@@ -15,6 +15,7 @@ def landing(request):
         {'id': 3, 'name': '24 Hours Unlimited', 'price': 30, 'duration_minutes': 1440},
         {'id': 4, 'name': '1 Week Unlimited', 'price': 150, 'duration_minutes': 10080},
         {'id': 5, 'name': '1 Month Unlimited', 'price': 500, 'duration_minutes': 43200},
+        {'id': 6, 'name': 'Unlimited Access', 'price': 20, 'duration_minutes': 360},
     ]
     return render(request, 'portal/landing.html', {'plans': plans, 'mac': mac, 'ap': ap, 'ssid': ssid})
 
