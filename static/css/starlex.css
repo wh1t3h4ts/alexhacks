@@ -580,11 +580,11 @@ p {
   outline-offset: 2px;
 }
 
-/* Subscription Plans Grid - Flexbox Layout for Single Row */
+/* Subscription Plans Grid - 3 Cards Per Row Layout */
 .plans-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xl);
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -607,12 +607,12 @@ p {
   }
 }
 
-/* Plan Cards - Flexbox Layout for Equal Distribution */
+/* Plan Cards - Rectangular Layout for 3 Cards Per Row */
 .plan-card {
   flex: 1;
-  min-width: 400px;
-  max-width: 600px;
-  min-height: 140px;
+  min-width: 300px;
+  max-width: 400px;
+  min-height: 120px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1703,7 +1703,7 @@ nav {
 
   /* Mobile plan cards - optimized compact height for mobile */
   .plan-card {
-    min-height: 125px;
+    min-height: 100px;
   }
 
   /* Mobile menu styles */
@@ -1728,13 +1728,13 @@ nav {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-xl);
   }
 
   .plan-card {
     flex: 1;
-    min-width: 500px;
-    max-width: calc(50% - var(--spacing-md));
+    min-width: 300px;
+    max-width: calc(50% - var(--spacing-lg));
   }
 
   .navbar-toggler { display: none; }
@@ -1747,7 +1747,7 @@ nav {
   }
 
   .plans-grid {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: var(--spacing-xl);
     max-width: 1400px;
@@ -1756,8 +1756,8 @@ nav {
 
   .plan-card {
     flex: 1;
-    min-width: 200px;
-    max-width: none;
+    min-width: 350px;
+    max-width: calc(33.333% - var(--spacing-lg));
   }
 
   /* Sidebar becomes visible */
@@ -1768,7 +1768,7 @@ nav {
 
 @media (min-width: 1280px) {
   .plans-grid {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: var(--spacing-xl);
     max-width: 1400px;
@@ -1777,8 +1777,8 @@ nav {
 
   .plan-card {
     flex: 1;
-    min-width: 180px;
-    max-width: none;
+    min-width: 380px;
+    max-width: calc(33.333% - var(--spacing-lg));
   }
 
   .container {
