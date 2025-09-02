@@ -1,0 +1,11 @@
+from django.urls import path
+from . import views
+
+app_name = 'billing'
+urlpatterns = [
+    path('pay/<int:plan_id>/<str:mac>/', views.pay, name='pay'),
+    path('webhook/mpesa/', views.mpesa_webhook, name='mpesa_webhook'),
+    path('webhook/stripe/', views.stripe_webhook, name='stripe_webhook'),
+    path('transactions/', views.transactions, name='transactions'),
+    path('admin/', views.admin_dashboard, name='admin_dashboard'),
+]

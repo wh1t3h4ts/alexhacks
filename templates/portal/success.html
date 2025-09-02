@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-4xl mx-auto text-center">
+  <div class="animate-fade-in">
+    <div class="bg-gray-800 p-8 rounded-2xl shadow-lg mb-8">
+      <h1 class="text-3xl font-bold mb-4 bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">
+        You are now connected to Starlex WiFi!
+      </h1>
+      <p class="text-gray-400">Enjoy your high-speed internet access</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-gray-800 p-6 rounded-2xl shadow-lg animate-fade-in" style="animation-delay: 200ms;">
+        <h3 class="text-xl font-bold text-white mb-2">Active Plan</h3>
+        <p class="text-gray-400">{{ plan.name }}</p>
+        <p class="text-indigo-400 font-semibold">KES {{ plan.price }}</p>
+      </div>
+
+      <div class="bg-gray-800 p-6 rounded-2xl shadow-lg animate-fade-in" style="animation-delay: 400ms;">
+        <h3 class="text-xl font-bold text-white mb-2">Time Remaining</h3>
+        <p id="countdown" class="text-2xl font-bold text-green-400">Loading...</p>
+      </div>
+
+      <div class="bg-gray-800 p-6 rounded-2xl shadow-lg animate-fade-in" style="animation-delay: 600ms;">
+        <h3 class="text-xl font-bold text-white mb-2">Data Usage</h3>
+        <p class="text-gray-400">Session: {{ session_usage }} MB</p>
+        <p class="text-gray-400">Total: {{ total_usage }} MB</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Countdown timer (assuming expiry_time is passed from view)
+  const expiryTime = new Date('{{ expiry_time }}').getTime();
+  const countdownElement = document.getElementById('countdown');
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = expiryTime - now;
+
+    if (distance > 0) {
+      const hours = Math.floor(distance / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownElement.innerHTML = hours + 'h ' + minutes + 'm ' + seconds + 's';
+    } else {
+      countdownElement.innerHTML = 'Expired';
+    }
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+</script>
+{% endblock %}
