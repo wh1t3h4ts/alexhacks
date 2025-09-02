@@ -1,3 +1,4 @@
+
 # WiFi Billing and Captive Portal System
 
 ## Overview
@@ -28,3 +29,4 @@ A Django-based captive portal and billing system for LAN/WiFi networks using Hua
 ## Documentation
 - See code comments and settings for details
 - Update payment stubs for live integration
+
