@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto p-4">
+  <h2 class="text-xl font-bold mb-4">Transactions</h2>
+  <table class="min-w-full bg-white">
+    <thead>
+      <tr>
+        <th>Customer</th>
+        <th>Plan</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th>Paid</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for txn in txns %}
+      <tr>
+        <td>{{ txn.customer }}</td>
+        <td>{{ txn.plan }}</td>
+        <td>{{ txn.amount }}</td>
+        <td>{{ txn.status }}</td>
+        <td>{{ txn.created_at }}</td>
+        <td>{{ txn.paid_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

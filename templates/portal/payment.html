@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto">
+  <div class="bg-gray-800 p-8 rounded-2xl shadow-lg animate-fade-in">
+    <h2 class="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">Payment</h2>
+
+    <div class="mb-6 p-4 bg-gray-700 rounded-xl">
+      <h3 class="text-lg font-semibold text-white mb-2">{{ plan.name }}</h3>
+      <p class="text-gray-400">{{ plan.duration_minutes }} minutes access</p>
+      <p class="text-2xl font-bold text-indigo-400">KES {{ plan.price }}</p>
+    </div>
+
+    <form id="payment-form" method="post" action="">
+      {% csrf_token %}
+      <input type="hidden" name="plan_id" value="{{ plan.id }}">
+      <input type="hidden" name="mac" value="{{ mac }}">
+
+    <div class="mb-6">
+      <label class="block text-gray-400 mb-2">Phone Number (M-Pesa)</label>
+      <input type="tel" name="phone" id="phone" class="w-full p-3 bg-gray-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="254XXXXXXXXX" required pattern="254[0-9]{9}">
+      <p id="phone-error" class="text-red-400 text-sm mt-1 hidden">Please enter a valid Kenyan phone number</p>
+    </div>
+
+      <button type="submit" id="pay-btn" class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-300">
+        Pay Now
+      </button>
+    </form>
+
+    <!-- Loading Modal -->
+    <div id="loading-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+      <div class="bg-gray-800 p-6 rounded-2xl text-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto mb-4"></div>
+        <p class="text-white">Processing payment...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('payment-form').addEventListener('submit', function(e) {
+    const phone = document.getElementById('phone');
+    const phoneError = document.getElementById('phone-error');
+    const pattern = /^254[0-9]{9}$/;
+    
+    if (!pattern.test(phone.value)) {
+      e.preventDefault();
+      phoneError.classList.remove('hidden');
+    } else {
+      phoneError.classList.add('hidden');
+      document.getElementById('loading-modal').classList.remove('hidden');
+    }
+  });
+</script>
+{% endblock %}
