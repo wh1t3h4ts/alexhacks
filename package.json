@@ -1,0 +1,29 @@
+{
+  "name": "starlex-wifi-billing",
+  "version": "1.0.0",
+  "description": "Modern WiFi billing system with M-Pesa integration",
+  "main": "manage.py",
+  "scripts": {
+    "dev": "python manage.py runserver",
+    "build-css": "tailwindcss -i ./assets/css/styles.css -o ./static/css/styles.css --watch",
+    "build": "python manage.py collectstatic --noinput",
+    "migrate": "python manage.py migrate",
+    "test": "python manage.py test"
+  },
+  "keywords": [
+    "wifi",
+    "billing",
+    "mpesa",
+    "django",
+    "tailwindcss"
+  ],
+  "author": "Starlex WiFi",
+  "license": "MIT",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "python": ">=3.8.0"
+  }
+}

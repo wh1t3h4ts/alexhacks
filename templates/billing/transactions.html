@@ -1,39 +1,212 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block title %}Transactions - Starlex WiFi{% endblock %}
+{% block nav %}
+  <li><a href="{% url 'billing:admin_dashboard' %}" class="nav-link">Dashboard</a></li>
+  <li><a href="{% url 'billing:transactions' %}" class="nav-link active">Transactions</a></li>
+  <li><a href="#" class="nav-link">Plans</a></li>
+  <li><a href="#" class="nav-link">Users</a></li>
+  <li><a href="#" class="nav-link">Settings</a></li>
+{% endblock %}
 {% block content %}
-<div class="max-w-7xl mx-auto">
-  <h1 class="text-3xl font-bold mb-8">Starlex WiFi Transactions</h1>
-  
-  <div class="bg-gray-800 p-6 rounded-2xl shadow-lg">
-    <div class="overflow-x-auto">
-      <table class="w-full text-white">
-        <thead>
-          <tr class="border-b border-gray-700">
-            <th class="text-left py-2">ID</th>
-            <th class="text-left py-2">Plan</th>
-            <th class="text-left py-2">Amount</th>
-            <th class="text-left py-2">Status</th>
-            <th class="text-left py-2">Created</th>
-            <th class="text-left py-2">Paid</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for txn in txns %}
-          <tr class="border-b border-gray-700">
-            <td class="py-2">{{ txn.id }}</td>
-            <td class="py-2">{{ txn.plan.name }}</td>
-            <td class="py-2">KES {{ txn.amount }}</td>
-            <td class="py-2">
-              <span class="px-2 py-1 rounded {% if txn.status == 'success' %}bg-green-600{% else %}bg-yellow-600{% endif %}">
-                {{ txn.status }}
-              </span>
-            </td>
-            <td class="py-2">{{ txn.created_at|date:"M d, Y H:i" }}</td>
-            <td class="py-2">{{ txn.paid_at|date:"M d, Y H:i" if txn.paid_at else '-' }}</td>
-          </tr>
+<div class="flex flex-col lg:flex-row gap-6">
+  <!-- Sidebar -->
+  <aside class="lg:w-64 flex-shrink-0">
+    <div class="card sticky top-6">
+      <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+      <nav class="space-y-2">
+        <a href="{% url 'billing:admin_dashboard' %}" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
+          📊 Dashboard
+        </a>
+        <a href="{% url 'billing:transactions' %}" class="block px-4 py-2 rounded bg-primary text-primary">
+          💳 Transactions
+        </a>
+        <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
+          📋 Plans
+        </a>
+        <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
+          👥 Users
+        </a>
+        <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
+          ⚙️ Settings
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold mb-2">Transactions</h1>
+      <p class="text-muted">View and manage all payment transactions</p>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="card mb-6">
+      <div class="flex flex-col md:flex-row gap-4 items-center">
+        <div class="flex-1 w-full">
+          <input type="text" placeholder="Search transactions..." class="form-input" id="searchInput">
+        </div>
+        <div class="flex gap-2 flex-wrap">
+          <select class="form-input" id="statusFilter">
+            <option value="">All Status</option>
+            <option value="success">Success</option>
+            <option value="pending">Pending</option>
+            <option value="failed">Failed</option>
+          </select>
+          <select class="form-input" id="planFilter">
+            <option value="">All Plans</option>
+            {% for plan in plans %}
+            <option value="{{ plan.id }}">{{ plan.name }}</option>
+            {% endfor %}
+          </select>
+          <button class="btn btn-secondary" onclick="clearFilters()">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="card">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-semibold">All Transactions</h3>
+        <div class="text-sm text-muted">
+          Showing {{ txns|length }} transactions
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table" id="transactionsTable">
+          <thead>
+            <tr>
+              <th>Transaction ID</th>
+              <th>Plan</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Paid At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for txn in txns %}
+            <tr>
+              <td class="font-mono text-xs">{{ txn.id|truncatechars:12 }}</td>
+              <td>{{ txn.plan.name }}</td>
+              <td class="font-semibold">KES {{ txn.amount }}</td>
+              <td>
+                <span class="badge {% if txn.status == 'success' %}badge-success{% elif txn.status == 'pending' %}badge-warning{% else %}badge-error{% endif %}">
+                  {{ txn.status|title }}
+                </span>
+              </td>
+              <td class="text-muted">{{ txn.created_at|date:"M d, Y H:i" }}</td>
+              <td class="text-muted">{{ txn.paid_at|date:"M d, Y H:i" if txn.paid_at else '-' }}</td>
+              <td>
+                <button class="btn btn-ghost btn-sm" onclick="viewTransaction('{{ txn.id }}')">View</button>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="7" class="text-center text-muted py-8">
+                No transactions found
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      {% if txns.has_other_pages %}
+      <div class="mt-6 flex justify-center">
+        <div class="flex gap-2 flex-wrap">
+          {% if txns.has_previous %}
+          <a href="?page={{ txns.previous_page_number }}" class="btn btn-secondary">Previous</a>
+          {% endif %}
+
+          {% for num in txns.paginator.page_range %}
+            {% if txns.number == num %}
+            <span class="btn btn-primary">{{ num }}</span>
+            {% elif num > txns.number|add:'-3' and num < txns.number|add:'3' %}
+            <a href="?page={{ num }}" class="btn btn-secondary">{{ num }}</a>
+            {% endif %}
           {% endfor %}
-        </tbody>
-      </table>
+
+          {% if txns.has_next %}
+          <a href="?page={{ txns.next_page_number }}" class="btn btn-secondary">Next</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </main>
+</div>
+
+<!-- Transaction Detail Modal -->
+<div id="transactionModal" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3 class="modal-title">Transaction Details</h3>
+      <button onclick="closeModal()" class="modal-close">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="transactionDetails">
+        <!-- Details will be populated by JavaScript -->
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+// Simple search and filter functionality
+document.getElementById('searchInput').addEventListener('input', filterTransactions);
+document.getElementById('statusFilter').addEventListener('change', filterTransactions);
+document.getElementById('planFilter').addEventListener('change', filterTransactions);
+
+function filterTransactions() {
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  const statusFilter = document.getElementById('statusFilter').value;
+  const planFilter = document.getElementById('planFilter').value;
+  const rows = document.querySelectorAll('#transactionsTable tbody tr');
+
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    const status = row.cells[3].textContent.toLowerCase().trim();
+    const plan = row.cells[1].textContent.toLowerCase().trim();
+
+    const matchesSearch = text.includes(searchTerm);
+    const matchesStatus = !statusFilter || status.includes(statusFilter);
+    const matchesPlan = !planFilter || plan.includes(planFilter.toLowerCase());
+
+    row.style.display = matchesSearch && matchesStatus && matchesPlan ? '' : 'none';
+  });
+}
+
+function clearFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('statusFilter').value = '';
+  document.getElementById('planFilter').value = '';
+  filterTransactions();
+}
+
+function viewTransaction(id) {
+  // Placeholder for transaction detail view
+  document.getElementById('transactionDetails').innerHTML = `
+    <p class="text-muted">Transaction ID: ${id}</p>
+    <p class="text-muted">Detailed view coming soon...</p>
+  `;
+  document.getElementById('transactionModal').classList.remove('hidden');
+  document.getElementById('transactionModal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('transactionModal').classList.remove('show');
+  setTimeout(() => {
+    document.getElementById('transactionModal').classList.add('hidden');
+  }, 300);
+}
+</script>
 {% endblock %}
