@@ -7,123 +7,133 @@
   <li><a href="#" class="nav-link">Plans</a></li>
   <li><a href="#" class="nav-link">Users</a></li>
   <li><a href="#" class="nav-link">Settings</a></li>
+  <li><a href="#" class="nav-link">Help</a></li>
 {% endblock %}
 {% block content %}
-<div class="flex flex-col lg:flex-row gap-6">
-  <!-- Sidebar -->
-  <aside class="lg:w-64 flex-shrink-0">
-    <div class="card sticky top-6">
-      <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
-      <nav class="space-y-2">
-        <a href="{% url 'billing:admin_dashboard' %}" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-          📊 Dashboard
-        </a>
-        <a href="{% url 'billing:transactions' %}" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-          💳 Transactions
-        </a>
-        <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-          📋 Plans
-        </a>
-        <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-          👥 Users
-        </a>
-        <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-          ⚙️ Settings
-        </a>
-      </nav>
-    </div>
-  </aside>
-
-  <!-- Main Content -->
-  <main class="flex-1">
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold mb-2">Starlex WiFi Dashboard</h1>
-      <p class="text-muted">Monitor your WiFi business performance</p>
-    </div>
-
-    <!-- KPI Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <div class="card text-center">
-        <h3 class="text-lg font-semibold mb-2">Active Users</h3>
-        <p class="text-3xl font-bold text-primary">{{ total_users|default:0 }}</p>
-        <p class="text-muted text-sm">This month</p>
-      </div>
-      <div class="card text-center">
-        <h3 class="text-lg font-semibold mb-2">Revenue</h3>
-        <p class="text-3xl font-bold text-success">KES {{ total_revenue|default:0 }}</p>
-        <p class="text-muted text-sm">This month</p>
-      </div>
-      <div class="card text-center">
-        <h3 class="text-lg font-semibold mb-2">Active Plans</h3>
-        <p class="text-3xl font-bold text-secondary">{{ active_plans|default:0 }}</p>
-        <p class="text-muted text-sm">Currently active</p>
-      </div>
-      <div class="card text-center">
-        <h3 class="text-lg font-semibold mb-2">Success Rate</h3>
-        <p class="text-3xl font-bold text-accent">98%</p>
-        <p class="text-muted text-sm">Payment success</p>
-      </div>
-    </div>
-
-    <!-- Charts Placeholder -->
-    <div class="card mb-8">
-      <h3 class="text-xl font-semibold mb-4">Revenue & Sessions Overview</h3>
-      <div class="h-64 bg-surface rounded flex items-center justify-center">
-        <div class="text-center text-muted">
-          <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-          </svg>
-          <p>Chart visualization will be implemented here</p>
-          <p class="text-sm">Hook for Chart.js or similar library</p>
+<div class="content-wrapper">
+  <div class="container">
+    <div class="flex flex-col lg:flex-row gap-6">
+      <!-- Sidebar -->
+      <aside class="lg:w-64 flex-shrink-0">
+        <div class="card sticky top-6">
+          <h3 class="text-lg font-semibold mb-4 gradient-text">Quick Actions</h3>
+          <nav class="space-y-2">
+            <a href="{% url 'billing:admin_dashboard' %}" class="flex items-center px-4 py-3 rounded-lg hover:bg-primary/10 transition-colors text-primary font-medium">
+              📊 Dashboard
+            </a>
+            <a href="{% url 'billing:transactions' %}" class="flex items-center px-4 py-3 rounded-lg hover:bg-secondary/10 transition-colors text-secondary">
+              💳 Transactions
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-muted transition-colors">
+              📋 Plans
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-muted transition-colors">
+              👥 Users
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-muted transition-colors">
+              ⚙️ Settings
+            </a>
+          </nav>
         </div>
-      </div>
-    </div>
+      </aside>
 
-    <!-- Recent Transactions -->
-    <div class="card">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold">Recent Transactions</h3>
-        <a href="{% url 'billing:transactions' %}" class="btn btn-secondary btn-sm">View All</a>
-      </div>
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Transaction ID</th>
-              <th>Plan</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Time</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for txn in recent_transactions %}
-            <tr>
-              <td class="font-mono text-xs">{{ txn.id|truncatechars:12 }}</td>
-              <td>{{ txn.plan.name }}</td>
-              <td class="font-semibold">KES {{ txn.amount }}</td>
-              <td>
-                <span class="badge {% if txn.status == 'success' %}badge-success{% else %}badge-warning{% endif %}">
-                  {{ txn.status|title }}
-                </span>
-              </td>
-              <td class="text-muted">{{ txn.created_at|date:"M d, H:i" }}</td>
-              <td>
-                <button class="btn btn-ghost btn-sm">View</button>
-              </td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="6" class="text-center text-muted py-8">
-                No transactions found
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+      <!-- Main Content -->
+      <main class="flex-1">
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold mb-2">Starlex WiFi Dashboard</h1>
+          <p class="text-muted">Monitor your WiFi business performance</p>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div class="card text-center">
+            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">Active Users</h3>
+            <p class="text-4xl font-bold text-primary">{{ total_users|default:0 }}</p>
+            <p class="text-muted text-sm">This month</p>
+          </div>
+          <div class="card text-center">
+            <h3 class="text-lg font-semibold mb-2">Revenue</h3>
+            <p class="text-3xl font-bold text-success">KES {{ total_revenue|default:0 }}</p>
+            <p class="text-muted text-sm">This month</p>
+          </div>
+          <div class="card text-center">
+            <h3 class="text-lg font-semibold mb-2">Active Plans</h3>
+            <p class="text-3xl font-bold text-secondary">{{ active_plans|default:0 }}</p>
+            <p class="text-muted text-sm">Currently active</p>
+          </div>
+          <div class="card text-center">
+            <h3 class="text-lg font-semibold mb-2">Success Rate</h3>
+            <p class="text-3xl font-bold text-accent">98%</p>
+            <p class="text-muted text-sm">Payment success</p>
+          </div>
+        </div>
+
+        <!-- Charts Placeholder -->
+        <div class="card mb-8">
+          <h3 class="text-xl font-semibold mb-4">Revenue & Sessions Overview</h3>
+          <div class="h-64 bg-surface rounded flex items-center justify-center">
+            <div class="text-center text-muted">
+              <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+              <p>Chart visualization will be implemented here</p>
+              <p class="text-sm">Hook for Chart.js or similar library</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="card">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold">Recent Transactions</h3>
+            <a href="{% url 'billing:transactions' %}" class="btn btn-secondary btn-sm">View All</a>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Transaction ID</th>
+                  <th>Plan</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Time</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for txn in recent_transactions %}
+                <tr>
+                  <td class="font-mono text-xs">{{ txn.id|truncatechars:12 }}</td>
+                  <td>{{ txn.plan.name }}</td>
+                  <td class="font-semibold">KES {{ txn.amount }}</td>
+                  <td>
+                    <span class="badge {% if txn.status == 'success' %}badge-success{% else %}badge-warning{% endif %}">
+                      {{ txn.status|title }}
+                    </span>
+                  </td>
+                  <td class="text-muted">{{ txn.created_at|date:"M d, H:i" }}</td>
+                  <td>
+                    <button class="btn btn-ghost btn-sm">View</button>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="6" class="text-center text-muted py-8">
+                    No transactions found
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
     </div>
-  </main>
+  </div>
 </div>
 {% endblock %}

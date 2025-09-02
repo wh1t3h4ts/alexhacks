@@ -7,138 +7,143 @@
   <li><a href="#" class="nav-link">Plans</a></li>
   <li><a href="#" class="nav-link">Users</a></li>
   <li><a href="#" class="nav-link">Settings</a></li>
+  <li><a href="#" class="nav-link">Help</a></li>
 {% endblock %}
 {% block content %}
-<div class="flex flex-col lg:flex-row gap-6">
-  <!-- Sidebar -->
-  <aside class="lg:w-64 flex-shrink-0">
-    <div class="card sticky top-6">
-      <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
-      <nav class="space-y-2">
-        <a href="{% url 'billing:admin_dashboard' %}" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-          📊 Dashboard
-        </a>
-        <a href="{% url 'billing:transactions' %}" class="block px-4 py-2 rounded bg-primary text-primary">
-          💳 Transactions
-        </a>
-        <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-          📋 Plans
-        </a>
-        <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-          👥 Users
-        </a>
-        <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-          ⚙️ Settings
-        </a>
-      </nav>
-    </div>
-  </aside>
-
-  <!-- Main Content -->
-  <main class="flex-1">
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold mb-2">Transactions</h1>
-      <p class="text-muted">View and manage all payment transactions</p>
-    </div>
-
-    <!-- Filters and Search -->
-    <div class="card mb-6">
-      <div class="flex flex-col md:flex-row gap-4 items-center">
-        <div class="flex-1 w-full">
-          <input type="text" placeholder="Search transactions..." class="form-input" id="searchInput">
+<div class="content-wrapper">
+  <div class="container">
+    <div class="flex flex-col lg:flex-row gap-6">
+      <!-- Sidebar -->
+      <aside class="lg:w-64 flex-shrink-0">
+        <div class="card sticky top-6">
+          <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+          <nav class="space-y-2">
+            <a href="{% url 'billing:admin_dashboard' %}" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
+              📊 Dashboard
+            </a>
+            <a href="{% url 'billing:transactions' %}" class="block px-4 py-2 rounded bg-primary text-primary">
+              💳 Transactions
+            </a>
+            <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
+              📋 Plans
+            </a>
+            <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
+              👥 Users
+            </a>
+            <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
+              ⚙️ Settings
+            </a>
+          </nav>
         </div>
-        <div class="flex gap-2 flex-wrap">
-          <select class="form-input" id="statusFilter">
-            <option value="">All Status</option>
-            <option value="success">Success</option>
-            <option value="pending">Pending</option>
-            <option value="failed">Failed</option>
-          </select>
-          <select class="form-input" id="planFilter">
-            <option value="">All Plans</option>
-            {% for plan in plans %}
-            <option value="{{ plan.id }}">{{ plan.name }}</option>
-            {% endfor %}
-          </select>
-          <button class="btn btn-secondary" onclick="clearFilters()">Clear</button>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1">
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold mb-2">Transactions</h1>
+          <p class="text-muted">View and manage all payment transactions</p>
         </div>
-      </div>
-    </div>
 
-    <!-- Transactions Table -->
-    <div class="card">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold">All Transactions</h3>
-        <div class="text-sm text-muted">
-          Showing {{ txns|length }} transactions
+        <!-- Filters and Search -->
+        <div class="card mb-6">
+          <div class="flex flex-col md:flex-row gap-4 items-center">
+            <div class="flex-1 w-full">
+              <input type="text" placeholder="Search transactions..." class="form-input" id="searchInput">
+            </div>
+            <div class="flex gap-2 flex-wrap">
+              <select class="form-input" id="statusFilter">
+                <option value="">All Status</option>
+                <option value="success">Success</option>
+                <option value="pending">Pending</option>
+                <option value="failed">Failed</option>
+              </select>
+              <select class="form-input" id="planFilter">
+                <option value="">All Plans</option>
+                {% for plan in plans %}
+                <option value="{{ plan.id }}">{{ plan.name }}</option>
+                {% endfor %}
+              </select>
+              <button class="btn btn-secondary" onclick="clearFilters()">Clear</button>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="table-responsive">
-        <table class="table" id="transactionsTable">
-          <thead>
-            <tr>
-              <th>Transaction ID</th>
-              <th>Plan</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Created</th>
-              <th>Paid At</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for txn in txns %}
-            <tr>
-              <td class="font-mono text-xs">{{ txn.id|truncatechars:12 }}</td>
-              <td>{{ txn.plan.name }}</td>
-              <td class="font-semibold">KES {{ txn.amount }}</td>
-              <td>
-                <span class="badge {% if txn.status == 'success' %}badge-success{% elif txn.status == 'pending' %}badge-warning{% else %}badge-error{% endif %}">
-                  {{ txn.status|title }}
-                </span>
-              </td>
-              <td class="text-muted">{{ txn.created_at|date:"M d, Y H:i" }}</td>
-              <td class="text-muted">{{ txn.paid_at|date:"M d, Y H:i" if txn.paid_at else '-' }}</td>
-              <td>
-                <button class="btn btn-ghost btn-sm" onclick="viewTransaction('{{ txn.id }}')">View</button>
-              </td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="7" class="text-center text-muted py-8">
-                No transactions found
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+        <!-- Transactions Table -->
+        <div class="card">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold">All Transactions</h3>
+            <div class="text-sm text-muted">
+              Showing {{ txns|length }} transactions
+            </div>
+          </div>
 
-      <!-- Pagination -->
-      {% if txns.has_other_pages %}
-      <div class="mt-6 flex justify-center">
-        <div class="flex gap-2 flex-wrap">
-          {% if txns.has_previous %}
-          <a href="?page={{ txns.previous_page_number }}" class="btn btn-secondary">Previous</a>
+          <div class="table-responsive">
+            <table class="table" id="transactionsTable">
+              <thead>
+                <tr>
+                  <th>Transaction ID</th>
+                  <th>Plan</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Paid At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for txn in txns %}
+                <tr>
+                  <td class="font-mono text-xs">{{ txn.id|truncatechars:12 }}</td>
+                  <td>{{ txn.plan.name }}</td>
+                  <td class="font-semibold">KES {{ txn.amount }}</td>
+                  <td>
+                    <span class="badge {% if txn.status == 'success' %}badge-success{% elif txn.status == 'pending' %}badge-warning{% else %}badge-error{% endif %}">
+                      {{ txn.status|title }}
+                    </span>
+                  </td>
+                  <td class="text-muted">{{ txn.created_at|date:"M d, Y H:i" }}</td>
+                  <td class="text-muted">{{ txn.paid_at|date:"M d, Y H:i" if txn.paid_at else '-' }}</td>
+                  <td>
+                    <button class="btn btn-ghost btn-sm" onclick="viewTransaction('{{ txn.id }}')">View</button>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="7" class="text-center text-muted py-8">
+                    No transactions found
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          {% if txns.has_other_pages %}
+          <div class="mt-6 flex justify-center">
+            <div class="flex gap-2 flex-wrap">
+              {% if txns.has_previous %}
+              <a href="?page={{ txns.previous_page_number }}" class="btn btn-secondary">Previous</a>
+              {% endif %}
+
+              {% for num in txns.paginator.page_range %}
+                {% if txns.number == num %}
+                <span class="btn btn-primary">{{ num }}</span>
+                {% elif num > txns.number|add:'-3' and num < txns.number|add:'3' %}
+                <a href="?page={{ num }}" class="btn btn-secondary">{{ num }}</a>
+                {% endif %}
+              {% endfor %}
+
+              {% if txns.has_next %}
+              <a href="?page={{ txns.next_page_number }}" class="btn btn-secondary">Next</a>
+              {% endif %}
+            </div>
+          </div>
           {% endif %}
-
-          {% for num in txns.paginator.page_range %}
-            {% if txns.number == num %}
-            <span class="btn btn-primary">{{ num }}</span>
-            {% elif num > txns.number|add:'-3' and num < txns.number|add:'3' %}
-            <a href="?page={{ num }}" class="btn btn-secondary">{{ num }}</a>
-            {% endif %}
-          {% endfor %}
-
-          {% if txns.has_next %}
-          <a href="?page={{ txns.next_page_number }}" class="btn btn-secondary">Next</a>
-          {% endif %}
         </div>
-      </div>
-      {% endif %}
+      </main>
     </div>
-  </main>
+  </div>
 </div>
 
 <!-- Transaction Detail Modal -->

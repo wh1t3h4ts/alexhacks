@@ -10,17 +10,22 @@
 </head>
 <body>
   <header class="navbar">
-    <div class="container flex items-center justify-between">
+    <div class="navbar-container flex items-center justify-between">
       <div class="flex items-center">
         <svg class="w-8 h-8 mr-4" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 2L20 12H28L22 18L24 28L16 22L8 28L10 18L4 12H12L16 2Z" fill="url(#gradient)"/>
-          <defs><linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+          <path d="M16 2L20 12H28L22 18L24 28L16 22L8 28L10 18L4 12H12L16 2Z" fill="url(#starlex-gradient)"/>
+          <defs><linearGradient id="starlex-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#8B5CF6"/></linearGradient></defs>
         </svg>
         <a href="/" class="navbar-brand">Starlex</a>
       </div>
       <nav>
         <ul class="navbar-nav" id="navbarNav">
-          {% block nav %}{% endblock %}
+          {% block nav %}
+            <li><a href="{% url 'portal:landing' %}" class="nav-link">Home</a></li>
+            <li><a href="#" class="nav-link">About</a></li>
+            <li><a href="#" class="nav-link">Contact</a></li>
+            <li><a href="#" class="nav-link">Help</a></li>
+          {% endblock %}
         </ul>
         <button class="navbar-toggler" id="navbarToggler" aria-label="Toggle navigation">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -28,14 +33,9 @@
           </svg>
         </button>
       </nav>
-      <button id="theme-toggle" class="btn btn-ghost" aria-label="Toggle theme">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-        </svg>
-      </button>
     </div>
   </header>
-  <main class="container py-8">
+  <main class="page-content">
     {% block content %}{% endblock %}
   </main>
   <script src="{% static 'js/main.js' %}"></script>

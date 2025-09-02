@@ -5,22 +5,24 @@
   <li><a href="{% url 'portal:landing' %}" class="nav-link">Home</a></li>
   <li><a href="#" class="nav-link active">Payment</a></li>
   <li><a href="#" class="nav-link">Support</a></li>
+  <li><a href="#" class="nav-link">Help</a></li>
 {% endblock %}
 {% block content %}
-<div class="max-w-md mx-auto">
-  <div class="card mb-6">
-    <h2 class="text-2xl font-bold mb-6 text-center">Complete Your Payment</h2>
-
+<div class="content-wrapper">
+  <div class="w-full max-w-md">
     <div class="card mb-6">
-      <h3 class="text-lg font-semibold mb-2">{{ plan.name }}</h3>
-      <p class="text-muted">{{ plan.duration_minutes }} minutes unlimited access</p>
-      <p class="text-2xl font-bold text-primary">KES {{ plan.price }}</p>
-    </div>
+      <h2 class="text-2xl font-bold mb-6 text-center">Complete Your Payment</h2>
 
-    <form id="payment-form" method="post" action="">
-      {% csrf_token %}
-      <input type="hidden" name="plan_id" value="{{ plan.id }}">
-      <input type="hidden" name="mac" value="{{ mac }}">
+      <div class="card mb-6">
+        <h3 class="text-lg font-semibold mb-2">{{ plan.name }}</h3>
+        <p class="text-muted">{{ plan.duration_minutes }} minutes unlimited access</p>
+        <p class="text-2xl font-bold text-primary">KES {{ plan.price }}</p>
+      </div>
+
+      <form id="payment-form" method="post" action="">
+        {% csrf_token %}
+        <input type="hidden" name="plan_id" value="{{ plan.id }}">
+        <input type="hidden" name="mac" value="{{ mac }}">
 
       <div class="form-group">
         <label for="phone" class="form-label">Phone Number (M-Pesa)</label>
@@ -29,40 +31,10 @@
         <p class="form-help">We'll send a payment prompt to this number</p>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Payment Method</label>
-        <div class="space-y-3">
-          <div class="card border-primary">
-            <div class="flex items-center">
-              <input type="radio" id="mpesa" name="payment_method" value="mpesa" class="mr-3 focus-ring" checked>
-              <label for="mpesa" class="font-medium">M-Pesa</label>
-            </div>
-            <p class="text-muted text-sm mt-2">Secure payment via M-Pesa. You'll receive a prompt on your phone.</p>
-          </div>
-          <div class="card opacity-50">
-            <div class="flex items-center">
-              <input type="radio" id="card" name="payment_method" value="card" class="mr-3 focus-ring" disabled>
-              <label for="card" class="font-medium text-muted">Credit/Debit Card (Coming Soon)</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <button type="submit" id="pay-btn" class="btn btn-primary btn-full mb-4">
         Pay with M-Pesa
       </button>
-
-      <div id="loading-state" class="hidden text-center">
-        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-        <p class="text-muted">Processing your payment...</p>
-        <p class="text-sm text-muted mt-2">Check your phone for the M-Pesa prompt</p>
-      </div>
     </form>
-  </div>
-
-  <div class="text-center text-muted text-sm">
-    <p>Secure payment powered by M-Pesa</p>
-    <a href="#" class="text-primary hover:text-secondary">Payment Help</a>
   </div>
 </div>
 {% endblock %}
