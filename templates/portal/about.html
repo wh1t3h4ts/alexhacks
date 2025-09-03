@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block title %}About Starlex WiFi{% endblock %}
+{% block nav %}
+  <li><a href="{% url 'portal:landing' %}" class="nav-link">Home</a></li>
+  <li><a href="{% url 'portal:about' %}" class="nav-link active">About</a></li>
+  <li><a href="{% url 'portal:support' %}" class="nav-link">Support</a></li>
+{% endblock %}
+{% block content %}
+<div class="content-wrapper">
+  <!-- Hero Section -->
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-bold mb-6 gradient-text">
+      About Starlex WiFi
+    </h1>
+    <p class="text-lg text-muted max-w-2xl mx-auto">
+      Revolutionizing WiFi connectivity with fast, affordable, and reliable internet solutions for everyone.
+    </p>
+  </div>
+
+  <!-- Mission Section -->
+  <div class="card mb-12">
+    <div class="card-body text-center">
+      <h2 class="text-3xl font-bold mb-6 text-primary">Our Mission</h2>
+      <p class="text-lg text-muted mb-6 max-w-3xl mx-auto">
+        At Starlex WiFi, our mission is to bridge the digital divide by providing high-speed, affordable internet access
+        to communities, businesses, and individuals. We believe that reliable internet connectivity is essential for
+        education, economic growth, and social development in today's digital world.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-bg-main" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Lightning Fast</h3>
+          <p class="text-muted">Experience blazing-fast internet speeds up to 100 Mbps for seamless browsing and streaming.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-bg-main" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Affordable</h3>
+          <p class="text-muted">Competitive pricing with flexible plans designed to fit every budget and usage pattern.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-bg-main" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Reliable</h3>
+          <p class="text-muted">99.9% uptime guarantee with 24/7 monitoring and instant technical support.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How It Works Section -->
+  <div class="mb-12">
+    <h2 class="text-3xl font-bold text-center mb-8 text-primary">How Starlex WiFi Works</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="card text-center">
+        <div class="card-body">
+          <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-bg-main">1</div>
+          <h3 class="text-xl font-semibold mb-3">Choose Your Plan</h3>
+          <p class="text-muted">Select from our range of flexible plans based on your speed and duration needs.</p>
+        </div>
+      </div>
+      <div class="card text-center">
+        <div class="card-body">
+          <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-bg-main">2</div>
+          <h3 class="text-xl font-semibold mb-3">Connect & Pay</h3>
+          <p class="text-muted">Connect to our WiFi network and complete secure payment through our portal.</p>
+        </div>
+      </div>
+      <div class="card text-center">
+        <div class="card-body">
+          <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-bg-main">3</div>
+          <h3 class="text-xl font-semibold mb-3">Get Connected</h3>
+          <p class="text-muted">Instant activation with high-speed internet access across our coverage areas.</p>
+        </div>
+      </div>
+      <div class="card text-center">
+        <div class="card-body">
+          <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-bg-main">4</div>
+          <h3 class="text-xl font-semibold mb-3">Stay Connected</h3>
+          <p class="text-muted">Enjoy uninterrupted service with our 24/7 support and easy plan management.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Values Section -->
+  <div class="card">
+    <div class="card-body">
+      <h2 class="text-3xl font-bold text-center mb-8 text-primary">Our Values</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-2xl font-semibold mb-4 text-accent">Innovation</h3>
+          <p class="text-muted mb-6">
+            We continuously innovate to provide cutting-edge WiFi technology and user experiences that set new industry standards.
+          </p>
+          <h3 class="text-2xl font-semibold mb-4 text-accent">Community</h3>
+          <p class="text-muted mb-6">
+            Building strong relationships with our communities and partners to create sustainable, inclusive digital ecosystems.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-2xl font-semibold mb-4 text-accent">Sustainability</h3>
+          <p class="text-muted mb-6">
+            Committed to environmentally responsible practices and energy-efficient network infrastructure.
+          </p>
+          <h3 class="text-2xl font-semibold mb-4 text-accent">Excellence</h3>
+          <p class="text-muted">
+            Delivering exceptional service quality and customer satisfaction through continuous improvement and dedication.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

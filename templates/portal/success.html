@@ -1,52 +1,82 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block title %}Connected - Starlex WiFi{% endblock %}
+{% block nav %}
+  <li><a href="{% url 'portal:landing' %}" class="nav-link">Home</a></li>
+  <li><a href="#" class="nav-link active">Connected</a></li>
+  <li><a href="#" class="nav-link">Support</a></li>
+  <li><a href="#" class="nav-link">Help</a></li>
+{% endblock %}
 {% block content %}
-<div class="max-w-4xl mx-auto text-center">
-  <div class="animate-fade-in">
-    <div class="bg-gray-800 p-8 rounded-2xl shadow-lg mb-8">
-      <h1 class="text-3xl font-bold mb-4 bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">
-        You are now connected to Starlex WiFi!
-      </h1>
-      <p class="text-gray-400">Enjoy your high-speed internet access</p>
+<div class="content-wrapper">
+  <div class="w-full max-w-4xl">
+  <div class="card mb-8">
+    <div class="text-center mb-6">
+      <div class="w-16 h-16 bg-success rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <h1 class="text-3xl font-bold mb-2">Connected to Starlex WiFi!</h1>
+      <p class="text-muted">Enjoy your unlimited internet access</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-gray-800 p-6 rounded-2xl shadow-lg animate-fade-in" style="animation-delay: 200ms;">
-        <h3 class="text-xl font-bold text-white mb-2">Active Plan</h3>
-        <p class="text-gray-400">{{ plan.name }}</p>
-        <p class="text-indigo-400 font-semibold">KES {{ plan.price }}</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div class="card">
+        <h3 class="text-lg font-semibold mb-2">Your Plan</h3>
+        <p class="text-xl font-bold">{{ plan.name }}</p>
+        <p class="text-muted">KES {{ plan.price }}</p>
       </div>
-
-      <div class="bg-gray-800 p-6 rounded-2xl shadow-lg animate-fade-in" style="animation-delay: 400ms;">
-        <h3 class="text-xl font-bold text-white mb-2">Time Remaining</h3>
-        <p id="countdown" class="text-2xl font-bold text-green-400">Loading...</p>
+      <div class="card">
+        <h3 class="text-lg font-semibold mb-2">Time Remaining</h3>
+        <p id="countdown" class="text-2xl font-bold text-success">Loading...</p>
+        <div class="progress-bar">
+          <div id="progress-fill" class="progress-fill" style="width: 100%;"></div>
+        </div>
       </div>
-
-      <div class="bg-gray-800 p-6 rounded-2xl shadow-lg animate-fade-in" style="animation-delay: 600ms;">
-        <h3 class="text-xl font-bold text-white mb-2">Data Usage</h3>
-        <p class="text-gray-400">Session: {{ session_usage }} MB</p>
-        <p class="text-gray-400">Total: {{ total_usage }} MB</p>
+      <div class="card">
+        <h3 class="text-lg font-semibold mb-2">Device</h3>
+        <p class="text-sm text-muted">{{ mac|default:'Unknown' }}</p>
+        <button class="btn btn-ghost btn-sm mt-2">Disconnect</button>
       </div>
     </div>
+
+    <div class="text-center">
+      <button class="btn btn-primary">Browse the Internet</button>
+    </div>
+  </div>
+
+  <div class="text-muted text-sm">
+    <p>Enjoy your Starlex WiFi experience!</p>
   </div>
 </div>
 
 <script>
-  // Countdown timer (assuming expiry_time is passed from view)
+  // Countdown timer with progress bar
   const expiryTime = new Date('{{ expiry_time }}').getTime();
   const countdownElement = document.getElementById('countdown');
+  const progressBar = document.getElementById('progress-bar');
+  const totalDuration = parseInt('{{ plan.duration_minutes|default:60 }}') * 60 * 1000; // Convert to milliseconds
+  const startTime = new Date().getTime();
 
   function updateCountdown() {
     const now = new Date().getTime();
     const distance = expiryTime - now;
+    const elapsed = now - startTime;
+    const progress = Math.max(0, Math.min(100, (elapsed / totalDuration) * 100));
 
     if (distance > 0) {
       const hours = Math.floor(distance / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      countdownElement.innerHTML = hours + 'h ' + minutes + 'm ' + seconds + 's';
+      countdownElement.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+      progressBar.style.width = `${100 - progress}%`;
     } else {
       countdownElement.innerHTML = 'Expired';
+      countdownElement.classList.remove('text-success');
+      countdownElement.classList.add('text-error');
+      progressBar.style.width = '0%';
     }
   }
 

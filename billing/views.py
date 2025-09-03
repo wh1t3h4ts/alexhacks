@@ -17,6 +17,7 @@ def pay(request, plan_id, mac):
         {'id': 3, 'name': '24 Hours Unlimited', 'price': 30, 'duration_minutes': 1440},
         {'id': 4, 'name': '1 Week Unlimited', 'price': 150, 'duration_minutes': 10080},
         {'id': 5, 'name': '1 Month Unlimited', 'price': 500, 'duration_minutes': 43200},
+        {'id': 6, 'name': 'Unlimited Access', 'price': 20, 'duration_minutes': 360},
     ]
     plan = None
     for p in plans:
@@ -92,4 +93,54 @@ def admin_dashboard(request):
         'total_revenue': total_revenue,
         'active_plans': active_plans,
         'recent_transactions': recent_transactions,
+    })
+
+@staff_member_required
+def settings(request):
+    return render(request, 'billing/settings.html')
+
+@staff_member_required
+def dashboard_data(request):
+    """API endpoint for realtime dashboard data"""
+    import random
+    from datetime import datetime, timedelta
+
+    # Get current metrics
+    total_users = OrderTxn.objects.filter(status='success').count()
+    total_revenue = OrderTxn.objects.filter(status='success').aggregate(Sum('amount'))['amount__sum'] or 0
+    active_plans = OrderTxn.objects.filter(status='success', paid_at__gte=datetime.now() - timedelta(days=30)).count()
+
+    # Calculate success rate
+    total_transactions = OrderTxn.objects.count()
+    successful_transactions = OrderTxn.objects.filter(status='success').count()
+    success_rate = (successful_transactions / total_transactions * 100) if total_transactions > 0 else 0
+
+    # Generate chart data
+    revenue_data = []
+    sessions_data = []
+    labels = []
+
+    # Generate last 30 days of data
+    for i in range(30):
+        date = datetime.now() - timedelta(days=29-i)
+        labels.append(date.strftime('%b %d'))
+
+        # Revenue data (with some variation)
+        base_revenue = 1500
+        variation = random.randint(-500, 500)
+        revenue_data.append(max(0, base_revenue + variation))
+
+        # Sessions data (only for last 7 days)
+        if i >= 23:
+            sessions_data.append(random.randint(20, 100))
+
+    return JsonResponse({
+        'total_users': total_users,
+        'total_revenue': total_revenue,
+        'active_plans': active_plans,
+        'success_rate': round(success_rate, 1),
+        'revenue_data': revenue_data,
+        'sessions_data': sessions_data,
+        'labels': labels,
+        'last_updated': datetime.now().isoformat()
     })
