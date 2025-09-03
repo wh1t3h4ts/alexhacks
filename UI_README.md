@@ -7,8 +7,8 @@ A modern, responsive web application for WiFi billing management with M-Pesa int
 ## 🎨 Design System
 
 ### Color Palette
-- **Primary**: `#6366f1` (Indigo)
-- **Secondary**: `#8b5cf6` (Purple)
+- **Primary**: `#EA580C` (Orange)
+- **Secondary**: `#1F2937` (Dark Gray)
 - **Success**: `#10b981` (Emerald)
 - **Warning**: `#f59e0b` (Amber)
 - **Error**: `#ef4444` (Red)
@@ -64,7 +64,7 @@ billing/
 ### ✨ Modern UI Components
 - **Dark Theme**: Professional dark mode by default
 - **Glassmorphism**: Subtle backdrop blur effects
-- **Gradient Accents**: Indigo to purple gradients
+- **Gradient Accents**: Orange to dark gradients
 - **Smooth Animations**: CSS transitions and hover effects
 - **Accessibility**: WCAG AA compliant with focus management
 

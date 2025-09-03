@@ -23,7 +23,7 @@
       <div class="flex items-center gap-3 p-6 border-b border-border-medium">
         <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M16 2L20 12H28L22 18L24 28L16 22L8 28L10 18L4 12H12L16 2Z" fill="url(#starlex-gradient)"/>
-          <defs><linearGradient id="starlex-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#8B5CF6"/></linearGradient></defs>
+          <defs><linearGradient id="starlex-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#EA580C"/><stop offset="100%" stop-color="#F97316"/></linearGradient></defs>
         </svg>
         <h1 class="text-xl font-bold gradient-text">Starlex</h1>
       </div>
@@ -81,25 +81,6 @@
           </a>
         </div>
       </nav>
-
-      <!-- Quick Actions -->
-      <div class="px-6 py-4 border-t border-border-medium">
-        <h3 class="text-sm font-semibold text-text-secondary mb-4">Quick Actions</h3>
-        <div class="space-y-1">
-          <button class="admin-nav-link w-full justify-start" onclick="exportData()">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
-            <span class="font-medium">Export Data</span>
-          </button>
-          <button class="admin-nav-link w-full justify-start" onclick="generateReport()">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-            </svg>
-            <span class="font-medium">Generate Report</span>
-          </button>
-        </div>
-      </div>
     </aside>
 
     <!-- Top Navbar - Full Width -->
@@ -192,15 +173,6 @@
     // Load saved theme
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-
-    // Quick action functions
-    function exportData() {
-      showToast('Export functionality coming soon...', 'info');
-    }
-
-    function generateReport() {
-      showToast('Report generation coming soon...', 'info');
-    }
 
     // Toast notifications
     function showToast(message, type = 'success') {

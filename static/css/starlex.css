@@ -2488,7 +2488,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-2xl);
 }
 
 nav {

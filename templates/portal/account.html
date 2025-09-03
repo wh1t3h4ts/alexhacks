@@ -3,8 +3,8 @@
 <div class="max-w-md mx-auto">
   <div class="bg-gray-800 p-8 rounded-2xl shadow-lg animate-fade-in">
     <div class="flex mb-6">
-      <button id="login-tab" class="flex-1 py-2 px-4 text-center text-white bg-gradient-to-r from-indigo-500 to-purple-600 rounded-l-xl">Login</button>
-      <button id="register-tab" class="flex-1 py-2 px-4 text-center text-gray-400 bg-gray-700 rounded-r-xl">Sign Up</button>
+      <button id="login-tab" class="flex-1 py-2 px-4 text-center text-white bg-gray-700 rounded-l-xl">Login</button>
+      <button id="register-tab" class="flex-1 py-2 px-4 text-center text-gray-400 bg-gray-600 rounded-r-xl">Sign Up</button>
     </div>
 
     <form id="login-form" method="post" action="{% url 'portal:login' %}">
@@ -19,7 +19,7 @@
         <input type="password" name="password" id="login-password" class="w-full p-3 bg-gray-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
         <p id="login-password-error" class="text-red-400 text-sm mt-1 hidden">Password is required</p>
       </div>
-      <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-300">Login</button>
+      <button type="submit" class="w-full bg-gray-700 text-white py-3 rounded-xl hover:bg-gray-600 transition-all duration-300">Login</button>
     </form>
 
     <form id="register-form" method="post" action="{% url 'portal:register' %}" class="hidden">
@@ -39,7 +39,7 @@
         <input type="password" name="password" id="register-password" class="w-full p-3 bg-gray-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
         <p id="register-password-error" class="text-red-400 text-sm mt-1 hidden">Password must be at least 6 characters</p>
       </div>
-      <button type="submit" class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-300">Sign Up</button>
+      <button type="submit" class="w-full bg-gray-700 text-white py-3 rounded-xl hover:bg-gray-600 transition-all duration-300">Sign Up</button>
     </form>
   </div>
 </div>
@@ -52,19 +52,19 @@
     const registerForm = document.getElementById('register-form');
 
     loginTab.addEventListener('click', function() {
-      loginTab.classList.add('bg-gradient-to-r', 'from-indigo-500', 'to-purple-600', 'text-white');
-      loginTab.classList.remove('text-gray-400', 'bg-gray-700');
-      registerTab.classList.remove('bg-gradient-to-r', 'from-indigo-500', 'to-purple-600', 'text-white');
-      registerTab.classList.add('text-gray-400', 'bg-gray-700');
+      loginTab.classList.add('bg-gray-700', 'text-white');
+      loginTab.classList.remove('text-gray-400', 'bg-gray-600');
+      registerTab.classList.remove('bg-gray-700', 'text-white');
+      registerTab.classList.add('text-gray-400', 'bg-gray-600');
       loginForm.classList.remove('hidden');
       registerForm.classList.add('hidden');
     });
 
     registerTab.addEventListener('click', function() {
-      registerTab.classList.add('bg-gradient-to-r', 'from-indigo-500', 'to-purple-600', 'text-white');
-      registerTab.classList.remove('text-gray-400', 'bg-gray-700');
-      loginTab.classList.remove('bg-gradient-to-r', 'from-indigo-500', 'to-purple-600', 'text-white');
-      loginTab.classList.add('text-gray-400', 'bg-gray-700');
+      registerTab.classList.add('bg-gray-700', 'text-white');
+      registerTab.classList.remove('text-gray-400', 'bg-gray-600');
+      loginTab.classList.remove('bg-gray-700', 'text-white');
+      loginTab.classList.add('text-gray-400', 'bg-gray-600');
       registerForm.classList.remove('hidden');
       loginForm.classList.add('hidden');
     });
