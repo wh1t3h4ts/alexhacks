@@ -18,7 +18,7 @@
     <div class="sidebar-overlay fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden opacity-0 invisible transition-all duration-300" id="sidebarOverlay"></div>
 
     <!-- Admin Sidebar -->
-    <aside class="admin-sidebar w-64 bg-bg-alt border-r border-border-medium flex flex-col transition-all duration-300 lg:translate-x-0 -translate-x-full fixed lg:static inset-y-0 left-0 z-50 lg:z-auto" id="adminSidebar">
+    <aside class="admin-sidebar w-64 bg-bg-alt border-r border-border-medium flex flex-col fixed lg:static inset-y-0 left-0 z-50 lg:z-auto" id="adminSidebar">
       <!-- Logo -->
       <div class="flex items-center gap-3 p-6 border-b border-border-medium">
         <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,110 +29,117 @@
       </div>
 
       <!-- Navigation -->
-      <nav class="flex-1 p-6 space-y-2">
-        <a href="{% url 'billing:admin_dashboard' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-          </svg>
-          Dashboard
-        </a>
+      <nav class="flex-1 px-6 py-4">
+        <div class="space-y-1">
+          <!-- Dashboard -->
+          <a href="{% url 'billing:admin_dashboard' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+            <span class="font-medium">Dashboard</span>
+          </a>
 
-        <a href="{% url 'billing:transactions' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'transactions' %}active{% endif %}">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-          </svg>
-          Transactions
-        </a>
+          <!-- Transactions -->
+          <a href="{% url 'billing:transactions' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'transactions' %}active{% endif %}">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+            </svg>
+            <span class="font-medium">Transactions</span>
+          </a>
 
-        <a href="{% url 'admin:index' %}billing/plan/" class="admin-nav-link">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-          </svg>
-          Plans
-        </a>
+          <!-- Plans -->
+          <a href="{% url 'admin:index' %}billing/plan/" class="admin-nav-link">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span class="font-medium">Plans</span>
+          </a>
 
-        <a href="{% url 'admin:index' %}billing/customer/" class="admin-nav-link">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-          </svg>
-          Users
-        </a>
+          <!-- Users -->
+          <a href="{% url 'admin:index' %}billing/customer/" class="admin-nav-link">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+            </svg>
+            <span class="font-medium">Users</span>
+          </a>
 
-        <a href="{% url 'billing:settings' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-          </svg>
-          Settings
-        </a>
+          <!-- Settings -->
+          <a href="{% url 'billing:settings' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <span class="font-medium">Settings</span>
+          </a>
 
-        <a href="#" class="admin-nav-link">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          Help
-        </a>
+          <!-- Help -->
+          <a href="#" class="admin-nav-link">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="font-medium">Help</span>
+          </a>
+        </div>
       </nav>
 
       <!-- Quick Actions -->
-      <div class="p-6 border-t border-border-medium">
-        <h3 class="text-sm font-semibold text-text-secondary mb-3">Quick Actions</h3>
-        <div class="space-y-2">
+      <div class="px-6 py-4 border-t border-border-medium">
+        <h3 class="text-sm font-semibold text-text-secondary mb-4">Quick Actions</h3>
+        <div class="space-y-1">
           <button class="admin-nav-link w-full justify-start" onclick="exportData()">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
-            Export Data
+            <span class="font-medium">Export Data</span>
           </button>
           <button class="admin-nav-link w-full justify-start" onclick="generateReport()">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
             </svg>
-            Generate Report
+            <span class="font-medium">Generate Report</span>
           </button>
         </div>
       </div>
     </aside>
 
-    <!-- Main Content Area -->
-    <div class="admin-main flex-1 flex flex-col min-w-0">
-      <!-- Top Header -->
-      <header class="bg-bg-alt border-b border-border-medium px-6 py-4 flex-shrink-0">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-4">
-            <!-- Mobile Menu Button -->
-            <button class="lg:hidden p-2 rounded-lg hover:bg-bg transition-colors" id="mobileMenuBtn">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-              </svg>
-            </button>
+    <!-- Top Navbar - Full Width -->
+    <header class="admin-navbar bg-bg-alt border-b border-border-medium px-6 py-3 sticky top-0 z-40 lg:ml-64">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <!-- Mobile Menu Button -->
+          <button class="lg:hidden p-2 rounded-lg hover:bg-bg transition-colors" id="mobileMenuBtn">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
 
-            <div>
-              <h1 class="text-2xl font-bold text-heading">{% block page_title %}Dashboard{% endblock %}</h1>
-              <p class="text-text-secondary">{% block page_subtitle %}Monitor your WiFi business performance{% endblock %}</p>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-4">
-            <!-- Theme Toggle -->
-            <button class="p-2 rounded-lg hover:bg-bg transition-colors" id="themeToggle">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-              </svg>
-            </button>
-
-            <!-- User Menu -->
-            <div class="flex items-center gap-2">
-              <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <span class="text-white font-semibold text-sm">{{ user.username|first|upper }}</span>
-              </div>
-              <span class="text-text-secondary">{{ user.username }}</span>
-            </div>
+          <div>
+            <h1 class="text-xl font-bold text-heading">{% block page_title %}Dashboard{% endblock %}</h1>
+            <p class="text-text-secondary text-sm">{% block page_subtitle %}Monitor your WiFi business performance{% endblock %}</p>
           </div>
         </div>
-      </header>
 
-      <!-- Page Content -->
+        <div class="flex items-center gap-4">
+          <!-- Theme Toggle -->
+          <button class="p-2 rounded-lg hover:bg-bg transition-colors" id="themeToggle">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+          </button>
+
+          <!-- User Menu -->
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+              <span class="text-white font-semibold text-sm">{{ user.username|first|upper }}</span>
+            </div>
+            <span class="text-text-secondary">{{ user.username }}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="admin-main flex-1 flex flex-col min-w-0 lg:ml-64">      <!-- Page Content -->
       <main class="flex-1 p-6 overflow-auto">
         {% block content %}{% endblock %}
       </main>
