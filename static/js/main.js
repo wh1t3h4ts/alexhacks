@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCountdownTimer();
     initializeThemeToggle();
     initializeMobileMenu();
+    initializeAdminSidebar();
 });
 
 // Plan Selection Functionality
@@ -293,3 +294,135 @@ document.addEventListener('submit', function(e) {
         showToast('This is a demo form. In production, this would process the payment.');
     }
 });
+
+// Admin Sidebar Functionality
+function initializeAdminSidebar() {
+    const sidebar = document.getElementById('adminSidebar');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const overlay = document.querySelector('.sidebar-overlay');
+
+    if (!sidebar || !mobileMenuBtn) return;
+
+    // Mobile menu toggle
+    mobileMenuBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+
+        // Create overlay if it doesn't exist
+        if (!overlay) {
+            const newOverlay = document.createElement('div');
+            newOverlay.className = 'sidebar-overlay fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden';
+            newOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                newOverlay.remove();
+            });
+            document.body.appendChild(newOverlay);
+        }
+    });
+
+    // Close sidebar when clicking on navigation links (mobile)
+    const navLinks = sidebar.querySelectorAll('.admin-nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth < 1024) {
+                sidebar.classList.remove('open');
+                const overlay = document.querySelector('.sidebar-overlay');
+                if (overlay) overlay.remove();
+            }
+        });
+    });
+
+    // Enhanced navigation link interactions
+    navLinks.forEach((link, index) => {
+        // Add staggered animation delay
+        link.style.animationDelay = `${index * 50}ms`;
+
+        // Add ripple effect on click
+        link.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            ripple.className = 'absolute inset-0 bg-white bg-opacity-20 rounded-lg animate-ping';
+            ripple.style.left = (e.offsetX - 10) + 'px';
+            ripple.style.top = (e.offsetY - 10) + 'px';
+            this.appendChild(ripple);
+
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+            const overlay = document.querySelector('.sidebar-overlay');
+            if (overlay) overlay.remove();
+        }
+    });
+}
+
+// Initialize admin sidebar when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing initialization code ...
+    initializeAdminSidebar();
+});
+
+// Admin Sidebar Functionality
+function initializeAdminSidebar() {
+    const sidebar = document.getElementById('adminSidebar');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const overlay = document.querySelector('.sidebar-overlay');
+
+    if (!sidebar || !mobileMenuBtn) return;
+
+    // Mobile menu toggle
+    mobileMenuBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+
+        // Create overlay if it doesn't exist
+        if (!overlay) {
+            const newOverlay = document.createElement('div');
+            newOverlay.className = 'sidebar-overlay fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden';
+            newOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                newOverlay.remove();
+            });
+            document.body.appendChild(newOverlay);
+        }
+    });
+
+    // Close sidebar when clicking on navigation links (mobile)
+    const navLinks = sidebar.querySelectorAll('.admin-nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth < 1024) {
+                sidebar.classList.remove('open');
+                const overlay = document.querySelector('.sidebar-overlay');
+                if (overlay) overlay.remove();
+            }
+        });
+    });
+
+    // Enhanced navigation link interactions
+    navLinks.forEach((link, index) => {
+        // Add staggered animation delay
+        link.style.animationDelay = `${index * 50}ms`;
+
+        // Add ripple effect on click
+        link.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            ripple.className = 'absolute inset-0 bg-white bg-opacity-20 rounded-lg animate-ping pointer-events-none';
+            ripple.style.left = (e.offsetX - 10) + 'px';
+            ripple.style.top = (e.offsetY - 10) + 'px';
+            this.appendChild(ripple);
+
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+            const overlay = document.querySelector('.sidebar-overlay');
+            if (overlay) overlay.remove();
+        }
+    });
+}
