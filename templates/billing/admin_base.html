@@ -1,0 +1,450 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Starlex WiFi Admin{% endblock %}</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
+  <link rel="stylesheet" href="{% static 'css/starlex.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Admin-specific styles */
+    .admin-sidebar {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+      color: var(--color-text-secondary);
+      text-decoration: none;
+    }
+
+    .admin-nav-link:hover {
+      background: var(--color-primary);
+      color: white;
+      transform: translateX(4px);
+    }
+
+    .admin-nav-link.active {
+      background: var(--color-primary);
+      color: white;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .admin-nav-link svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .kpi-card {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      transition: all var(--transition-normal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl), var(--shadow-glow);
+    }
+
+    .kpi-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .kpi-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .data-table th {
+      background: var(--color-bg-alt);
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .data-table tbody tr:hover {
+      background: var(--color-bg-alt);
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-xl);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-success {
+      background: rgba(35, 134, 54, 0.1);
+      color: var(--color-success);
+    }
+
+    .status-pending {
+      background: rgba(208, 137, 34, 0.1);
+      color: var(--color-warning);
+    }
+
+    .status-failed {
+      background: rgba(218, 54, 51, 0.1);
+      color: var(--color-error);
+    }
+
+    .btn-admin {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-md);
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all var(--transition-fast);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-admin-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-admin-primary:hover {
+      background: var(--color-primary-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-admin-secondary {
+      background: var(--color-bg-alt);
+      color: var(--color-text);
+      border: 1px solid var(--border-medium);
+    }
+
+    .btn-admin-secondary:hover {
+      background: var(--color-bg);
+      border-color: var(--color-primary);
+    }
+
+    .btn-admin-ghost {
+      background: transparent;
+      color: var(--color-text-secondary);
+    }
+
+    .btn-admin-ghost:hover {
+      background: var(--color-bg-alt);
+      color: var(--color-text);
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 1024px) {
+      .admin-sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 280px;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+      }
+
+      .admin-sidebar.open {
+        left: 0;
+      }
+
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    /* Loading animation */
+    .loading-spinner {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid var(--color-bg-alt);
+      border-radius: 50%;
+      border-top-color: var(--color-primary);
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Focus states for accessibility */
+    .admin-nav-link:focus,
+    .btn-admin:focus,
+    .form-input:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body class="bg-bg text-text font-body">
+  <!-- Sidebar Overlay for Mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Admin Sidebar -->
+  <aside class="admin-sidebar fixed left-0 top-0 h-full w-64 p-6 z-50" id="adminSidebar">
+    <!-- Logo -->
+    <div class="flex items-center gap-3 mb-8">
+      <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 2L20 12H28L22 18L24 28L16 22L8 28L10 18L4 12H12L16 2Z" fill="url(#starlex-gradient)"/>
+        <defs><linearGradient id="starlex-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#8B5CF6"/></linearGradient></defs>
+      </svg>
+      <h1 class="text-xl font-bold gradient-text">Starlex</h1>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="space-y-2">
+      <a href="{% url 'billing:admin_dashboard' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+        </svg>
+        Dashboard
+      </a>
+
+      <a href="{% url 'billing:transactions' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'transactions' %}active{% endif %}">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+        </svg>
+        Transactions
+      </a>
+
+      <a href="{% url 'admin:index' %}billing/plan/" class="admin-nav-link">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        Plans
+      </a>
+
+      <a href="{% url 'admin:index' %}billing/customer/" class="admin-nav-link">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+        </svg>
+        Users
+      </a>
+
+      <a href="{% url 'billing:settings' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+        Settings
+      </a>
+
+      <a href="#" class="admin-nav-link">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        Help
+      </a>
+    </nav>
+
+    <!-- Quick Actions -->
+    <div class="mt-8 pt-6 border-t border-border-medium">
+      <h3 class="text-sm font-semibold text-text-secondary mb-3">Quick Actions</h3>
+      <div class="space-y-2">
+        <button class="admin-nav-link w-full justify-start" onclick="exportData()">
+          📊 Export Data
+        </button>
+        <button class="admin-nav-link w-full justify-start" onclick="generateReport()">
+          📈 Generate Report
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="lg:ml-64">
+    <!-- Top Header -->
+    <header class="bg-bg-alt border-b border-border-medium px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <!-- Mobile Menu Button -->
+          <button class="lg:hidden p-2 rounded-lg hover:bg-bg transition-colors" id="mobileMenuBtn">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+
+          <div>
+            <h1 class="text-2xl font-bold text-heading">{% block page_title %}Dashboard{% endblock %}</h1>
+            <p class="text-text-secondary">{% block page_subtitle %}Monitor your WiFi business performance{% endblock %}</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <!-- Theme Toggle -->
+          <button class="p-2 rounded-lg hover:bg-bg transition-colors" id="themeToggle">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+          </button>
+
+          <!-- User Menu -->
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+              <span class="text-white font-semibold text-sm">{{ user.username|first|upper }}</span>
+            </div>
+            <span class="text-text-secondary">{{ user.username }}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="p-6">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Mobile sidebar toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('adminSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    mobileMenuBtn?.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+    });
+
+    overlay?.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle?.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      const isDark = document.documentElement.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+      // Update icon
+      const icon = themeToggle.querySelector('svg');
+      if (isDark) {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+      } else {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+      }
+    });
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+
+    // Quick action functions
+    function exportData() {
+      showToast('Export functionality coming soon...', 'info');
+    }
+
+    function generateReport() {
+      showToast('Report generation coming soon...', 'info');
+    }
+
+    // Toast notifications
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 ${
+        type === 'success' ? 'bg-green-600' :
+        type === 'error' ? 'bg-red-600' :
+        type === 'info' ? 'bg-blue-600' : 'bg-gray-600'
+      } text-white`;
+      toast.textContent = message;
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    // Initialize tooltips and other interactive elements
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add loading states to buttons
+      document.querySelectorAll('.btn-admin').forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (this.classList.contains('btn-loading')) return;
+
+          const originalText = this.innerHTML;
+          this.innerHTML = '<div class="loading-spinner"></div> Loading...';
+          this.classList.add('btn-loading');
+
+          setTimeout(() => {
+            this.innerHTML = originalText;
+            this.classList.remove('btn-loading');
+          }, 2000);
+        });
+      });
+    });
+  </script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html></content>
+<parameter name="filePath">/home/alex/billing/templates/billing/admin_base.html

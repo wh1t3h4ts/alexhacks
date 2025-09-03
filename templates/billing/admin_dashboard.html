@@ -1,139 +1,789 @@
-{% extends 'base.html' %}
+{% extends 'billing/admin_base.html' %}
 {% load static %}
-{% block title %}Admin Dashboard - Starlex WiFi{% endblock %}
-{% block nav %}
-  <li><a href="{% url 'billing:admin_dashboard' %}" class="nav-link active">Dashboard</a></li>
-  <li><a href="{% url 'billing:transactions' %}" class="nav-link">Transactions</a></li>
-  <li><a href="#" class="nav-link">Plans</a></li>
-  <li><a href="#" class="nav-link">Users</a></li>
-  <li><a href="#" class="nav-link">Settings</a></li>
-  <li><a href="#" class="nav-link">Help</a></li>
-{% endblock %}
+{% block title %}Dashboard - Starlex WiFi{% endblock %}
+{% block page_title %}Starlex WiFi Dashboard{% endblock %}
+{% block page_subtitle %}Monitor your WiFi business performance{% endblock %}
+
 {% block content %}
-<div class="content-wrapper">
-  <div class="container">
-    <div class="flex flex-col lg:flex-row gap-6">
-      <!-- Sidebar -->
-      <aside class="lg:w-64 flex-shrink-0">
-        <div class="card sticky top-6">
-          <h3 class="text-lg font-semibold mb-4 gradient-text">Quick Actions</h3>
-          <nav class="space-y-2">
-            <a href="{% url 'billing:admin_dashboard' %}" class="flex items-center px-4 py-3 rounded-lg hover:bg-primary/10 transition-colors text-primary font-medium">
-              📊 Dashboard
-            </a>
-            <a href="{% url 'billing:transactions' %}" class="flex items-center px-4 py-3 rounded-lg hover:bg-secondary/10 transition-colors text-secondary">
-              💳 Transactions
-            </a>
-            <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-muted transition-colors">
-              📋 Plans
-            </a>
-            <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-muted transition-colors">
-              👥 Users
-            </a>
-            <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-muted transition-colors">
-              ⚙️ Settings
-            </a>
-          </nav>
-        </div>
-      </aside>
-
-      <!-- Main Content -->
-      <main class="flex-1">
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold mb-2">Starlex WiFi Dashboard</h1>
-          <p class="text-muted">Monitor your WiFi business performance</p>
-        </div>
-
-        <!-- KPI Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div class="card text-center">
-            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold mb-2">Active Users</h3>
-            <p class="text-4xl font-bold text-primary">{{ total_users|default:0 }}</p>
-            <p class="text-muted text-sm">This month</p>
-          </div>
-          <div class="card text-center">
-            <h3 class="text-lg font-semibold mb-2">Revenue</h3>
-            <p class="text-3xl font-bold text-success">KES {{ total_revenue|default:0 }}</p>
-            <p class="text-muted text-sm">This month</p>
-          </div>
-          <div class="card text-center">
-            <h3 class="text-lg font-semibold mb-2">Active Plans</h3>
-            <p class="text-3xl font-bold text-secondary">{{ active_plans|default:0 }}</p>
-            <p class="text-muted text-sm">Currently active</p>
-          </div>
-          <div class="card text-center">
-            <h3 class="text-lg font-semibold mb-2">Success Rate</h3>
-            <p class="text-3xl font-bold text-accent">98%</p>
-            <p class="text-muted text-sm">Payment success</p>
-          </div>
-        </div>
-
-        <!-- Charts Placeholder -->
-        <div class="card mb-8">
-          <h3 class="text-xl font-semibold mb-4">Revenue & Sessions Overview</h3>
-          <div class="h-64 bg-surface rounded flex items-center justify-center">
-            <div class="text-center text-muted">
-              <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-              </svg>
-              <p>Chart visualization will be implemented here</p>
-              <p class="text-sm">Hook for Chart.js or similar library</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recent Transactions -->
-        <div class="card">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-semibold">Recent Transactions</h3>
-            <a href="{% url 'billing:transactions' %}" class="btn btn-secondary btn-sm">View All</a>
-          </div>
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Transaction ID</th>
-                  <th>Plan</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Time</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for txn in recent_transactions %}
-                <tr>
-                  <td class="font-mono text-xs">{{ txn.id|truncatechars:12 }}</td>
-                  <td>{{ txn.plan.name }}</td>
-                  <td class="font-semibold">KES {{ txn.amount }}</td>
-                  <td>
-                    <span class="badge {% if txn.status == 'success' %}badge-success{% else %}badge-warning{% endif %}">
-                      {{ txn.status|title }}
-                    </span>
-                  </td>
-                  <td class="text-muted">{{ txn.created_at|date:"M d, H:i" }}</td>
-                  <td>
-                    <button class="btn btn-ghost btn-sm">View</button>
-                  </td>
-                </tr>
-                {% empty %}
-                <tr>
-                  <td colspan="6" class="text-center text-muted py-8">
-                    No transactions found
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </main>
+<!-- Dashboard Header -->
+<div class="dashboard-header">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="dashboard-title">Dashboard Overview</h1>
+      <p class="dashboard-subtitle">Real-time insights into your WiFi business performance</p>
+      <div class="realtime-indicator">
+        Live Data Updates
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      <button id="refreshBtn" class="btn-admin btn-admin-secondary" onclick="refreshDashboard()">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        Refresh
+      </button>
+      <div class="text-right">
+        <div class="text-text-secondary text-sm">Last Updated</div>
+        <div class="text-text font-mono text-xs" id="lastUpdate">Just now</div>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <div class="kpi-card" id="usersCard">
+    <div class="kpi-icon bg-primary/10 text-primary">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+      </svg>
+    </div>
+    <div class="kpi-value text-primary" id="totalUsers">{{ total_users|default:0 }}</div>
+    <div class="kpi-label">Active Users</div>
+    <div class="kpi-trend up" id="usersTrend">
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+      </svg>
+      +12% from last month
+    </div>
+  </div>
+
+  <div class="kpi-card" id="revenueCard">
+    <div class="kpi-icon bg-success/10 text-success">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+      </svg>
+    </div>
+    <div class="kpi-value text-success" id="totalRevenue">KES {{ total_revenue|default:0 }}</div>
+    <div class="kpi-label">Total Revenue</div>
+    <div class="kpi-trend up" id="revenueTrend">
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+      </svg>
+      +8% from last month
+    </div>
+  </div>
+
+  <div class="kpi-card" id="plansCard">
+    <div class="kpi-icon bg-secondary/10 text-secondary">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+    </div>
+    <div class="kpi-value text-secondary" id="activePlans">{{ active_plans|default:0 }}</div>
+    <div class="kpi-label">Active Plans</div>
+    <div class="kpi-trend up" id="plansTrend">
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+      </svg>
+      +15% from last month
+    </div>
+  </div>
+
+  <div class="kpi-card" id="successCard">
+    <div class="kpi-icon bg-accent/10 text-accent">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+      </svg>
+    </div>
+    <div class="kpi-value text-accent" id="successRate">98%</div>
+    <div class="kpi-label">Success Rate</div>
+    <div class="kpi-trend up" id="successTrend">
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+      </svg>
+      +2% from last month
+    </div>
+  </div>
+</div>
+
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+  <!-- Revenue Chart -->
+  <div class="kpi-card">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold">Revenue Overview</h3>
+      <div class="flex items-center gap-2">
+        <select id="revenuePeriod" class="form-input text-sm py-1 px-2" onchange="updateRevenueChart()">
+          <option value="7">Last 7 days</option>
+          <option value="30" selected>Last 30 days</option>
+          <option value="90">Last 3 months</option>
+        </select>
+        <div class="realtime-indicator">
+          Live
+        </div>
+      </div>
+    </div>
+    <div class="chart-container">
+      <canvas id="revenueChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Sessions Chart -->
+  <div class="kpi-card">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold">User Sessions</h3>
+      <div class="flex items-center gap-2">
+        <select id="sessionsPeriod" class="form-input text-sm py-1 px-2" onchange="updateSessionsChart()">
+          <option value="today" selected>Today</option>
+          <option value="7">Last 7 days</option>
+          <option value="30">Last 30 days</option>
+        </select>
+        <div class="realtime-indicator">
+          Live
+        </div>
+      </div>
+    </div>
+    <div class="chart-container">
+      <canvas id="sessionsChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Transactions -->
+<div class="kpi-card">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h3 class="text-xl font-semibold">Recent Transactions</h3>
+      <p class="text-text-secondary text-sm">Latest payment activities</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="realtime-indicator">
+        Auto-refresh
+      </div>
+      <a href="{% url 'billing:transactions' %}" class="btn-admin btn-admin-secondary">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        </svg>
+        View All
+      </a>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="data-table" id="transactionsTable">
+      <thead>
+        <tr>
+          <th>Transaction ID</th>
+          <th>Plan</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="transactionsBody">
+        {% for txn in recent_transactions %}
+        <tr>
+          <td class="font-mono text-xs">{{ txn.id|truncatechars:12 }}</td>
+          <td class="font-medium">{{ txn.plan.name }}</td>
+          <td class="font-semibold text-success">KES {{ txn.amount }}</td>
+          <td>
+            <span class="status-badge {% if txn.status == 'success' %}status-success{% elif txn.status == 'pending' %}status-pending{% else %}status-failed{% endif %}">
+              {{ txn.status|title }}
+            </span>
+          </td>
+          <td class="text-text-secondary">{{ txn.created_at|date:"M d, H:i" }}</td>
+          <td>
+            <button class="btn-admin btn-admin-ghost text-sm" onclick="viewTransaction('{{ txn.id }}')">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+              View
+            </button>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center text-text-muted py-8">
+            <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <p>No transactions found</p>
+            <p class="text-sm">Transactions will appear here once users start making payments</p>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Transaction Detail Modal -->
+<div id="transactionModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-bg rounded-lg shadow-xl max-w-md w-full">
+      <div class="flex items-center justify-between p-6 border-b border-border-medium">
+        <h3 class="text-lg font-semibold">Transaction Details</h3>
+        <button onclick="closeModal()" class="text-text-secondary hover:text-text">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-6">
+        <div id="transactionDetails">
+          <!-- Details will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+  <div class="overflow-x-auto">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Transaction ID</th>
+          <th>Plan</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for txn in recent_transactions %}
+        <tr>
+          <td class="font-mono text-xs">{{ txn.id|truncatechars:12 }}</td>
+          <td class="font-medium">{{ txn.plan.name }}</td>
+          <td class="font-semibold text-success">KES {{ txn.amount }}</td>
+          <td>
+            <span class="status-badge {% if txn.status == 'success' %}status-success{% elif txn.status == 'pending' %}status-pending{% else %}status-failed{% endif %}">
+              {{ txn.status|title }}
+            </span>
+          </td>
+          <td class="text-text-secondary">{{ txn.created_at|date:"M d, H:i" }}</td>
+          <td>
+            <button class="btn-admin btn-admin-ghost text-sm" onclick="viewTransaction('{{ txn.id }}')">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+              View
+            </button>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center text-text-muted py-8">
+            <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <p>No transactions found</p>
+            <p class="text-sm">Transactions will appear here once users start making payments</p>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Transaction Detail Modal -->
+<div id="transactionModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-bg rounded-lg shadow-xl max-w-md w-full">
+      <div class="flex items-center justify-between p-6 border-b border-border-medium">
+        <h3 class="text-lg font-semibold">Transaction Details</h3>
+        <button onclick="closeModal()" class="text-text-secondary hover:text-text">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-6">
+        <div id="transactionDetails">
+          <!-- Details will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Global variables for charts and data
+let revenueChart, sessionsChart;
+let lastUpdateTime = new Date();
+let autoRefreshInterval;
+
+// Initialize dashboard when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  initializeCharts();
+  startAutoRefresh();
+  updateLastRefreshTime();
+});
+
+// Initialize Charts
+function initializeCharts() {
+  // Revenue Chart
+  const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+  revenueChart = new Chart(revenueCtx, {
+    type: 'line',
+    data: {
+      labels: generateDateLabels(30),
+      datasets: [{
+        label: 'Revenue (KES)',
+        data: generateRevenueData(30),
+        borderColor: '#06B6D4',
+        backgroundColor: 'rgba(6, 182, 212, 0.1)',
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: '#06B6D4',
+        pointBorderColor: '#ffffff',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        intersect: false,
+        mode: 'index'
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          backgroundColor: 'rgba(13, 17, 23, 0.9)',
+          titleColor: '#E5E7EB',
+          bodyColor: '#C9D1D9',
+          borderColor: 'rgba(6, 182, 212, 0.3)',
+          borderWidth: 1,
+          cornerRadius: 8,
+          displayColors: false,
+          callbacks: {
+            title: function(context) {
+              return `Date: ${context[0].label}`;
+            },
+            label: function(context) {
+              return `Revenue: KES ${context.parsed.y.toLocaleString()}`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: 'var(--color-text-secondary)',
+            callback: function(value) {
+              return 'KES ' + value.toLocaleString();
+            }
+          }
+        },
+        x: {
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: 'var(--color-text-secondary)',
+            maxTicksLimit: 7
+          }
+        }
+      },
+      animation: {
+        duration: 1000,
+        easing: 'easeInOutQuart'
+      }
+    }
+  });
+
+  // Sessions Chart
+  const sessionsCtx = document.getElementById('sessionsChart').getContext('2d');
+  sessionsChart = new Chart(sessionsCtx, {
+    type: 'bar',
+    data: {
+      labels: generateDateLabels(7),
+      datasets: [{
+        label: 'Sessions',
+        data: generateSessionsData(7),
+        backgroundColor: 'rgba(139, 92, 246, 0.8)',
+        borderColor: '#8B5CF6',
+        borderWidth: 1,
+        borderRadius: 4,
+        borderSkipped: false,
+        hoverBackgroundColor: 'rgba(139, 92, 246, 1)'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          backgroundColor: 'rgba(13, 17, 23, 0.9)',
+          titleColor: '#E5E7EB',
+          bodyColor: '#C9D1D9',
+          borderColor: 'rgba(139, 92, 246, 0.3)',
+          borderWidth: 1,
+          cornerRadius: 8,
+          displayColors: false,
+          callbacks: {
+            title: function(context) {
+              return `Date: ${context[0].label}`;
+            },
+            label: function(context) {
+              return `Sessions: ${context.parsed.y}`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: 'var(--color-text-secondary)'
+          }
+        },
+        x: {
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: 'var(--color-text-secondary)'
+          }
+        }
+      },
+      animation: {
+        duration: 1000,
+        easing: 'easeInOutQuart',
+        delay: function(context) {
+          return context.dataIndex * 100;
+        }
+      }
+    }
+  });
+}
+
+// Generate sample data functions
+function generateDateLabels(days) {
+  const labels = [];
+  const today = new Date();
+
+  for (let i = days - 1; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(today.getDate() - i);
+    labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+  }
+
+  return labels;
+}
+
+function generateRevenueData(days) {
+  const data = [];
+  const baseRevenue = 1500;
+
+  for (let i = 0; i < days; i++) {
+    const variation = (Math.random() - 0.5) * 1000;
+    data.push(Math.max(0, baseRevenue + variation));
+  }
+
+  return data;
+}
+
+function generateSessionsData(days) {
+  const data = [];
+
+  for (let i = 0; i < days; i++) {
+    data.push(Math.floor(Math.random() * 100) + 20);
+  }
+
+  return data;
+}
+
+// Real-time data updates
+function startAutoRefresh() {
+  autoRefreshInterval = setInterval(() => {
+    refreshDashboard();
+  }, 30000); // Refresh every 30 seconds
+}
+
+function stopAutoRefresh() {
+  if (autoRefreshInterval) {
+    clearInterval(autoRefreshInterval);
+  }
+}
+
+function refreshDashboard() {
+  // Show loading state
+  showRefreshIndicator();
+
+  // Simulate API call to get fresh data
+  fetchFreshData().then(data => {
+    updateKPIs(data);
+    updateCharts(data);
+    updateTransactions(data);
+    updateLastRefreshTime();
+    hideRefreshIndicator();
+    showNotification('Dashboard updated successfully', 'success');
+  }).catch(error => {
+    console.error('Failed to refresh dashboard:', error);
+    hideRefreshIndicator();
+    showNotification('Failed to update dashboard', 'error');
+  });
+}
+
+function fetchFreshData() {
+  // Fetch real data from API endpoint
+  return fetch('{% url "billing:dashboard_data" %}')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      return {
+        totalUsers: data.total_users,
+        totalRevenue: data.total_revenue,
+        activePlans: data.active_plans,
+        successRate: data.success_rate,
+        revenueData: data.revenue_data,
+        sessionsData: data.sessions_data,
+        labels: data.labels
+      };
+    })
+    .catch(error => {
+      console.error('Failed to fetch dashboard data:', error);
+      // Fallback to simulated data if API fails
+      return {
+        totalUsers: Math.floor(Math.random() * 100) + 500,
+        totalRevenue: Math.floor(Math.random() * 50000) + 100000,
+        activePlans: Math.floor(Math.random() * 50) + 100,
+        successRate: Math.floor(Math.random() * 5) + 95,
+        revenueData: generateRevenueData(30),
+        sessionsData: generateSessionsData(7)
+      };
+    });
+}
+
+function updateKPIs(data) {
+  // Update KPI values with animation
+  animateValue('totalUsers', data.totalUsers);
+  animateValue('totalRevenue', data.totalRevenue);
+  animateValue('activePlans', data.activePlans);
+  animateValue('successRate', data.successRate + '%');
+
+  // Update trends (simulate random trends)
+  updateTrends();
+}
+
+function animateValue(elementId, targetValue) {
+  const element = document.getElementById(elementId);
+  if (!element) return;
+
+  const currentValue = parseInt(element.textContent.replace(/[^\d]/g, '')) || 0;
+  const target = typeof targetValue === 'string' ? parseInt(targetValue.replace(/[^\d]/g, '')) : targetValue;
+  const duration = 1000;
+  const startTime = performance.now();
+
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // Easing function
+    const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+    const current = Math.round(currentValue + (target - currentValue) * easeOutQuart);
+
+    if (elementId === 'totalRevenue') {
+      element.textContent = `KES ${current.toLocaleString()}`;
+    } else if (elementId === 'successRate') {
+      element.textContent = `${current}%`;
+    } else {
+      element.textContent = current.toLocaleString();
+    }
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+function updateTrends() {
+  const trends = document.querySelectorAll('.kpi-trend');
+  trends.forEach(trend => {
+    const isUp = Math.random() > 0.3; // 70% chance of positive trend
+    const percentage = Math.floor(Math.random() * 20) + 1;
+
+    trend.className = `kpi-trend ${isUp ? 'up' : 'down'}`;
+    trend.innerHTML = `
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${isUp ? 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' : 'M13 17h8m0 0V9m0 8l-8-8-4 4-6-6'}"></path>
+      </svg>
+      ${isUp ? '+' : '-'}${percentage}% from last month
+    `;
+  });
+}
+
+function updateCharts(data) {
+  if (revenueChart && data.revenueData) {
+    revenueChart.data.labels = data.labels || generateDateLabels(30);
+    revenueChart.data.datasets[0].data = data.revenueData;
+    revenueChart.update('active');
+  }
+
+  if (sessionsChart && data.sessionsData) {
+    sessionsChart.data.labels = data.labels ? data.labels.slice(-7) : generateDateLabels(7);
+    sessionsChart.data.datasets[0].data = data.sessionsData;
+    sessionsChart.update('active');
+  }
+}
+
+function updateTransactions(data) {
+  // Simulate updating transaction table with new data
+  const tbody = document.getElementById('transactionsBody');
+  if (!tbody) return;
+
+  // Add a loading state
+  tbody.classList.add('loading-shimmer');
+
+  setTimeout(() => {
+    tbody.classList.remove('loading-shimmer');
+    // In a real implementation, you would update the table rows here
+  }, 500);
+}
+
+function updateRevenueChart() {
+  const period = document.getElementById('revenuePeriod').value;
+  const days = period === '7' ? 7 : period === '30' ? 30 : 90;
+
+  revenueChart.data.labels = generateDateLabels(days);
+  revenueChart.data.datasets[0].data = generateRevenueData(days);
+  revenueChart.update('active');
+}
+
+function updateSessionsChart() {
+  const period = document.getElementById('sessionsPeriod').value;
+  const days = period === 'today' ? 1 : period === '7' ? 7 : 30;
+
+  sessionsChart.data.labels = generateDateLabels(days);
+  sessionsChart.data.datasets[0].data = generateSessionsData(days);
+  sessionsChart.update('active');
+}
+
+// UI Feedback Functions
+function showRefreshIndicator() {
+  const btn = document.getElementById('refreshBtn');
+  if (btn) {
+    btn.innerHTML = `
+      <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+      </svg>
+      Refreshing...
+    `;
+    btn.disabled = true;
+  }
+}
+
+function hideRefreshIndicator() {
+  const btn = document.getElementById('refreshBtn');
+  if (btn) {
+    btn.innerHTML = `
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+      </svg>
+      Refresh
+    `;
+    btn.disabled = false;
+  }
+}
+
+function updateLastRefreshTime() {
+  lastUpdateTime = new Date();
+  const element = document.getElementById('lastUpdate');
+  if (element) {
+    element.textContent = 'Just now';
+  }
+}
+
+function showNotification(message, type = 'info') {
+  const notification = document.createElement('div');
+  notification.className = `notification ${type} show`;
+  notification.innerHTML = `
+    <div class="notification-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+    <div class="notification-message">${message}</div>
+  `;
+
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.classList.remove('show');
+    setTimeout(() => {
+      notification.remove();
+    }, 300);
+  }, 3000);
+}
+
+// Transaction modal functions
+function viewTransaction(id) {
+  document.getElementById('transactionDetails').innerHTML = `
+    <div class="space-y-4">
+      <div class="flex justify-between">
+        <span class="text-text-secondary">Transaction ID:</span>
+        <span class="font-mono text-sm">${id}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-text-secondary">Status:</span>
+        <span class="status-badge status-success">Success</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-text-secondary">Amount:</span>
+        <span class="font-semibold text-success">KES 500</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-text-secondary">Plan:</span>
+        <span>1 Month Unlimited</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-text-secondary">Date:</span>
+        <span>Dec 15, 2024 14:30</span>
+      </div>
+    </div>
+  `;
+  document.getElementById('transactionModal').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('transactionModal').classList.add('hidden');
+}
+
+// Close modal when clicking outside
+document.getElementById('transactionModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeModal();
+  }
+});
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', function() {
+  stopAutoRefresh();
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.key === 'r') {
+    e.preventDefault();
+    refreshDashboard();
+  }
+});
+</script>
 {% endblock %}

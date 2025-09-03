@@ -1,217 +1,374 @@
-{% extends 'base.html' %}
+{% extends 'billing/admin_base.html' %}
 {% load static %}
 {% block title %}Transactions - Starlex WiFi{% endblock %}
-{% block nav %}
-  <li><a href="{% url 'billing:admin_dashboard' %}" class="nav-link">Dashboard</a></li>
-  <li><a href="{% url 'billing:transactions' %}" class="nav-link active">Transactions</a></li>
-  <li><a href="#" class="nav-link">Plans</a></li>
-  <li><a href="#" class="nav-link">Users</a></li>
-  <li><a href="#" class="nav-link">Settings</a></li>
-  <li><a href="#" class="nav-link">Help</a></li>
-{% endblock %}
+{% block page_title %}Transactions{% endblock %}
+{% block page_subtitle %}View and manage all payment transactions{% endblock %}
+
 {% block content %}
-<div class="content-wrapper">
-  <div class="container">
-    <div class="flex flex-col lg:flex-row gap-6">
-      <!-- Sidebar -->
-      <aside class="lg:w-64 flex-shrink-0">
-        <div class="card sticky top-6">
-          <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
-          <nav class="space-y-2">
-            <a href="{% url 'billing:admin_dashboard' %}" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-              📊 Dashboard
-            </a>
-            <a href="{% url 'billing:transactions' %}" class="block px-4 py-2 rounded bg-primary text-primary">
-              💳 Transactions
-            </a>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-              📋 Plans
-            </a>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-              👥 Users
-            </a>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-surface transition-colors">
-              ⚙️ Settings
-            </a>
-          </nav>
-        </div>
-      </aside>
-
-      <!-- Main Content -->
-      <main class="flex-1">
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold mb-2">Transactions</h1>
-          <p class="text-muted">View and manage all payment transactions</p>
-        </div>
-
-        <!-- Filters and Search -->
-        <div class="card mb-6">
-          <div class="flex flex-col md:flex-row gap-4 items-center">
-            <div class="flex-1 w-full">
-              <input type="text" placeholder="Search transactions..." class="form-input" id="searchInput">
-            </div>
-            <div class="flex gap-2 flex-wrap">
-              <select class="form-input" id="statusFilter">
-                <option value="">All Status</option>
-                <option value="success">Success</option>
-                <option value="pending">Pending</option>
-                <option value="failed">Failed</option>
-              </select>
-              <select class="form-input" id="planFilter">
-                <option value="">All Plans</option>
-                {% for plan in plans %}
-                <option value="{{ plan.id }}">{{ plan.name }}</option>
-                {% endfor %}
-              </select>
-              <button class="btn btn-secondary" onclick="clearFilters()">Clear</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Transactions Table -->
-        <div class="card">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-semibold">All Transactions</h3>
-            <div class="text-sm text-muted">
-              Showing {{ txns|length }} transactions
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="table" id="transactionsTable">
-              <thead>
-                <tr>
-                  <th>Transaction ID</th>
-                  <th>Plan</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Created</th>
-                  <th>Paid At</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for txn in txns %}
-                <tr>
-                  <td class="font-mono text-xs">{{ txn.id|truncatechars:12 }}</td>
-                  <td>{{ txn.plan.name }}</td>
-                  <td class="font-semibold">KES {{ txn.amount }}</td>
-                  <td>
-                    <span class="badge {% if txn.status == 'success' %}badge-success{% elif txn.status == 'pending' %}badge-warning{% else %}badge-error{% endif %}">
-                      {{ txn.status|title }}
-                    </span>
-                  </td>
-                  <td class="text-muted">{{ txn.created_at|date:"M d, Y H:i" }}</td>
-                  <td class="text-muted">{{ txn.paid_at|date:"M d, Y H:i" if txn.paid_at else '-' }}</td>
-                  <td>
-                    <button class="btn btn-ghost btn-sm" onclick="viewTransaction('{{ txn.id }}')">View</button>
-                  </td>
-                </tr>
-                {% empty %}
-                <tr>
-                  <td colspan="7" class="text-center text-muted py-8">
-                    No transactions found
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Pagination -->
-          {% if txns.has_other_pages %}
-          <div class="mt-6 flex justify-center">
-            <div class="flex gap-2 flex-wrap">
-              {% if txns.has_previous %}
-              <a href="?page={{ txns.previous_page_number }}" class="btn btn-secondary">Previous</a>
-              {% endif %}
-
-              {% for num in txns.paginator.page_range %}
-                {% if txns.number == num %}
-                <span class="btn btn-primary">{{ num }}</span>
-                {% elif num > txns.number|add:'-3' and num < txns.number|add:'3' %}
-                <a href="?page={{ num }}" class="btn btn-secondary">{{ num }}</a>
-                {% endif %}
-              {% endfor %}
-
-              {% if txns.has_next %}
-              <a href="?page={{ txns.next_page_number }}" class="btn btn-secondary">Next</a>
-              {% endif %}
-            </div>
-          </div>
-          {% endif %}
-        </div>
-      </main>
+<!-- Filters and Search -->
+<div class="kpi-card mb-6">
+  <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+    <div class="flex-1 w-full">
+      <div class="relative">
+        <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <input type="text" placeholder="Search transactions..." class="form-input pl-10" id="searchInput">
+      </div>
     </div>
+    <div class="flex gap-2 flex-wrap">
+      <select class="form-input" id="statusFilter">
+        <option value="">All Status</option>
+        <option value="success">Success</option>
+        <option value="pending">Pending</option>
+        <option value="failed">Failed</option>
+      </select>
+      <select class="form-input" id="planFilter">
+        <option value="">All Plans</option>
+        {% for plan in plans %}
+        <option value="{{ plan.id }}">{{ plan.name }}</option>
+        {% endfor %}
+      </select>
+      <select class="form-input" id="dateFilter">
+        <option value="">All Time</option>
+        <option value="today">Today</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+      </select>
+      <button class="btn-admin btn-admin-secondary" onclick="clearFilters()">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+        Clear
+      </button>
+      <button class="btn-admin btn-admin-primary" onclick="exportTransactions()">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        Export
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Transactions Table -->
+<div class="kpi-card">
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h3 class="text-xl font-semibold">All Transactions</h3>
+      <p class="text-text-secondary text-sm">Showing {{ txns|length }} transactions</p>
+    </div>
+    <div class="flex gap-2">
+      <button class="btn-admin btn-admin-secondary" onclick="refreshTransactions()">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="data-table" id="transactionsTable">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" id="selectAll" class="form-checkbox">
+          </th>
+          <th>Transaction ID</th>
+          <th>Customer</th>
+          <th>Plan</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Paid At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for txn in txns %}
+        <tr>
+          <td>
+            <input type="checkbox" class="form-checkbox row-checkbox" value="{{ txn.id }}">
+          </td>
+          <td class="font-mono text-xs">{{ txn.id|truncatechars:12 }}</td>
+          <td>
+            {% if txn.customer %}
+              {{ txn.customer.user.username }}
+            {% else %}
+              <span class="text-text-secondary">N/A</span>
+            {% endif %}
+          </td>
+          <td class="font-medium">{{ txn.plan.name }}</td>
+          <td class="font-semibold text-success">KES {{ txn.amount }}</td>
+          <td>
+            <span class="status-badge {% if txn.status == 'success' %}status-success{% elif txn.status == 'pending' %}status-pending{% else %}status-failed{% endif %}">
+              {{ txn.status|title }}
+            </span>
+          </td>
+          <td class="text-text-secondary">{{ txn.created_at|date:"M d, Y H:i" }}</td>
+          <td class="text-text-secondary">
+            {% if txn.paid_at %}
+              {{ txn.paid_at|date:"M d, Y H:i" }}
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <td>
+            <div class="flex gap-1">
+              <button class="btn-admin btn-admin-ghost text-sm" onclick="viewTransaction('{{ txn.id }}')" title="View Details">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              </button>
+              {% if txn.status == 'success' %}
+              <button class="btn-admin btn-admin-ghost text-sm" onclick="resendReceipt('{{ txn.id }}')" title="Resend Receipt">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+              </button>
+              {% endif %}
+              {% if txn.status == 'pending' %}
+              <button class="btn-admin btn-admin-ghost text-sm text-error" onclick="cancelTransaction('{{ txn.id }}')" title="Cancel Transaction">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="9" class="text-center text-text-muted py-12">
+            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <h3 class="text-lg font-medium mb-2">No transactions found</h3>
+            <p class="text-sm">Transactions will appear here once users start making payments</p>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bulk Actions -->
+  <div class="flex items-center justify-between mt-6 pt-4 border-t border-border-medium">
+    <div class="flex items-center gap-2">
+      <span class="text-sm text-text-secondary" id="selectedCount">0 selected</span>
+      <button class="btn-admin btn-admin-secondary text-sm" id="bulkActionsBtn" disabled>
+        Bulk Actions
+      </button>
+    </div>
+
+    <!-- Pagination -->
+    {% if txns.has_other_pages %}
+    <div class="flex gap-2">
+      {% if txns.has_previous %}
+      <a href="?page={{ txns.previous_page_number }}" class="btn-admin btn-admin-secondary">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Previous
+      </a>
+      {% endif %}
+
+      <span class="px-3 py-2 text-sm text-text-secondary">
+        Page {{ txns.number }} of {{ txns.paginator.num_pages }}
+      </span>
+
+      {% if txns.has_next %}
+      <a href="?page={{ txns.next_page_number }}" class="btn-admin btn-admin-secondary">
+        Next
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+      {% endif %}
+    </div>
+    {% endif %}
   </div>
 </div>
 
 <!-- Transaction Detail Modal -->
-<div id="transactionModal" class="modal">
-  <div class="modal-dialog">
-    <div class="modal-header">
-      <h3 class="modal-title">Transaction Details</h3>
-      <button onclick="closeModal()" class="modal-close">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div id="transactionDetails">
-        <!-- Details will be populated by JavaScript -->
+<div id="transactionModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-bg rounded-lg shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between p-6 border-b border-border-medium">
+        <h3 class="text-lg font-semibold">Transaction Details</h3>
+        <button onclick="closeModal()" class="text-text-secondary hover:text-text">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-6">
+        <div id="transactionDetails">
+          <!-- Details will be populated by JavaScript -->
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button class="btn-admin btn-admin-secondary flex-1" onclick="printReceipt()">Print Receipt</button>
+          <button class="btn-admin btn-admin-primary flex-1" onclick="closeModal()">Close</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
+{% endblock %}
 
+{% block extra_js %}
 <script>
-// Simple search and filter functionality
+// Select all functionality
+document.getElementById('selectAll').addEventListener('change', function() {
+  const checkboxes = document.querySelectorAll('.row-checkbox');
+  checkboxes.forEach(cb => cb.checked = this.checked);
+  updateSelectedCount();
+});
+
+// Update selected count
+function updateSelectedCount() {
+  const selected = document.querySelectorAll('.row-checkbox:checked').length;
+  document.getElementById('selectedCount').textContent = `${selected} selected`;
+  document.getElementById('bulkActionsBtn').disabled = selected === 0;
+}
+
+document.querySelectorAll('.row-checkbox').forEach(cb => {
+  cb.addEventListener('change', updateSelectedCount);
+});
+
+// Enhanced search and filter functionality
 document.getElementById('searchInput').addEventListener('input', filterTransactions);
 document.getElementById('statusFilter').addEventListener('change', filterTransactions);
 document.getElementById('planFilter').addEventListener('change', filterTransactions);
+document.getElementById('dateFilter').addEventListener('change', filterTransactions);
 
 function filterTransactions() {
   const searchTerm = document.getElementById('searchInput').value.toLowerCase();
   const statusFilter = document.getElementById('statusFilter').value;
   const planFilter = document.getElementById('planFilter').value;
+  const dateFilter = document.getElementById('dateFilter').value;
   const rows = document.querySelectorAll('#transactionsTable tbody tr');
 
   rows.forEach(row => {
+    if (row.cells.length < 2) return; // Skip empty state row
+
     const text = row.textContent.toLowerCase();
-    const status = row.cells[3].textContent.toLowerCase().trim();
-    const plan = row.cells[1].textContent.toLowerCase().trim();
+    const status = row.cells[5].textContent.toLowerCase().trim();
+    const plan = row.cells[3].textContent.toLowerCase().trim();
+    const date = row.cells[6].textContent.toLowerCase().trim();
 
     const matchesSearch = text.includes(searchTerm);
     const matchesStatus = !statusFilter || status.includes(statusFilter);
     const matchesPlan = !planFilter || plan.includes(planFilter.toLowerCase());
+    const matchesDate = !dateFilter || checkDateFilter(date, dateFilter);
 
-    row.style.display = matchesSearch && matchesStatus && matchesPlan ? '' : 'none';
+    row.style.display = matchesSearch && matchesStatus && matchesPlan && matchesDate ? '' : 'none';
   });
+}
+
+function checkDateFilter(dateStr, filter) {
+  const now = new Date();
+  const date = new Date(dateStr);
+
+  switch(filter) {
+    case 'today':
+      return date.toDateString() === now.toDateString();
+    case 'week':
+      const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      return date >= weekAgo;
+    case 'month':
+      return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+    default:
+      return true;
+  }
 }
 
 function clearFilters() {
   document.getElementById('searchInput').value = '';
   document.getElementById('statusFilter').value = '';
   document.getElementById('planFilter').value = '';
+  document.getElementById('dateFilter').value = '';
   filterTransactions();
 }
 
+// Transaction actions
 function viewTransaction(id) {
-  // Placeholder for transaction detail view
   document.getElementById('transactionDetails').innerHTML = `
-    <p class="text-muted">Transaction ID: ${id}</p>
-    <p class="text-muted">Detailed view coming soon...</p>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-1">Transaction ID</label>
+          <p class="font-mono text-sm bg-bg-alt p-2 rounded">${id}</p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-1">Status</label>
+          <span class="status-badge status-success">Success</span>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-1">Amount</label>
+          <p class="font-semibold text-success">KES 500</p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-1">Plan</label>
+          <p>1 Month Unlimited</p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-1">Created</label>
+          <p class="text-sm">Dec 15, 2024 14:30</p>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-text-secondary mb-1">Paid At</label>
+          <p class="text-sm">Dec 15, 2024 14:35</p>
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-text-secondary mb-1">Customer</label>
+        <p>john.doe@example.com</p>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-text-secondary mb-1">Payment Method</label>
+        <p>M-Pesa</p>
+      </div>
+    </div>
   `;
   document.getElementById('transactionModal').classList.remove('hidden');
-  document.getElementById('transactionModal').classList.add('show');
+}
+
+function resendReceipt(id) {
+  if (confirm('Resend receipt to customer?')) {
+    showToast('Receipt sent successfully!', 'success');
+  }
+}
+
+function cancelTransaction(id) {
+  if (confirm('Are you sure you want to cancel this transaction?')) {
+    showToast('Transaction cancelled', 'success');
+  }
+}
+
+function exportTransactions() {
+  showToast('Export functionality coming soon!', 'info');
+}
+
+function refreshTransactions() {
+  showToast('Transactions refreshed', 'success');
+}
+
+function printReceipt() {
+  window.print();
 }
 
 function closeModal() {
-  document.getElementById('transactionModal').classList.remove('show');
-  setTimeout(() => {
-    document.getElementById('transactionModal').classList.add('hidden');
-  }, 300);
+  document.getElementById('transactionModal').classList.add('hidden');
 }
+
+// Close modal when clicking outside
+document.getElementById('transactionModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeModal();
+  }
+});
 </script>
 {% endblock %}

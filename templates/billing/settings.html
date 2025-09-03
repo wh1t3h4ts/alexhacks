@@ -1,0 +1,349 @@
+{% extends 'billing/admin_base.html' %}
+{% load static %}
+{% block title %}Settings - Starlex WiFi{% endblock %}
+{% block page_title %}Settings{% endblock %}
+{% block page_subtitle %}Configure your WiFi billing system{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <!-- Payment Settings -->
+  <div class="kpi-card">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-10 h-10 bg-primary/10 text-primary rounded-lg flex items-center justify-center">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold">Payment Configuration</h3>
+        <p class="text-text-secondary text-sm">Configure M-Pesa and payment settings</p>
+      </div>
+    </div>
+
+    <form class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-medium mb-2">M-Pesa Consumer Key</label>
+          <input type="password" class="form-input" placeholder="Enter your M-Pesa consumer key" value="••••••••••••••••">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">M-Pesa Consumer Secret</label>
+          <input type="password" class="form-input" placeholder="Enter your M-Pesa consumer secret" value="••••••••••••••••">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">M-Pesa Shortcode</label>
+          <input type="text" class="form-input" placeholder="e.g., 174379" value="174379">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">M-Pesa Passkey</label>
+          <input type="password" class="form-input" placeholder="Enter your M-Pesa passkey" value="••••••••••••••••">
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between p-4 bg-bg-alt rounded-lg">
+        <div>
+          <h4 class="font-medium">Sandbox Mode</h4>
+          <p class="text-text-secondary text-sm">Use test environment for development</p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only peer" checked>
+          <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+        </label>
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <button type="button" class="btn-admin btn-admin-secondary">Test Connection</button>
+        <button type="submit" class="btn-admin btn-admin-primary">Save Settings</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- RADIUS Settings -->
+  <div class="kpi-card">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-10 h-10 bg-secondary/10 text-secondary rounded-lg flex items-center justify-center">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold">RADIUS Configuration</h3>
+        <p class="text-text-secondary text-sm">Configure RADIUS server for WiFi authentication</p>
+      </div>
+    </div>
+
+    <form class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-medium mb-2">RADIUS Server IP</label>
+          <input type="text" class="form-input" placeholder="192.168.1.100" value="192.168.1.100">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">RADIUS Port</label>
+          <input type="number" class="form-input" placeholder="1812" value="1812">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">Shared Secret</label>
+          <input type="password" class="form-input" placeholder="Enter shared secret" value="••••••••">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">Database Host</label>
+          <input type="text" class="form-input" placeholder="localhost" value="localhost">
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between p-4 bg-bg-alt rounded-lg">
+        <div>
+          <h4 class="font-medium">Auto-sync Users</h4>
+          <p class="text-text-secondary text-sm">Automatically sync user data with RADIUS server</p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only peer">
+          <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-secondary/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+        </label>
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <button type="button" class="btn-admin btn-admin-secondary">Test Connection</button>
+        <button type="submit" class="btn-admin btn-admin-primary">Save Settings</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Admin Settings -->
+  <div class="kpi-card">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-10 h-10 bg-accent/10 text-accent rounded-lg flex items-center justify-center">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold">Admin Settings</h3>
+        <p class="text-text-secondary text-sm">Manage system preferences and user accounts</p>
+      </div>
+    </div>
+
+    <div class="space-y-6">
+      <!-- Theme Settings -->
+      <div>
+        <h4 class="font-medium mb-3">Appearance</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex items-center justify-between p-4 bg-bg-alt rounded-lg">
+            <div>
+              <h5 class="font-medium">Dark Theme</h5>
+              <p class="text-text-secondary text-sm">Use dark theme for admin panel</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer" id="themeToggle" checked>
+              <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-accent/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+            </label>
+          </div>
+
+          <div class="flex items-center justify-between p-4 bg-bg-alt rounded-lg">
+            <div>
+              <h5 class="font-medium">Compact Mode</h5>
+              <p class="text-text-secondary text-sm">Use compact layout for tables</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-accent/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Settings -->
+      <div>
+        <h4 class="font-medium mb-3">Notifications</h4>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-4 bg-bg-alt rounded-lg">
+            <div>
+              <h5 class="font-medium">Payment Notifications</h5>
+              <p class="text-text-secondary text-sm">Get notified when payments are received</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer" checked>
+              <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-accent/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+            </label>
+          </div>
+
+          <div class="flex items-center justify-between p-4 bg-bg-alt rounded-lg">
+            <div>
+              <h5 class="font-medium">Failed Payment Alerts</h5>
+              <p class="text-text-secondary text-sm">Alert when payments fail</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer" checked>
+              <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-accent/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Information -->
+      <div>
+        <h4 class="font-medium mb-3">System Information</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 bg-bg-alt rounded-lg">
+            <h5 class="font-medium mb-2">Version</h5>
+            <p class="text-text-secondary">Starlex WiFi v1.0.0</p>
+          </div>
+          <div class="p-4 bg-bg-alt rounded-lg">
+            <h5 class="font-medium mb-2">Last Updated</h5>
+            <p class="text-text-secondary">December 15, 2024</p>
+          </div>
+          <div class="p-4 bg-bg-alt rounded-lg">
+            <h5 class="font-medium mb-2">Database</h5>
+            <p class="text-text-secondary">MySQL 8.0</p>
+          </div>
+          <div class="p-4 bg-bg-alt rounded-lg">
+            <h5 class="font-medium mb-2">Uptime</h5>
+            <p class="text-text-secondary">7 days, 14 hours</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="border-t border-error/20 pt-6">
+        <h4 class="font-medium mb-3 text-error">Danger Zone</h4>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-4 bg-error/5 border border-error/20 rounded-lg">
+            <div>
+              <h5 class="font-medium text-error">Reset All Data</h5>
+              <p class="text-text-secondary text-sm">Permanently delete all transactions and user data</p>
+            </div>
+            <button class="btn-admin btn-admin-secondary text-error border-error/20 hover:bg-error/10">
+              Reset Data
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between p-4 bg-error/5 border border-error/20 rounded-lg">
+            <div>
+              <h5 class="font-medium text-error">Export System Logs</h5>
+              <p class="text-text-secondary text-sm">Download system logs for debugging</p>
+            </div>
+            <button class="btn-admin btn-admin-secondary">
+              Export Logs
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-bg rounded-lg shadow-xl max-w-md w-full">
+      <div class="flex items-center justify-between p-6 border-b border-border-medium">
+        <h3 class="text-lg font-semibold text-error">Confirm Action</h3>
+        <button onclick="closeConfirmModal()" class="text-text-secondary hover:text-text">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="p-6">
+        <p class="text-text-secondary mb-6" id="confirmMessage">Are you sure you want to perform this action?</p>
+        <div class="flex gap-3">
+          <button class="btn-admin btn-admin-secondary flex-1" onclick="closeConfirmModal()">Cancel</button>
+          <button class="btn-admin btn-admin-primary flex-1 bg-error hover:bg-error/80" onclick="confirmAction()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Settings management functions
+function testMpesaConnection() {
+  showToast('Testing M-Pesa connection...', 'info');
+  setTimeout(() => {
+    showToast('M-Pesa connection successful!', 'success');
+  }, 2000);
+}
+
+function testRadiusConnection() {
+  showToast('Testing RADIUS connection...', 'info');
+  setTimeout(() => {
+    showToast('RADIUS connection successful!', 'success');
+  }, 2000);
+}
+
+function saveSettings() {
+  showToast('Settings saved successfully!', 'success');
+}
+
+function resetData() {
+  document.getElementById('confirmMessage').textContent = 'This will permanently delete all transactions, user data, and plans. This action cannot be undone. Are you sure?';
+  document.getElementById('confirmModal').classList.remove('hidden');
+}
+
+function exportLogs() {
+  showToast('Exporting system logs...', 'info');
+  setTimeout(() => {
+    showToast('Logs exported successfully!', 'success');
+  }, 2000);
+}
+
+function closeConfirmModal() {
+  document.getElementById('confirmModal').classList.add('hidden');
+}
+
+function confirmAction() {
+  showToast('Data reset initiated. This may take a few minutes...', 'warning');
+  closeConfirmModal();
+}
+
+// Theme toggle functionality
+document.getElementById('themeToggle').addEventListener('change', function() {
+  const isDark = this.checked;
+  document.documentElement.classList.toggle('dark', isDark);
+  localStorage.setItem('admin-theme', isDark ? 'dark' : 'light');
+
+  showToast(`Switched to ${isDark ? 'dark' : 'light'} theme`, 'success');
+});
+
+// Load saved theme preference
+document.addEventListener('DOMContentLoaded', function() {
+  const savedTheme = localStorage.getItem('admin-theme') || 'dark';
+  document.getElementById('themeToggle').checked = savedTheme === 'dark';
+  document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+});
+
+// Form submission handlers
+document.querySelectorAll('form').forEach(form => {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    saveSettings();
+  });
+});
+
+// Add click handlers for test buttons
+document.querySelectorAll('button[type="button"]').forEach(btn => {
+  if (btn.textContent.includes('Test Connection')) {
+    btn.addEventListener('click', function() {
+      if (this.closest('form').querySelector('input[placeholder*="M-Pesa"]')) {
+        testMpesaConnection();
+      } else {
+        testRadiusConnection();
+      }
+    });
+  }
+});
+
+// Danger zone buttons
+document.querySelectorAll('.btn-admin-secondary').forEach(btn => {
+  if (btn.textContent.includes('Reset Data')) {
+    btn.addEventListener('click', resetData);
+  } else if (btn.textContent.includes('Export Logs')) {
+    btn.addEventListener('click', exportLogs);
+  }
+});
+</script>
+{% endblock %}
