@@ -2,9 +2,8 @@
 {% block title %}Choose Your Plan - Starlex WiFi{% endblock %}
 {% block nav %}
   <li><a href="{% url 'portal:landing' %}" class="nav-link active">Home</a></li>
-  <li><a href="#" class="nav-link">About</a></li>
-  <li><a href="#" class="nav-link">Contact</a></li>
-  <li><a href="#" class="nav-link">Help</a></li>
+  <li><a href="{% url 'portal:about' %}" class="nav-link">About</a></li>
+  <li><a href="{% url 'portal:support' %}" class="nav-link">Support</a></li>
 {% endblock %}
 {% block content %}
 <div class="content-wrapper">

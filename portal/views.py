@@ -45,3 +45,11 @@ def success(request):
     if plan and expiry_str:
         return render(request, 'portal/success.html', {'plan': plan, 'expiry_time': expiry_str})
     return render(request, 'portal/success.html')
+
+def about(request):
+    """About page view"""
+    return render(request, 'portal/about.html')
+
+def support(request):
+    """Support page view"""
+    return render(request, 'portal/support.html')

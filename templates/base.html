@@ -22,9 +22,8 @@
         <ul class="navbar-nav" id="navbarNav">
           {% block nav %}
             <li><a href="{% url 'portal:landing' %}" class="nav-link">Home</a></li>
-            <li><a href="#" class="nav-link">About</a></li>
-            <li><a href="#" class="nav-link">Contact</a></li>
-            <li><a href="#" class="nav-link">Help</a></li>
+            <li><a href="{% url 'portal:about' %}" class="nav-link">About</a></li>
+            <li><a href="{% url 'portal:support' %}" class="nav-link">Support</a></li>
           {% endblock %}
         </ul>
         <button class="navbar-toggler" id="navbarToggler" aria-label="Toggle navigation">
