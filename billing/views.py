@@ -100,6 +100,30 @@ def settings(request):
     return render(request, 'billing/settings.html')
 
 @staff_member_required
+def plans(request):
+    # Get all plans from database
+    plans = Plan.objects.all().order_by('price')
+    return render(request, 'billing/plans.html', {'plans': plans})
+
+@staff_member_required
+def users(request):
+    # Get all users/customers from database
+    # For now, we'll get unique customers from transactions
+    customers = OrderTxn.objects.filter(status='success').values('customer').distinct()
+    total_customers = customers.count()
+
+    # Get recent customers (last 30 days)
+    recent_customers = OrderTxn.objects.filter(
+        status='success',
+        paid_at__gte=datetime.now() - timedelta(days=30)
+    ).values('customer').distinct().count()
+
+    return render(request, 'billing/users.html', {
+        'total_customers': total_customers,
+        'recent_customers': recent_customers,
+    })
+
+@staff_member_required
 def dashboard_data(request):
     """API endpoint for realtime dashboard data"""
     import random
@@ -144,3 +168,13 @@ def dashboard_data(request):
         'labels': labels,
         'last_updated': datetime.now().isoformat()
     })
+
+def public_plans(request):
+    """Public-facing plans page"""
+    plans = Plan.objects.all().order_by('price')
+    return render(request, 'portal/plans.html', {'plans': plans})
+
+def public_customers(request):
+    """Public-facing customers page"""
+    customers = Customer.objects.all()
+    return render(request, 'portal/customers.html', {'customers': customers})

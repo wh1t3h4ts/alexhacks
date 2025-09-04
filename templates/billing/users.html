@@ -5,219 +5,60 @@
 {% block page_subtitle %}Manage customers and their WiFi access{% endblock %}
 
 {% block content %}
-<!-- Action Bar -->
-<div class="flex justify-between items-center mb-6">
-  <div>
-    <h3 class="text-lg font-semibold">Customer Management</h3>
-    <p class="text-text-secondary text-sm">View and manage registered users</p>
+<section class="max-w-7xl mx-auto py-8 px-4">
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold">Customers & Testimonials</h2>
+    <p class="text-text-secondary mt-1">Trusted by businesses and users across the region.</p>
   </div>
-  <div class="flex gap-2">
-    <button class="btn-admin btn-admin-secondary" onclick="exportUsers()">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-      </svg>
-      Export
-    </button>
-    <button class="btn-admin btn-admin-primary" onclick="addUser()">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-      </svg>
-      Add User
-    </button>
-  </div>
-</div>
 
-<!-- Search and Filters -->
-<div class="kpi-card mb-6">
-  <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-    <div class="flex-1 w-full">
-      <div class="relative">
-        <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-        </svg>
-        <input type="text" placeholder="Search users by name, email, or phone..." class="form-input pl-10" id="userSearch">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% comment %} Example static testimonials; replace with dynamic data as needed {% endcomment %}
+    <div class="bg-bg-card p-6 rounded-xl shadow-sm hover:shadow-lg transition-all">
+      <div class="flex items-center gap-4 mb-4">
+        <img src="{% static 'images/favicon.svg' %}" alt="Customer" class="w-12 h-12 rounded-md object-cover">
+        <div>
+          <div class="font-semibold">Acme Cafe</div>
+          <div class="text-text-secondary text-sm">Cafe in Nairobi</div>
+        </div>
       </div>
+      <p class="text-text-secondary text-sm">"Starlex enabled us to offer seamless guest WiFi and increased walk-in customer time. Easy to set up and reliable."</p>
     </div>
-    <div class="flex gap-2 flex-wrap">
-      <select class="form-input" id="statusFilter">
-        <option value="">All Status</option>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
-        <option value="suspended">Suspended</option>
-      </select>
-      <select class="form-input" id="planFilter">
-        <option value="">All Plans</option>
-        <option value="1-hour">1 Hour</option>
-        <option value="3-hour">3 Hours</option>
-        <option value="24-hour">24 Hours</option>
-        <option value="1-week">1 Week</option>
-        <option value="1-month">1 Month</option>
-      </select>
-      <button class="btn-admin btn-admin-secondary" onclick="clearFilters()">
-        Clear Filters
-      </button>
-    </div>
-  </div>
-</div>
 
-<!-- Users Table -->
-<div class="kpi-card">
-  <div class="flex justify-between items-center mb-6">
-    <div>
-      <h3 class="text-xl font-semibold">Registered Users</h3>
-      <p class="text-text-secondary text-sm">Total users: <span id="totalUsers">0</span></p>
+    <div class="bg-bg-card p-6 rounded-xl shadow-sm hover:shadow-lg transition-all">
+      <div class="flex items-center gap-4 mb-4">
+        <img src="{% static 'images/favicon.svg' %}" alt="Customer" class="w-12 h-12 rounded-md object-cover">
+        <div>
+          <div class="font-semibold">Haraka Logistics</div>
+          <div class="text-text-secondary text-sm">Logistics company</div>
+        </div>
+      </div>
+      <p class="text-text-secondary text-sm">"Reliable billing and smooth M-Pesa integration made managing our hotspots effortless."</p>
     </div>
-    <div class="flex gap-2">
-      <button class="btn-admin btn-admin-secondary" onclick="refreshUsers()">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-        </svg>
-        Refresh
-      </button>
+
+    <div class="bg-bg-card p-6 rounded-xl shadow-sm hover:shadow-lg transition-all">
+      <div class="flex items-center gap-4 mb-4">
+        <img src="{% static 'images/favicon.svg' %}" alt="Customer" class="w-12 h-12 rounded-md object-cover">
+        <div>
+          <div class="font-semibold">Sunrise Hotel</div>
+          <div class="text-text-secondary text-sm">Hospitality</div>
+        </div>
+      </div>
+      <p class="text-text-secondary text-sm">"Guests love the easy time-based plans. Support is responsive and helpful."</p>
     </div>
   </div>
 
-  <div class="overflow-x-auto">
-    <table class="data-table" id="usersTable">
-      <thead>
-        <tr>
-          <th>
-            <input type="checkbox" id="selectAllUsers" class="form-checkbox">
-          </th>
-          <th>User</th>
-          <th>Phone</th>
-          <th>Current Plan</th>
-          <th>Status</th>
-          <th>Devices</th>
-          <th>Last Active</th>
-          <th>Total Spent</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Sample data - in real implementation, this would come from the database -->
-        <tr>
-          <td>
-            <input type="checkbox" class="form-checkbox user-checkbox" value="1">
-          </td>
-          <td>
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <span class="text-white font-semibold text-xs">JD</span>
-              </div>
-              <div>
-                <div class="font-medium">John Doe</div>
-                <div class="text-text-secondary text-xs">john.doe@example.com</div>
-              </div>
-            </div>
-          </td>
-          <td class="font-mono text-sm">+254 712 345 678</td>
-          <td>
-            <span class="status-badge status-success">1 Month Unlimited</span>
-          </td>
-          <td>
-            <span class="status-badge status-success">Active</span>
-          </td>
-          <td>
-            <div class="text-center">
-              <span class="bg-primary/10 text-primary px-2 py-1 rounded text-xs font-medium">2</span>
-            </div>
-          </td>
-          <td class="text-text-secondary">2 hours ago</td>
-          <td class="font-semibold text-success">KES 1,250</td>
-          <td>
-            <div class="flex gap-1">
-              <button class="btn-admin btn-admin-ghost text-sm" onclick="viewUser(1)" title="View Details">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                </svg>
-              </button>
-              <button class="btn-admin btn-admin-ghost text-sm" onclick="editUser(1)" title="Edit User">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-              </button>
-              <button class="btn-admin btn-admin-ghost text-sm text-error" onclick="suspendUser(1)" title="Suspend User">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                </svg>
-              </button>
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <input type="checkbox" class="form-checkbox user-checkbox" value="2">
-          </td>
-          <td>
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
-                <span class="text-white font-semibold text-xs">SM</span>
-              </div>
-              <div>
-                <div class="font-medium">Sarah Mitchell</div>
-                <div class="text-text-secondary text-xs">sarah.mitchell@example.com</div>
-              </div>
-            </div>
-          </td>
-          <td class="font-mono text-sm">+254 723 456 789</td>
-          <td>
-            <span class="status-badge status-pending">24 Hours Unlimited</span>
-          </td>
-          <td>
-            <span class="status-badge status-success">Active</span>
-          </td>
-          <td>
-            <div class="text-center">
-              <span class="bg-primary/10 text-primary px-2 py-1 rounded text-xs font-medium">1</span>
-            </div>
-          </td>
-          <td class="text-text-secondary">1 day ago</td>
-          <td class="font-semibold text-success">KES 750</td>
-          <td>
-            <div class="flex gap-1">
-              <button class="btn-admin btn-admin-ghost text-sm" onclick="viewUser(2)">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                </svg>
-              </button>
-              <button class="btn-admin btn-admin-ghost text-sm" onclick="editUser(2)">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-              </button>
-              <button class="btn-admin btn-admin-ghost text-sm text-error" onclick="suspendUser(2)">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                </svg>
-              </button>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Empty state -->
-        <tr id="emptyState" class="hidden">
-          <td colspan="9" class="text-center text-text-muted py-12">
-            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-            </svg>
-            <h3 class="text-lg font-medium mb-2">No users found</h3>
-            <p class="text-sm">Users will appear here once they register and make payments</p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="mt-8">
+    <h4 class="text-lg font-semibold mb-4">Customer Logos</h4>
+    <div class="flex flex-wrap items-center gap-6 bg-bg-card p-4 rounded-lg">
+      <img src="{% static 'images/favicon.svg' %}" alt="logo" class="w-24 opacity-80">
+      <img src="{% static 'images/favicon.svg' %}" alt="logo" class="w-24 opacity-80">
+      <img src="{% static 'images/favicon.svg' %}" alt="logo" class="w-24 opacity-80">
+      <img src="{% static 'images/favicon.svg' %}" alt="logo" class="w-24 opacity-80">
+    </div>
   </div>
+</section>
 
-  <!-- Bulk Actions -->
-  <div class="flex items-center justify-between mt-6 pt-4 border-t border-border-medium">
-    <div class="flex items-center gap-2">
-      <span class="text-sm text-text-secondary" id="selectedUsersCount">0 selected</span>
-      <button class="btn-admin btn-admin-secondary text-sm" id="bulkActionsBtn" disabled>
-        Bulk Actions
+{% endblock %}
       </button>
     </div>
 

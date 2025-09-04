@@ -5,218 +5,112 @@
 {% block page_subtitle %}Create, edit, and manage subscription plans{% endblock %}
 
 {% block content %}
-<!-- Action Bar -->
-<div class="flex justify-between items-center mb-6">
-  <div>
-    <h3 class="text-lg font-semibold">Subscription Plans</h3>
-    <p class="text-text-secondary text-sm">Manage your WiFi subscription offerings</p>
-  </div>
-  <button class="btn-admin btn-admin-primary" onclick="openPlanModal()">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-    </svg>
-    Add New Plan
-  </button>
-</div>
-
-<!-- Plans Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-  {% for plan in plans %}
-  <div class="kpi-card relative group">
-    <div class="flex items-start justify-between mb-4">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-primary/10 text-primary rounded-lg flex items-center justify-center">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-        </div>
-        <div>
-          <h4 class="font-semibold">{{ plan.name }}</h4>
-          <p class="text-text-secondary text-sm">{{ plan.duration_minutes }} minutes</p>
-        </div>
-      </div>
-
-      <!-- Action Menu -->
-      <div class="relative">
-        <button class="p-2 hover:bg-bg-alt rounded-lg opacity-0 group-hover:opacity-100 transition-opacity" onclick="togglePlanMenu('{{ plan.id }}')">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-          </svg>
-        </button>
-
-        <div id="menu-{{ plan.id }}" class="absolute right-0 top-full mt-2 w-48 bg-bg-alt rounded-lg shadow-lg border border-border-medium hidden z-10">
-          <div class="py-2">
-            <button class="w-full text-left px-4 py-2 hover:bg-bg transition-colors" onclick="editPlan('{{ plan.id }}')">
-              <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-              </svg>
-              Edit Plan
-            </button>
-            <button class="w-full text-left px-4 py-2 hover:bg-bg transition-colors" onclick="duplicatePlan('{{ plan.id }}')">
-              <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-              </svg>
-              Duplicate
-            </button>
-            <button class="w-full text-left px-4 py-2 hover:bg-bg text-error transition-colors" onclick="deletePlan('{{ plan.id }}')">
-              <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-              </svg>
-              Delete Plan
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="space-y-3">
-      <div class="flex items-center justify-between">
-        <span class="text-text-secondary">Price</span>
-        <span class="text-2xl font-bold text-primary">KES {{ plan.price }}</span>
-      </div>
-
-      <div class="flex items-center justify-between">
-        <span class="text-text-secondary">Duration</span>
-        <span class="text-sm">{{ plan.duration_minutes }} minutes</span>
-      </div>
-
-      <div class="flex items-center justify-between">
-        <span class="text-text-secondary">Status</span>
-        <span class="status-badge status-success">Active</span>
-      </div>
-    </div>
-
-    <!-- Plan Preview -->
-    <div class="mt-4 p-3 bg-bg-alt rounded-lg">
-      <p class="text-xs text-text-secondary mb-2">User Preview:</p>
-      <div class="text-xs">
-        <div class="font-medium">{{ plan.name }}</div>
-        <div class="text-primary">KES {{ plan.price }}</div>
-        <div class="text-text-secondary">{{ plan.duration_minutes }} minutes unlimited</div>
-      </div>
+<section class="max-w-7xl mx-auto py-8 px-4">
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h2 class="text-2xl font-bold text-white">Pricing Plans</h2>
+      <p class="text-text-secondary mt-1">Simple, predictable pricing for teams of all sizes.</p>
     </div>
   </div>
-  {% empty %}
-  <div class="col-span-full text-center py-12">
-    <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-    </svg>
-    <h3 class="text-lg font-medium mb-2">No plans found</h3>
-    <p class="text-text-secondary mb-4">Create your first subscription plan to get started</p>
-    <button class="btn-admin btn-admin-primary" onclick="openPlanModal()">
-      Create First Plan
-    </button>
-  </div>
-  {% endfor %}
-</div>
 
-<!-- Plan Statistics -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-  <div class="kpi-card text-center">
-    <div class="kpi-icon bg-primary/10 text-primary">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-      </svg>
-    </div>
-    <div class="kpi-value text-primary">{{ plans|length }}</div>
-    <div class="text-text-secondary text-sm">Total Plans</div>
-  </div>
-
-  <div class="kpi-card text-center">
-    <div class="kpi-icon bg-success/10 text-success">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-      </svg>
-    </div>
-    <div class="kpi-value text-success">KES {% widthratio plans|length 1 100 %}</div>
-    <div class="text-text-secondary text-sm">Avg. Revenue/Plan</div>
-  </div>
-
-  <div class="kpi-card text-center">
-    <div class="kpi-icon bg-accent/10 text-accent">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-      </svg>
-    </div>
-    <div class="kpi-value text-accent">95%</div>
-    <div class="text-text-secondary text-sm">Plan Utilization</div>
-  </div>
-</div>
-
-<!-- Plan Modal -->
-<div id="planModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-  <div class="flex items-center justify-center min-h-screen p-4">
-    <div class="bg-bg rounded-lg shadow-xl max-w-md w-full">
-      <div class="flex items-center justify-between p-6 border-b border-border-medium">
-        <h3 class="text-lg font-semibold" id="modalTitle">Create New Plan</h3>
-        <button onclick="closePlanModal()" class="text-text-secondary hover:text-text">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
+  <div class="grid gap-6 grid-cols-1 md:grid-cols-3">
+    <!-- Basic -->
+    <article class="bg-bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-lg transition-all">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold">Basic</h3>
+        <div class="text-2xl font-bold">KES 0</div>
       </div>
+      <p class="text-text-secondary mb-4">Essential access for light users.</p>
+      <ul class="mb-6 space-y-2 text-sm text-text-secondary">
+        <li>30 minutes access</li>
+        <li>Basic support</li>
+        <li>Limited speed</li>
+      </ul>
+      <button class="w-full btn-admin btn-admin-secondary">Choose Basic</button>
+    </article>
 
-      <form id="planForm" class="p-6 space-y-4">
-        <input type="hidden" id="planId" name="plan_id">
+    <!-- Pro (Recommended) -->
+    <article class="bg-gradient-to-br from-[#161b22] to-[#1f2937] border-2 border-accent rounded-2xl p-6 shadow-lg transform md:scale-105">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-white">Pro</h3>
+        <div class="text-2xl font-bold text-white">KES 199</div>
+      </div>
+      <p class="text-text-secondary mb-4">Recommended for most small businesses.</p>
+      <ul class="mb-6 space-y-2 text-sm text-text-secondary">
+        <li>3 hours access</li>
+        <li>Priority support</li>
+        <li>Higher speeds</li>
+      </ul>
+      <button class="w-full bg-accent text-bg-main font-semibold py-2 rounded-lg hover:bg-accent-hover transition-all">Start Pro</button>
+    </article>
 
-        <div>
-          <label class="block text-sm font-medium mb-2">Plan Name</label>
-          <input type="text" id="planName" class="form-input" placeholder="e.g., 1 Hour Unlimited" required>
-        </div>
+    <!-- Enterprise -->
+    <article class="bg-bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-lg transition-all">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold">Enterprise</h3>
+        <div class="text-2xl font-bold">Custom</div>
+      </div>
+      <p class="text-text-secondary mb-4">Advanced features and SLA-backed support.</p>
+      <ul class="mb-6 space-y-2 text-sm text-text-secondary">
+        <li>Custom durations</li>
+        <li>Dedicated support</li>
+        <li>Service level agreement</li>
+      </ul>
+      <button class="w-full btn-admin btn-admin-ghost">Contact Sales</button>
+    </article>
+  </div>
 
-        <div>
-          <label class="block text-sm font-medium mb-2">Price (KES)</label>
-          <input type="number" id="planPrice" class="form-input" placeholder="0" min="0" step="0.01" required>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium mb-2">Duration (minutes)</label>
-          <input type="number" id="planDuration" class="form-input" placeholder="60" min="1" required>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium mb-2">Description</label>
-          <textarea id="planDescription" class="form-input" rows="3" placeholder="Optional description"></textarea>
-        </div>
-
-        <div class="flex gap-3 pt-4">
-          <button type="button" class="btn-admin btn-admin-secondary flex-1" onclick="closePlanModal()">Cancel</button>
-          <button type="submit" class="btn-admin btn-admin-primary flex-1">Save Plan</button>
-        </div>
-      </form>
+  <!-- Mobile friendly stacked cards handled by grid -->
+  <div class="mt-8">
+    <h4 class="text-lg font-semibold mb-4">Compare Plans</h4>
+    <div class="overflow-x-auto bg-bg-card p-4 rounded-lg">
+      <table class="w-full text-left text-sm">
+        <thead>
+          <tr class="text-text-secondary">
+            <th class="py-2">Feature</th>
+            <th class="py-2">Basic</th>
+            <th class="py-2">Pro</th>
+            <th class="py-2">Enterprise</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="py-2 text-text-secondary">Duration</td>
+            <td class="py-2">30m</td>
+            <td class="py-2">3h</td>
+            <td class="py-2">Custom</td>
+          </tr>
+          <tr>
+            <td class="py-2 text-text-secondary">Support</td>
+            <td class="py-2">Community</td>
+            <td class="py-2">Priority</td>
+            <td class="py-2">Dedicated</td>
+          </tr>
+          <tr>
+            <td class="py-2 text-text-secondary">Speed</td>
+            <td class="py-2">Standard</td>
+            <td class="py-2">High</td>
+            <td class="py-2">Custom</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-</div>
+</section>
+
 {% endblock %}
 
 {% block extra_js %}
 <script>
-// Plan management functions
-function openPlanModal(planId = null) {
-  const modal = document.getElementById('planModal');
-  const form = document.getElementById('planForm');
-  const title = document.getElementById('modalTitle');
-
-  if (planId) {
-    title.textContent = 'Edit Plan';
-    // Load plan data (placeholder)
-    document.getElementById('planId').value = planId;
-    document.getElementById('planName').value = '1 Hour Unlimited';
-    document.getElementById('planPrice').value = '5';
-    document.getElementById('planDuration').value = '60';
-    document.getElementById('planDescription').value = '1 hour of unlimited WiFi access';
-  } else {
-    title.textContent = 'Create New Plan';
-    form.reset();
-    document.getElementById('planId').value = '';
-  }
-
-  modal.classList.remove('hidden');
-}
-
-function closePlanModal() {
-  document.getElementById('planModal').classList.add('hidden');
-}
+  // Minimal JS for CTA feedback
+  document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      if (btn.classList.contains('btn-admin-primary') || btn.textContent.includes('Start Pro') || btn.textContent.includes('Choose')) {
+        btn.classList.add('opacity-80');
+        setTimeout(() => btn.classList.remove('opacity-80'), 300);
+      }
+    });
+  });
 
 function editPlan(planId) {
   openPlanModal(planId);

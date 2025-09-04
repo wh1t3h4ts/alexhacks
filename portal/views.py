@@ -53,3 +53,13 @@ def about(request):
 def support(request):
     """Support page view"""
     return render(request, 'portal/support.html')
+
+def plans(request):
+    """User-facing plans page"""
+    plans = Plan.objects.all().order_by('price')
+    return render(request, 'portal/plans.html', {'plans': plans})
+
+def customers(request):
+    """User-facing customers page"""
+    customers = Customer.objects.all()
+    return render(request, 'portal/customers.html', {'customers': customers})

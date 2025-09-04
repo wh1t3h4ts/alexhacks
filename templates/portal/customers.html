@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers - Starlex WiFi</title>
+    <link rel="stylesheet" href="{% static 'css/customers.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="{% url 'portal:landing' %}" class="logo">Starlex WiFi</a>
+                <ul class="nav-links">
+                    <li><a href="{% url 'portal:landing' %}">Home</a></li>
+                    <li><a href="{% url 'portal:about' %}">About</a></li>
+                    <li><a href="{% url 'plans' %}">Plans</a></li>
+                    <li><a href="{% url 'customers' %}" class="active">Customers</a></li>
+                    <li><a href="{% url 'portal:support' %}">Support</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="customers-hero">
+            <h1>What Our Customers Say</h1>
+            <p>Hear from our satisfied users</p>
+        </section>
+
+        <section class="customers-grid">
+            {% for customer in customers %}
+            <div class="customer-card">
+                {% if customer.logo %}
+                <img src="{{ customer.logo.url }}" alt="{{ customer.user.username }} logo" class="customer-logo">
+                {% else %}
+                <div class="customer-logo-placeholder">{{ customer.user.username|slice:":1"|upper }}</div>
+                {% endif %}
+                <h3>{{ customer.user.username }}</h3>
+                {% if customer.testimonial %}
+                <p class="testimonial">"{{ customer.testimonial }}"</p>
+                {% else %}
+                <p class="testimonial">"Great service and fast internet!"</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Starlex WiFi. All rights reserved.</p>
+    </footer>
+</body>
+</html>
