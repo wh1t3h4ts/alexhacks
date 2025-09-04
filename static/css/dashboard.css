@@ -6,33 +6,25 @@
 
 /* Dashboard Design System */
 :root {
-  /* Color Palette - GitHub Dark Inspired */
-  --dashboard-bg: #0D1117;
-  --dashboard-surface: #161B22;
-  --dashboard-surface-alt: #21262D;
-  --dashboard-border: #30363D;
-  --dashboard-border-light: #484F58;
-
-  /* Brand Colors */
-  --primary-orange: #EA580C;
-  --primary-orange-hover: #F97316;
-  --primary-orange-light: #FB923C;
-  --secondary-dark: #1F2937;
-  --secondary-dark-hover: #374151;
-  --accent-dark: #4B5563;
-
-  /* Status Colors */
-  --success: #238636;
-  --success-hover: #1A7F37;
-  --warning: #D29922;
-  --error: #DA3633;
-  --error-hover: #B62324;
-
-  /* Text Colors */
-  --text-primary: #E5E7EB;
-  --text-secondary: #C9D1D9;
-  --text-muted: #8B949E;
-  --text-heading: #FFFFFF;
+  /* Color Palette - Modern SaaS Dark Theme */
+  --color-bg-main: #0D1117;
+  --color-bg-panel: #161B22;
+  --color-bg-card: #21262D;
+  --color-accent: #EA580C;
+  --color-accent-hover: #F97316;
+  --color-accent-light: #FB923C;
+  --color-text-primary: #E5E7EB;
+  --color-text-secondary: #C9D1D9;
+  --color-text-muted: #8B949E;
+  --color-text-heading: #FFFFFF;
+  --color-border: #30363D;
+  --color-border-light: #484F58;
+  --color-success: #238636;
+  --color-success-hover: #1A7F37;
+  --color-warning: #D29922;
+  --color-error: #DA3633;
+  --color-error-hover: #B62324;
+  --color-card-shadow: rgba(0, 0, 0, 0.4);
 
   /* Typography */
   --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -80,12 +72,11 @@
   --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-  --shadow-glow-orange: 0 0 20px rgba(234, 88, 12, 0.3);
-  --shadow-glow-dark: 0 0 20px rgba(31, 41, 55, 0.3);
+  --shadow-sm: 0 1px 2px 0 var(--color-card-shadow);
+  --shadow-md: 0 4px 6px -1px var(--color-card-shadow), 0 2px 4px -1px var(--color-card-shadow);
+  --shadow-lg: 0 10px 15px -3px var(--color-card-shadow), 0 4px 6px -2px var(--color-card-shadow);
+  --shadow-xl: 0 20px 25px -5px var(--color-card-shadow), 0 10px 10px -5px var(--color-card-shadow);
+  --shadow-glow-accent: 0 0 20px rgba(234, 88, 12, 0.3);
 
   /* Transitions */
   --transition-fast: 150ms ease-in-out;
@@ -109,8 +100,8 @@
 /* Base Dashboard Styles */
 .dashboard-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--dashboard-bg) 0%, var(--dashboard-surface) 100%);
-  color: var(--text-primary);
+  background: var(--color-bg-main);
+  color: var(--color-text-primary);
   font-family: var(--font-body);
   line-height: 1.6;
 }
@@ -120,23 +111,22 @@
   font-family: var(--font-heading);
   font-size: var(--text-4xl);
   font-weight: var(--weight-bold);
-  color: var(--text-heading);
+  color: var(--color-text-primary);
   margin: 0;
   letter-spacing: -0.025em;
 }
 
 .dashboard-subtitle {
   font-size: var(--text-lg);
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   margin: var(--space-2) 0 0 0;
   font-weight: var(--weight-normal);
 }
 
 /* Dashboard Header */
 .dashboard-header {
-  background: rgba(22, 27, 34, 0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--dashboard-border);
+  background: var(--color-bg-card);
+  border-bottom: 1px solid var(--color-border);
   padding: var(--space-8) var(--space-6);
   margin-bottom: var(--space-8);
   border-radius: 0 0 var(--radius-xl) var(--radius-xl);
@@ -148,7 +138,7 @@
   align-items: center;
   gap: var(--space-2);
   font-size: var(--text-sm);
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   font-weight: var(--weight-medium);
 }
 
@@ -181,10 +171,10 @@
 }
 
 /* KPI Cards */
+/* KPI Cards */
 .kpi-card {
-  background: rgba(30, 30, 47, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   box-shadow: var(--shadow-lg);
@@ -200,7 +190,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--primary-orange), var(--secondary-dark));
+  background: linear-gradient(90deg, var(--color-accent), var(--secondary-dark));
   opacity: 0;
   transition: opacity var(--transition-normal);
 }
@@ -242,7 +232,7 @@
 
 .kpi-label {
   font-size: var(--text-sm);
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   font-weight: var(--weight-medium);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -277,9 +267,8 @@
 
 /* Chart Cards */
 .chart-card {
-  background: rgba(30, 30, 47, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   box-shadow: var(--shadow-lg);
@@ -289,7 +278,7 @@
 .chart-card:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-xl);
-  border-color: rgba(6, 182, 212, 0.2);
+  border-color: var(--color-accent);
 }
 
 .chart-container {
@@ -299,14 +288,99 @@
   margin-top: var(--space-4);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: rgba(13, 17, 23, 0.5);
+  background: var(--color-bg-main);
+}
+
+/* Chart.js Dark Theme Styling */
+.chart-container canvas {
+  background: var(--color-bg-main) !important;
+}
+
+/* Ensure Chart.js text is visible on dark background */
+.chartjs-render-monitor {
+  color: var(--color-text-primary) !important;
+}
+
+.chartjs-tooltip {
+  background: var(--color-bg-card) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.chartjs-tooltip-title {
+  color: var(--color-text-heading) !important;
+  font-weight: var(--weight-semibold) !important;
+}
+
+.chartjs-tooltip-body {
+  color: var(--color-text-secondary) !important;
+}
+
+.chartjs-legend-label {
+  color: var(--color-text-primary) !important;
+}
+
+.chartjs-legend-label-text {
+  color: var(--color-text-primary) !important;
+}
+
+/* Chart.js Grid and Scale Colors */
+.chartjs-grid {
+  color: var(--color-border-light) !important;
+}
+
+.chartjs-scale {
+  color: var(--color-text-secondary) !important;
+}
+
+/* Chart.js Point and Line Colors */
+.chartjs-point {
+  background-color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+}
+
+.chartjs-line {
+  border-color: var(--color-accent) !important;
+}
+
+/* Chart.js Bar Colors */
+.chartjs-bar {
+  background-color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+}
+
+/* Chart.js Doughnut/Pie Colors */
+.chartjs-doughnut-segment {
+  border-color: var(--color-bg-card) !important;
+}
+
+/* Ensure all chart text is white/visible */
+.chartjs-text {
+  fill: var(--color-text-primary) !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Chart.js specific overrides */
+.chartjs-render-monitor text {
+  fill: var(--color-text-primary) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.chartjs-render-monitor .chartjs-title {
+  color: var(--color-text-heading) !important;
+  fill: var(--color-text-heading) !important;
+}
+
+.chartjs-render-monitor .chartjs-subtitle {
+  color: var(--color-text-secondary) !important;
+  fill: var(--color-text-secondary) !important;
 }
 
 /* Transaction Table */
 .transactions-card {
-  background: rgba(30, 30, 47, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   box-shadow: var(--shadow-lg);
@@ -320,12 +394,12 @@
 }
 
 .transaction-table th {
-  background: rgba(22, 27, 34, 0.8);
-  color: var(--text-secondary);
+  background: var(--color-bg-panel);
+  color: var(--color-text-secondary);
   font-weight: var(--weight-semibold);
   text-align: left;
   padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--dashboard-border);
+  border-bottom: 1px solid var(--color-border);
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -334,7 +408,7 @@
 .transaction-table td {
   padding: var(--space-4);
   border-bottom: 1px solid rgba(48, 54, 61, 0.5);
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   vertical-align: middle;
 }
 
@@ -343,7 +417,7 @@
 }
 
 .transaction-table tbody tr:hover {
-  background: rgba(6, 182, 212, 0.05);
+  background: var(--color-bg-panel);
 }
 
 .transaction-table .font-mono {
@@ -365,28 +439,28 @@
 
 .status-success {
   background: rgba(35, 134, 54, 0.1);
-  color: var(--success);
+  color: var(--color-success);
   border: 1px solid rgba(35, 134, 54, 0.2);
 }
 
 .status-pending {
   background: rgba(210, 153, 34, 0.1);
-  color: var(--warning);
+  color: var(--color-warning);
   border: 1px solid rgba(210, 153, 34, 0.2);
 }
 
 .status-failed {
   background: rgba(218, 54, 51, 0.1);
-  color: var(--error);
+  color: var(--color-error);
   border: 1px solid rgba(218, 54, 51, 0.2);
 }
 
 /* Form Elements */
 .form-input {
-  background: rgba(22, 27, 34, 0.8);
-  border: 1px solid var(--dashboard-border);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   padding: var(--space-2) var(--space-3);
   font-size: var(--text-sm);
   transition: all var(--transition-fast);
@@ -394,12 +468,16 @@
 
 .form-input:focus {
   outline: none;
-  border-color: var(--primary-orange);
-  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
 }
 
 .form-input:hover {
-  border-color: var(--dashboard-border-light);
+  border-color: var(--color-border-light);
+}
+
+.form-input::placeholder {
+  color: var(--color-text-muted);
 }
 
 /* Buttons */
@@ -418,38 +496,38 @@
 }
 
 .btn-admin-primary {
-  background: var(--primary-orange);
-  color: var(--dashboard-bg);
-  border-color: var(--primary-orange);
+  background: var(--color-accent);
+  color: var(--color-bg-main);
+  border-color: var(--color-accent);
 }
 
 .btn-admin-primary:hover {
-  background: var(--primary-orange-hover);
-  border-color: var(--primary-orange-hover);
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
   transform: translateY(-1px);
   box-shadow: var(--shadow-glow-orange);
 }
 
 .btn-admin-secondary {
-  background: rgba(22, 27, 34, 0.8);
-  color: var(--text-primary);
-  border-color: var(--dashboard-border);
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
 }
 
 .btn-admin-secondary:hover {
-  background: rgba(30, 30, 47, 0.9);
-  border-color: var(--dashboard-border-light);
+  background: var(--color-bg-card-hover);
+  border-color: var(--color-border-light);
   transform: translateY(-1px);
 }
 
 .btn-admin-ghost {
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   border-color: transparent;
 }
 
 .btn-admin-ghost:hover {
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   background: rgba(6, 182, 212, 0.1);
 }
 
@@ -470,8 +548,8 @@
 }
 
 .modal-content {
-  background: var(--dashboard-surface);
-  border: 1px solid var(--dashboard-border);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-xl);
   max-width: 500px;
@@ -482,7 +560,7 @@
 
 .modal-header {
   padding: var(--space-6);
-  border-bottom: 1px solid var(--dashboard-border);
+  border-bottom: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -634,7 +712,7 @@
 /* Focus styles for keyboard navigation */
 .btn-admin:focus,
 .form-input:focus {
-  outline: 2px solid var(--primary-orange);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
@@ -650,8 +728,8 @@
 /* Dark mode preference (already dark, but ensuring it stays dark) */
 @media (prefers-color-scheme: dark) {
   .dashboard-container {
-    background: var(--dashboard-bg);
-    color: var(--text-primary);
+    background: var(--color-bg-main);
+    color: var(--color-text-primary);
   }
 }
 
@@ -706,14 +784,14 @@
 /* Admin Layout System */
 .admin-layout {
   min-height: 100vh;
-  background: var(--dashboard-bg);
+  background: var(--color-bg-main);
   display: flex;
   flex-direction: column;
 }
 
 .admin-sidebar {
   width: 256px; /* Fixed width */
-  background: linear-gradient(180deg, var(--dashboard-surface) 0%, var(--dashboard-bg) 100%);
+  background: linear-gradient(180deg, var(--color-bg-card) 0%, var(--color-bg-main) 100%);
   backdrop-filter: blur(20px);
   border-right: 1px solid var(--border-medium);
   display: flex;
@@ -729,7 +807,7 @@
 }
 
 .admin-navbar {
-  background: var(--dashboard-surface);
+  background: var(--color-bg-card);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-medium);
   position: sticky;
@@ -742,7 +820,7 @@
 .admin-main {
   display: flex;
   flex-direction: column;
-  background: var(--dashboard-bg);
+  background: var(--color-bg-main);
   margin-left: 256px; /* Account for fixed sidebar */
   min-height: calc(100vh - 73px); /* Account for navbar height */
   flex: 1;
@@ -755,7 +833,7 @@
   gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-lg);
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   text-decoration: none;
   font-weight: var(--weight-medium);
   transition: all var(--transition-smooth);
@@ -766,6 +844,9 @@
   width: 100%;
   justify-content: flex-start;
   min-height: 48px; /* Ensure consistent height */
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateY(10px);
 }
 
 .admin-nav-link span {
@@ -786,7 +867,7 @@
 
 .admin-nav-link:hover {
   background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(139, 92, 246, 0.1) 100%);
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   transform: translateX(6px) scale(1.02);
   border-color: rgba(6, 182, 212, 0.2);
   box-shadow: var(--shadow-md), 0 0 15px rgba(6, 182, 212, 0.1);
@@ -797,15 +878,15 @@
 }
 
 .admin-nav-link.active {
-  background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-dark) 100%);
-  color: var(--dashboard-bg);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--secondary-dark) 100%);
+  color: var(--color-bg-main);
   box-shadow: var(--shadow-lg), var(--shadow-glow-orange), var(--shadow-glow-dark);
   border-color: rgba(255, 255, 255, 0.2);
   transform: translateX(8px);
 }
 
 .admin-nav-link.active:hover {
-  background: linear-gradient(135deg, var(--primary-orange-hover) 0%, var(--secondary-dark-hover) 100%);
+  background: linear-gradient(135deg, var(--color-accent-hover) 0%, var(--secondary-dark-hover) 100%);
   transform: translateX(8px) scale(1.02);
   box-shadow: var(--shadow-xl), 0 0 25px rgba(6, 182, 212, 0.4), 0 0 25px rgba(139, 92, 246, 0.3);
 }
@@ -837,18 +918,19 @@
 }
 
 /* Enhanced Navigation Section */
-.admin-sidebar nav.flex-1 {
+.admin-sidebar nav.nav-section {
+  flex: 1;
   padding: var(--space-4) 0;
   background: linear-gradient(180deg, transparent 0%, rgba(6, 182, 212, 0.02) 50%, transparent 100%);
 }
 
-.admin-sidebar nav .space-y-1 {
+.admin-sidebar nav .nav-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
 }
 
-.admin-sidebar nav .space-y-1 > * {
+.admin-sidebar nav .nav-list > * {
   width: 100%;
 }
 
@@ -880,13 +962,13 @@
   justify-content: center;
   padding: var(--space-2);
   border-radius: var(--radius-md);
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   transition: all var(--transition-fast);
 }
 
 #mobileMenuBtn:hover {
-  background: var(--dashboard-surface);
-  color: var(--text-primary);
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
 }
 
 /* Theme Toggle */
@@ -896,13 +978,13 @@
   justify-content: center;
   padding: var(--space-2);
   border-radius: var(--radius-md);
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   transition: all var(--transition-fast);
 }
 
 #themeToggle:hover {
-  background: var(--dashboard-surface);
-  color: var(--text-primary);
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
 }
 
 /* User Menu */
@@ -916,7 +998,7 @@
   width: 2rem;
   height: 2rem;
   border-radius: var(--radius-full);
-  background: var(--primary-orange);
+  background: var(--color-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1076,7 +1158,7 @@
 /* Ensure proper scrolling */
 .admin-sidebar {
   scrollbar-width: thin;
-  scrollbar-color: var(--dashboard-border) transparent;
+  scrollbar-color: var(--color-border) transparent;
 }
 
 .admin-sidebar::-webkit-scrollbar {
@@ -1088,67 +1170,52 @@
 }
 
 .admin-sidebar::-webkit-scrollbar-thumb {
-  background: var(--dashboard-border);
+  background: var(--color-border);
   border-radius: var(--radius-full);
 }
 
 .admin-sidebar::-webkit-scrollbar-thumb:hover {
-  background: var(--dashboard-border-light);
+  background: var(--color-border-light);
 }
 
 /* Enhanced Logo Section */
-.admin-sidebar .flex.items-center.gap-3 {
+.admin-sidebar .logo-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-medium);
   position: relative;
   overflow: hidden;
   transition: all var(--transition-smooth);
+  padding: var(--space-4);
 }
 
-.admin-sidebar .flex.items-center.gap-3::after {
+.admin-sidebar .logo-section::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--primary-orange), transparent);
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
   opacity: 0.6;
 }
 
 .admin-sidebar .gradient-text {
-  background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-dark) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: var(--weight-bold);
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all var(--transition-fast);
-}
-
-.admin-sidebar svg.w-8.h-8 {
-  filter: drop-shadow(0 2px 8px rgba(6, 182, 212, 0.3));
-  transition: all var(--transition-smooth);
-}
-
-.admin-sidebar .flex.items-center.gap-3:hover svg.w-8.h-8 {
-  transform: scale(1.05) rotate(5deg);
-  filter: drop-shadow(0 4px 12px rgba(6, 182, 212, 0.4));
-}
-
-.admin-sidebar .flex.items-center.gap-3:hover .gradient-text {
-  background: linear-gradient(135deg, var(--primary-orange-hover) 0%, var(--secondary-dark-hover) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-accent);
+  font-size: 33px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
 
 /* Enhanced Mobile Sidebar */
 @media (max-width: 1023px) {
   .admin-sidebar {
-    background: linear-gradient(180deg, var(--dashboard-surface) 0%, var(--dashboard-bg) 100%);
+    background: linear-gradient(180deg, var(--color-bg-card) 0%, var(--color-bg-main) 100%);
     backdrop-filter: blur(25px);
     border-right: 1px solid var(--border-medium);
     box-shadow: var(--shadow-xl), 0 0 30px rgba(0, 0, 0, 0.3);
@@ -1162,7 +1229,7 @@
     transform: translateX(6px);
   }
 
-  .admin-sidebar .flex.items-center.gap-3 {
+  .admin-sidebar .logo-section {
     background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(139, 92, 246, 0.08) 100%);
   }
 }
@@ -1197,7 +1264,7 @@
     font-size: var(--text-base);
   }
 
-  .admin-sidebar nav.flex-1 {
+  .admin-sidebar nav.nav-section {
     padding: var(--space-8);
   }
 }
@@ -1214,22 +1281,15 @@
   }
 }
 
-.admin-nav-link .animate-ping {
-  animation: ripple 0.6s linear;
-}
-
-/* Staggered Animation for Navigation Links */
-.admin-nav-link {
-  animation: fadeInUp 0.5s ease-out forwards;
-  opacity: 0;
-  transform: translateY(10px);
-}
-
 @keyframes fadeInUp {
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.admin-nav-link .nav-ripple {
+  animation: ripple 0.6s linear;
 }
 
 /* Enhanced Scrollbar Styling */
@@ -1243,25 +1303,25 @@
 }
 
 .admin-sidebar::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--primary-orange) 0%, var(--secondary-dark) 100%);
+  background: linear-gradient(180deg, var(--color-accent) 0%, var(--secondary-dark) 100%);
   border-radius: var(--radius-full);
   transition: all var(--transition-fast);
 }
 
 .admin-sidebar::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--primary-orange-hover) 0%, var(--secondary-dark-hover) 100%);
+  background: linear-gradient(180deg, var(--color-accent-hover) 0%, var(--secondary-dark-hover) 100%);
   box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
 }
 
 /* Focus States for Accessibility */
 .admin-nav-link:focus {
-  outline: 2px solid var(--primary-orange);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
 .admin-nav-link:focus:not(.active) {
   background: rgba(6, 182, 212, 0.1);
-  color: var(--text-primary);
+  color: var(--color-text-primary);
 }
 
 /* Loading State for Navigation Links */
@@ -1279,7 +1339,7 @@
   width: 16px;
   height: 16px;
   border: 2px solid transparent;
-  border-top: 2px solid var(--primary-orange);
+  border-top: 2px solid var(--color-accent);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -1287,4 +1347,71 @@
 @keyframes spin {
   0% { transform: translateY(-50%) rotate(0deg); }
   100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* ===== VISIBILITY FIXES FOR DARK THEME ===== */
+
+/* Ensure all text has proper contrast on dark background */
+.dashboard-container,
+.dashboard-container * {
+  color: var(--color-text-primary);
+}
+
+/* Fix any remaining low opacity backgrounds */
+.kpi-card,
+.chart-card,
+.transactions-card,
+.dashboard-header {
+  background: var(--color-bg-card) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+/* Ensure buttons have proper styling */
+.btn-admin {
+  background: var(--color-accent) !important;
+  color: var(--color-bg-main) !important;
+  border: 1px solid var(--color-accent) !important;
+}
+
+.btn-admin:hover {
+  background: var(--color-accent-hover) !important;
+  border-color: var(--color-accent-hover) !important;
+}
+
+.btn-admin-secondary {
+  background: var(--color-bg-card) !important;
+  color: var(--color-text-primary) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+.btn-admin-secondary:hover {
+  background: var(--color-bg-card-hover) !important;
+  border-color: var(--color-border-light) !important;
+}
+
+/* Chart.js specific visibility fixes */
+.chartjs-render-monitor text,
+.chartjs-render-monitor tspan,
+.chartjs-render-monitor .chartjs-title,
+.chartjs-render-monitor .chartjs-subtitle,
+.chartjs-render-monitor .chartjs-label {
+  fill: var(--color-text-primary) !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Ensure chart tooltips are visible */
+.chartjs-tooltip {
+  background: var(--color-bg-card) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.chartjs-tooltip-title {
+  color: var(--color-text-primary) !important;
+  font-weight: var(--weight-semibold) !important;
+}
+
+.chartjs-tooltip-body {
+  color: var(--color-text-secondary) !important;
 }
