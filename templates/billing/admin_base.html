@@ -52,15 +52,15 @@
             </a>
 
             <!-- Plans -->
-            <a href="{% url 'billing:plans' %}" class="nav-link" data-tooltip="Plans">
-              <i class="bi bi-file-earmark-text"></i>
-              <span class="nav-text">Plans</span>
+            <a href="{% url 'billing:plans' %}" class="nav-link {% if request.resolver_match.url_name == 'plans' %}active{% endif %}" data-tooltip="Subscriptions">
+              <i class="bi bi-people"></i>
+              <span class="nav-text">Subscriptions</span>
             </a>
 
-            <!-- Users -->
-            <a href="{% url 'billing:plans' %}" class="nav-link" data-tooltip="Users">
-              <i class="bi bi-people"></i>
-              <span class="nav-text">Users</span>
+            <!-- Customers -->
+            <a href="{% url 'billing:customers' %}" class="nav-link {% if request.resolver_match.url_name == 'customers' %}active{% endif %}" data-tooltip="Customers">
+              <i class="bi bi-person-badge"></i>
+              <span class="nav-text">Customers</span>
             </a>
           </div>
 

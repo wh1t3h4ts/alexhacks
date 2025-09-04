@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from .models import OrderTxn, Plan
+from .models import OrderTxn, Plan, Customer
 from django.views.decorators.csrf import csrf_exempt
 from .mpesa import stk_push
 from datetime import datetime, timedelta
 import json
 from django.db.models import Sum
 from django.contrib.admin.views.decorators import staff_member_required
+from .forms import PlanForm, CustomerForm
 
 # Payment page
 def pay(request, plan_id, mac):
@@ -101,27 +102,107 @@ def settings(request):
 
 @staff_member_required
 def plans(request):
-    # Get all plans from database
-    plans = Plan.objects.all().order_by('price')
-    return render(request, 'billing/plans.html', {'plans': plans})
+    # Get all customers with their subscription information
+    customers = Customer.objects.all().select_related('user').prefetch_related('ordertxn_set')
+
+    # Create a list of customer subscription data
+    subscriptions = []
+    for customer in customers:
+        # Get the latest successful transaction for this customer
+        latest_txn = customer.ordertxn_set.filter(status='success').order_by('-paid_at').first()
+
+        if latest_txn:
+            # Customer has a successful transaction
+            subscriptions.append({
+                'customer': customer,
+                'plan': latest_txn.plan,
+                'amount': latest_txn.amount,
+                'paid_at': latest_txn.paid_at,
+                'status': 'Active',
+                'has_transaction': True
+            })
+        else:
+            # Customer added manually, no transactions yet
+            subscriptions.append({
+                'customer': customer,
+                'plan': None,
+                'amount': 0,
+                'paid_at': None,
+                'status': 'No Subscription',
+                'has_transaction': False
+            })
+
+    # Sort by paid_at (most recent first), then by customer name
+    subscriptions.sort(key=lambda x: (x['paid_at'] is None, x['paid_at'] or customer.user.date_joined), reverse=True)
+
+    return render(request, 'billing/plans.html', {'subscriptions': subscriptions})
 
 @staff_member_required
-def users(request):
-    # Get all users/customers from database
-    # For now, we'll get unique customers from transactions
-    customers = OrderTxn.objects.filter(status='success').values('customer').distinct()
-    total_customers = customers.count()
+def plans_add(request):
+    if request.method == 'POST':
+        form = PlanForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('billing:plans')
+    else:
+        form = PlanForm()
+    return render(request, 'billing/plans_form.html', {'form': form, 'action': 'Add'})
 
-    # Get recent customers (last 30 days)
-    recent_customers = OrderTxn.objects.filter(
-        status='success',
-        paid_at__gte=datetime.now() - timedelta(days=30)
-    ).values('customer').distinct().count()
+@staff_member_required
+def plans_edit(request, plan_id):
+    plan = get_object_or_404(Plan, id=plan_id)
+    if request.method == 'POST':
+        form = PlanForm(request.POST, instance=plan)
+        if form.is_valid():
+            form.save()
+            return redirect('billing:plans')
+    else:
+        form = PlanForm(instance=plan)
+    return render(request, 'billing/plans_form.html', {'form': form, 'action': 'Edit'})
 
-    return render(request, 'billing/users.html', {
-        'total_customers': total_customers,
-        'recent_customers': recent_customers,
-    })
+@staff_member_required
+def plans_delete(request, plan_id):
+    plan = get_object_or_404(Plan, id=plan_id)
+    if request.method == 'POST':
+        plan.delete()
+        return redirect('billing:plans')
+    return render(request, 'billing/plans_confirm_delete.html', {'plan': plan})
+
+@staff_member_required
+def customers(request):
+    customers = Customer.objects.all().select_related('user').prefetch_related('device_set')
+    return render(request, 'billing/customers.html', {'customers': customers})
+
+@staff_member_required
+def customers_add(request):
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('billing:customers')
+    else:
+        form = CustomerForm()
+    return render(request, 'billing/customers_form.html', {'form': form, 'action': 'Add'})
+
+@staff_member_required
+def customers_edit(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect('billing:customers')
+    else:
+        form = CustomerForm(instance=customer)
+    return render(request, 'billing/customers_form.html', {'form': form, 'action': 'Edit'})
+
+@staff_member_required
+def customers_delete(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    if request.method == 'POST':
+        customer.delete()
+        return redirect('billing:customers')
+    return render(request, 'billing/customers_confirm_delete.html', {'customer': customer})
 
 @staff_member_required
 def dashboard_data(request):

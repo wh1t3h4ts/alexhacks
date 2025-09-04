@@ -1,0 +1,47 @@
+{% extends 'billing/admin_base.html' %}
+{% load static %}
+{% block title %}Delete Customer - Starlex WiFi{% endblock %}
+{% block page_title %}Delete Customer{% endblock %}
+{% block page_subtitle %}Are you sure you want to delete this customer?{% endblock %}
+
+{% block content %}
+<section class="max-w-2xl mx-auto py-8 px-4">
+  <div class="bg-bg-card rounded-lg shadow-sm p-6">
+    <h2 class="text-xl font-bold text-white mb-6">Delete Customer</h2>
+
+    <p class="text-text-secondary mb-6">
+      Are you sure you want to delete the customer "<strong>{{ customer.user.get_full_name|default:customer.user.username }}</strong>"? This action cannot be undone and will also delete their user account.
+    </p>
+
+    <div class="bg-bg-panel p-4 rounded-lg mb-6">
+      <h3 class="text-lg font-semibold text-white mb-2">Customer Details</h3>
+      <ul class="text-text-secondary space-y-1">
+        <li><strong>Username:</strong> {{ customer.user.username }}</li>
+        <li><strong>Full Name:</strong> {{ customer.user.get_full_name|default:"N/A" }}</li>
+        <li><strong>Email:</strong> {{ customer.user.email }}</li>
+        <li><strong>Phone:</strong> {{ customer.phone|default:"N/A" }}</li>
+        <li><strong>Joined:</strong> {{ customer.user.date_joined|date:"M d, Y" }}</li>
+        <li><strong>Status:</strong> {% if customer.user.is_active %}Active{% else %}Inactive{% endif %}</li>
+      </ul>
+    </div>
+
+    <div class="bg-yellow-900/20 border border-yellow-600/30 rounded-lg p-4 mb-6">
+      <div class="flex items-start">
+        <i class="bi bi-exclamation-triangle text-yellow-500 mt-0.5 mr-3"></i>
+        <div>
+          <h4 class="text-yellow-400 font-semibold mb-1">Warning</h4>
+          <p class="text-yellow-200 text-sm">
+            Deleting this customer will permanently remove their account and all associated data including transaction history and device registrations.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <form method="post" class="flex justify-end space-x-4">
+      {% csrf_token %}
+      <a href="{% url 'billing:customers' %}" class="btn-admin btn-admin-secondary">Cancel</a>
+      <button type="submit" class="btn-admin btn-admin-error">Delete Customer</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

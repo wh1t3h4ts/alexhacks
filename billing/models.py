@@ -13,6 +13,7 @@ class Plan(models.Model):
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=20)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     logo = models.ImageField(upload_to='customer_logos/', blank=True, null=True)
     testimonial = models.TextField(blank=True, null=True)
 

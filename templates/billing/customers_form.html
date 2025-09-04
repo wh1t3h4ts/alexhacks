@@ -1,0 +1,55 @@
+{% extends 'billing/admin_base.html' %}
+{% load static %}
+{% block title %}{{ action }} Customer - Starlex WiFi{% endblock %}
+{% block page_title %}{{ action }} Customer{% endblock %}
+{% block page_subtitle %}Fill in the customer details below{% endblock %}
+
+{% block content %}
+<section class="max-w-4xl mx-auto py-8 px-4">
+  <div class="bg-bg-card rounded-lg shadow-sm p-6">
+    <h2 class="text-xl font-bold text-white mb-6">{{ action }} Customer</h2>
+
+    <form method="post" enctype="multipart/form-data" class="customer-form-grid">
+      {% csrf_token %}
+
+      <div class="form-field-group">
+        <label for="{{ form.username.id_for_label }}">Username *</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <p class="error-message">{{ form.username.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="form-field-group">
+        <label for="{{ form.phone.id_for_label }}">Phone Number</label>
+        {{ form.phone }}
+        {% if form.phone.errors %}
+          <p class="error-message">{{ form.phone.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="form-field-group">
+        <label for="{{ form.price.id_for_label }}">Price ($)</label>
+        {{ form.price }}
+        {% if form.price.errors %}
+          <p class="error-message">{{ form.price.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="form-field-group" style="grid-column: 1 / -1;">
+        <label for="{{ form.mac_address.id_for_label }}">MAC Address *</label>
+        {{ form.mac_address }}
+        {% if form.mac_address.errors %}
+          <p class="error-message">{{ form.mac_address.errors.0 }}</p>
+        {% endif %}
+        <small class="text-text-secondary">Format: AA:BB:CC:DD:EE:FF (colon-separated)</small>
+      </div>
+
+      <div class="flex justify-end space-x-4">
+        <a href="{% url 'billing:customers' %}" class="btn-admin btn-admin-secondary">Cancel</a>
+        <button type="submit" class="btn-admin btn-admin-primary">{{ action }} Customer</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -1,176 +1,97 @@
 {% extends 'billing/admin_base.html' %}
 {% load static %}
-{% block title %}Plans Management - Starlex WiFi{% endblock %}
-{% block page_title %}Plans Management{% endblock %}
-{% block page_subtitle %}Create, edit, and manage subscription plans{% endblock %}
+{% block title %}Customer Subscriptions - Starlex WiFi{% endblock %}
+{% block page_title %}Customer Subscriptions{% endblock %}
+{% block page_subtitle %}View all customer subscriptions and their plans{% endblock %}
 
 {% block content %}
 <section class="max-w-7xl mx-auto py-8 px-4">
-  <div class="flex items-center justify-between mb-8">
-    <div>
-      <h2 class="text-2xl font-bold text-white">Pricing Plans</h2>
-      <p class="text-text-secondary mt-1">Simple, predictable pricing for teams of all sizes.</p>
+  <div class="page-header">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+      <div>
+        <h1 class="page-title">Customer Subscriptions</h1>
+        <p class="page-subtitle">Comprehensive overview of all customer subscriptions and their active plans</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="stats-card">
+          <div class="stat-label">Total Subscriptions</div>
+          <div class="stat-value">{{ subscriptions|length }}</div>
+        </div>
+        <div class="stats-card">
+          <div class="stat-label">Active Plans</div>
+          <div class="stat-value">{{ subscriptions|length|add:"0" }}</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="grid gap-6 grid-cols-1 md:grid-cols-3">
-    <!-- Basic -->
-    <article class="bg-bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-lg transition-all">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold">Basic</h3>
-        <div class="text-2xl font-bold">KES 0</div>
-      </div>
-      <p class="text-text-secondary mb-4">Essential access for light users.</p>
-      <ul class="mb-6 space-y-2 text-sm text-text-secondary">
-        <li>30 minutes access</li>
-        <li>Basic support</li>
-        <li>Limited speed</li>
-      </ul>
-      <button class="w-full btn-admin btn-admin-secondary">Choose Basic</button>
-    </article>
-
-    <!-- Pro (Recommended) -->
-    <article class="bg-gradient-to-br from-[#161b22] to-[#1f2937] border-2 border-accent rounded-2xl p-6 shadow-lg transform md:scale-105">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold text-white">Pro</h3>
-        <div class="text-2xl font-bold text-white">KES 199</div>
-      </div>
-      <p class="text-text-secondary mb-4">Recommended for most small businesses.</p>
-      <ul class="mb-6 space-y-2 text-sm text-text-secondary">
-        <li>3 hours access</li>
-        <li>Priority support</li>
-        <li>Higher speeds</li>
-      </ul>
-      <button class="w-full bg-accent text-bg-main font-semibold py-2 rounded-lg hover:bg-accent-hover transition-all">Start Pro</button>
-    </article>
-
-    <!-- Enterprise -->
-    <article class="bg-bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-lg transition-all">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold">Enterprise</h3>
-        <div class="text-2xl font-bold">Custom</div>
-      </div>
-      <p class="text-text-secondary mb-4">Advanced features and SLA-backed support.</p>
-      <ul class="mb-6 space-y-2 text-sm text-text-secondary">
-        <li>Custom durations</li>
-        <li>Dedicated support</li>
-        <li>Service level agreement</li>
-      </ul>
-      <button class="w-full btn-admin btn-admin-ghost">Contact Sales</button>
-    </article>
-  </div>
-
-  <!-- Mobile friendly stacked cards handled by grid -->
-  <div class="mt-8">
-    <h4 class="text-lg font-semibold mb-4">Compare Plans</h4>
-    <div class="overflow-x-auto bg-bg-card p-4 rounded-lg">
-      <table class="w-full text-left text-sm">
+  <div class="subscriptions-container">
+    <div class="overflow-x-auto">
+      <table class="subscriptions-table">
         <thead>
-          <tr class="text-text-secondary">
-            <th class="py-2">Feature</th>
-            <th class="py-2">Basic</th>
-            <th class="py-2">Pro</th>
-            <th class="py-2">Enterprise</th>
+          <tr>
+            <th>Customer</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Customer Price</th>
+            <th>Plan</th>
+            <th>Amount</th>
+            <th>Subscribed On</th>
           </tr>
         </thead>
-        <tbody>
+                <tbody>
+          {% for subscription in subscriptions %}
           <tr>
-            <td class="py-2 text-text-secondary">Duration</td>
-            <td class="py-2">30m</td>
-            <td class="py-2">3h</td>
-            <td class="py-2">Custom</td>
+            <td>
+              <div class="customer-name">
+                <div class="customer-avatar">
+                  {{ subscription.customer.user.get_full_name|default:subscription.customer.user.username|slice:":1"|upper }}
+                </div>
+                <div>
+                  <div class="font-semibold">{{ subscription.customer.user.get_full_name|default:subscription.customer.user.username }}</div>
+                  <div class="text-xs text-text-secondary">@{{ subscription.customer.user.username }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="text-text-secondary">{{ subscription.customer.user.email }}</td>
+            <td class="text-text-secondary">{{ subscription.customer.phone|default:"N/A" }}</td>
+            <td class="amount-highlight">${{ subscription.customer.price|floatformat:2 }}</td>
+            <td>
+              {% if subscription.has_transaction %}
+                <span class="plan-badge">{{ subscription.plan.name }}</span>
+              {% else %}
+                <span class="plan-badge" style="background: rgba(156, 163, 175, 0.1); color: var(--color-text-secondary);">
+                  No Plan
+                </span>
+              {% endif %}
+            </td>
+            <td class="amount-highlight">
+              {% if subscription.has_transaction %}
+                ${{ subscription.amount }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td class="date-time">
+              {% if subscription.has_transaction %}
+                {{ subscription.paid_at|date:"M d, Y" }}<br>{{ subscription.paid_at|date:"H:i" }}
+              {% else %}
+                Never
+              {% endif %}
+            </td>
           </tr>
+          {% empty %}
           <tr>
-            <td class="py-2 text-text-secondary">Support</td>
-            <td class="py-2">Community</td>
-            <td class="py-2">Priority</td>
-            <td class="py-2">Dedicated</td>
+            <td colspan="7" class="empty-state">
+              <i class="bi bi-people"></i>
+              <div>No customers found.</div>
+              <small>Add customers through the Customers page to see them here.</small>
+            </td>
           </tr>
-          <tr>
-            <td class="py-2 text-text-secondary">Speed</td>
-            <td class="py-2">Standard</td>
-            <td class="py-2">High</td>
-            <td class="py-2">Custom</td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 </section>
-
-{% endblock %}
-
-{% block extra_js %}
-<script>
-  // Minimal JS for CTA feedback
-  document.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      if (btn.classList.contains('btn-admin-primary') || btn.textContent.includes('Start Pro') || btn.textContent.includes('Choose')) {
-        btn.classList.add('opacity-80');
-        setTimeout(() => btn.classList.remove('opacity-80'), 300);
-      }
-    });
-  });
-
-function editPlan(planId) {
-  openPlanModal(planId);
-  closeAllMenus();
-}
-
-function duplicatePlan(planId) {
-  showToast('Plan duplicated successfully!', 'success');
-  closeAllMenus();
-}
-
-function deletePlan(planId) {
-  if (confirm('Are you sure you want to delete this plan? This action cannot be undone.')) {
-    showToast('Plan deleted successfully!', 'success');
-  }
-  closeAllMenus();
-}
-
-function togglePlanMenu(planId) {
-  closeAllMenus();
-  document.getElementById(`menu-${planId}`).classList.toggle('hidden');
-}
-
-function closeAllMenus() {
-  document.querySelectorAll('[id^="menu-"]').forEach(menu => {
-    menu.classList.add('hidden');
-  });
-}
-
-// Form submission
-document.getElementById('planForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-
-  const formData = {
-    id: document.getElementById('planId').value,
-    name: document.getElementById('planName').value,
-    price: document.getElementById('planPrice').value,
-    duration: document.getElementById('planDuration').value,
-    description: document.getElementById('planDescription').value
-  };
-
-  console.log('Saving plan:', formData);
-  showToast('Plan saved successfully!', 'success');
-  closePlanModal();
-
-  // In a real implementation, this would make an AJAX call to save the plan
-});
-
-// Close modal when clicking outside
-document.getElementById('planModal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    closePlanModal();
-  }
-});
-
-// Close menus when clicking outside
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('[onclick*="togglePlanMenu"]')) {
-    closeAllMenus();
-  }
-});
-</script>
 {% endblock %}
