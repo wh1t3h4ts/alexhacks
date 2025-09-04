@@ -6,202 +6,111 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Starlex WiFi Admin{% endblock %}</title>
   <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <!-- Tailwind CDN for rapid utility styling in admin pages -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="{% static 'css/starlex.css' %}">
   <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{% static 'js/sidebar.js' %}"></script>
 
 </head>
 <body class="bg-bg text-text font-body min-h-screen">
   <!-- Admin Layout Container -->
-  <div class="admin-layout flex min-h-screen">
-    <!-- Sidebar Overlay for Mobile -->
-    <div class="sidebar-overlay fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden opacity-0 invisible transition-all duration-300" id="sidebarOverlay"></div>
+  <div class="layout-wrapper">
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
 
     <!-- Admin Sidebar -->
-    <aside class="admin-sidebar w-64 bg-bg-alt border-r border-border-medium flex flex-col fixed lg:static inset-y-0 left-0 z-50 lg:z-auto" id="adminSidebar">
-      <!-- Logo -->
-      <div class="flex items-center gap-3 p-6 border-b border-border-medium">
-        <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 2L20 12H28L22 18L24 28L16 22L8 28L10 18L4 12H12L16 2Z" fill="url(#starlex-gradient)"/>
-          <defs><linearGradient id="starlex-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#8B5CF6"/></linearGradient></defs>
-        </svg>
-        <h1 class="text-xl font-bold gradient-text">Starlex</h1>
+    <aside class="sidebar" id="adminSidebar" data-expanded="true">
+      <!-- Logo Section -->
+      <div class="sidebar-header">
+        <a href="{% url 'billing:admin_dashboard' %}" class="sidebar-logo">
+          <i class="bi bi-star-fill"></i>
+          <span class="logo-text">Starlex</span>
+        </a>
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+          <i class="bi bi-chevron-double-left"></i>
+        </button>
       </div>
 
       <!-- Navigation -->
-      <nav class="flex-1 px-6 py-4">
-        <div class="space-y-1">
-          <!-- Dashboard -->
-          <a href="{% url 'billing:admin_dashboard' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-            </svg>
-            <span class="font-medium">Dashboard</span>
-          </a>
+      <nav class="sidebar-nav" role="navigation">
+        <div class="nav-section">
+          <div class="nav-group">
+            <!-- Dashboard -->
+            <a href="{% url 'billing:admin_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" data-tooltip="Dashboard">
+              <i class="bi bi-speedometer2"></i>
+              <span class="nav-text">Dashboard</span>
+            </a>
 
-          <!-- Transactions -->
-          <a href="{% url 'billing:transactions' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'transactions' %}active{% endif %}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-            </svg>
-            <span class="font-medium">Transactions</span>
-          </a>
+            <!-- Transactions -->
+            <a href="{% url 'billing:transactions' %}" class="nav-link {% if request.resolver_match.url_name == 'transactions' %}active{% endif %}" data-tooltip="Transactions">
+              <i class="bi bi-credit-card"></i>
+              <span class="nav-text">Transactions</span>
+            </a>
 
-          <!-- Plans -->
-          <a href="{% url 'admin:index' %}billing/plan/" class="admin-nav-link">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
-            <span class="font-medium">Plans</span>
-          </a>
+            <!-- Plans -->
+            <a href="{% url 'billing:plans' %}" class="nav-link {% if request.resolver_match.url_name == 'plans' %}active{% endif %}" data-tooltip="Subscriptions">
+              <i class="bi bi-people"></i>
+              <span class="nav-text">Subscriptions</span>
+            </a>
 
-          <!-- Users -->
-          <a href="{% url 'admin:index' %}billing/customer/" class="admin-nav-link">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-            </svg>
-            <span class="font-medium">Users</span>
-          </a>
+            <!-- Customers -->
+            <a href="{% url 'billing:customers' %}" class="nav-link {% if request.resolver_match.url_name == 'customers' %}active{% endif %}" data-tooltip="Customers">
+              <i class="bi bi-person-badge"></i>
+              <span class="nav-text">Customers</span>
+            </a>
+          </div>
 
-          <!-- Settings -->
-          <a href="{% url 'billing:settings' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            </svg>
-            <span class="font-medium">Settings</span>
-          </a>
+          <div class="nav-group mt-auto">
+            <!-- Settings -->
+            <a href="{% url 'billing:settings' %}" class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}" data-tooltip="Settings">
+              <i class="bi bi-gear"></i>
+              <span class="nav-text">Settings</span>
+            </a>
 
-          <!-- Help -->
-          <a href="#" class="admin-nav-link">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <span class="font-medium">Help</span>
-          </a>
+            <!-- Help -->
+            <a href="#" class="nav-link" data-tooltip="Help & Support">
+              <i class="bi bi-question-circle"></i>
+              <span class="nav-text">Help</span>
+            </a>
+          </div>
         </div>
       </nav>
-
-      <!-- Quick Actions -->
-      <div class="px-6 py-4 border-t border-border-medium">
-        <h3 class="text-sm font-semibold text-text-secondary mb-4">Quick Actions</h3>
-        <div class="space-y-1">
-          <button class="admin-nav-link w-full justify-start" onclick="exportData()">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
-            <span class="font-medium">Export Data</span>
-          </button>
-          <button class="admin-nav-link w-full justify-start" onclick="generateReport()">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-            </svg>
-            <span class="font-medium">Generate Report</span>
-          </button>
-        </div>
-      </div>
     </aside>
 
-    <!-- Top Navbar - Full Width -->
-    <header class="admin-navbar bg-bg-alt border-b border-border-medium px-6 py-3 sticky top-0 z-40 lg:ml-64">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-4">
-          <!-- Mobile Menu Button -->
-          <button class="lg:hidden p-2 rounded-lg hover:bg-bg transition-colors" id="mobileMenuBtn">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-
-          <div>
-            <h1 class="text-xl font-bold text-heading">{% block page_title %}Dashboard{% endblock %}</h1>
-            <p class="text-text-secondary text-sm">{% block page_subtitle %}Monitor your WiFi business performance{% endblock %}</p>
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="content-header">
+        <div class="header-content">
+          <!-- Page Title -->
+          <div class="page-title">
+            <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+            <p>{% block page_subtitle %}Monitor your WiFi business performance{% endblock %}</p>
           </div>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <!-- Theme Toggle -->
-          <button class="p-2 rounded-lg hover:bg-bg transition-colors" id="themeToggle">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-            </svg>
-          </button>
 
           <!-- User Menu -->
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-              <span class="text-white font-semibold text-sm">{{ user.username|first|upper }}</span>
+          <div class="user-info">
+            <div class="user-avatar">
+              <span class="user-initial">{{ user.username|first|upper }}</span>
             </div>
-            <span class="text-text-secondary">{{ user.username }}</span>
+            <span class="user-name">{{ user.username }}</span>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <!-- Main Content Area -->
-    <div class="admin-main flex-1 flex flex-col min-w-0 lg:ml-64">      <!-- Page Content -->
-      <main class="flex-1 p-6 overflow-auto">
+      <!-- Page Content -->
+      <div class="page-content">
         {% block content %}{% endblock %}
-      </main>
-    </div>
+      </div>
+    </main>
   </div>
 
   <!-- JavaScript -->
   <script>
-    // Mobile sidebar toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const sidebar = document.getElementById('adminSidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-
-    mobileMenuBtn?.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('active');
-    });
-
-    overlay?.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('active');
-    });
-
-    // Close sidebar when clicking on a nav link (mobile)
-    document.querySelectorAll('.admin-nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth < 1024) {
-          sidebar.classList.remove('open');
-          overlay.classList.remove('active');
-        }
-      });
-    });
-
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle?.addEventListener('click', () => {
-      document.documentElement.classList.toggle('dark');
-      const isDark = document.documentElement.classList.contains('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-
-      // Update icon
-      const icon = themeToggle.querySelector('svg');
-      if (isDark) {
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
-      } else {
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
-      }
-    });
-
-    // Load saved theme
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-
-    // Quick action functions
-    function exportData() {
-      showToast('Export functionality coming soon...', 'info');
-    }
-
-    function generateReport() {
-      showToast('Report generation coming soon...', 'info');
-    }
-
     // Toast notifications
     function showToast(message, type = 'success') {
       const toast = document.createElement('div');

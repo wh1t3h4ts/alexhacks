@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plans - Starlex WiFi</title>
+    <link rel="stylesheet" href="{% static 'css/plans.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="{% url 'portal:landing' %}" class="logo">Starlex WiFi</a>
+                <ul class="nav-links">
+                    <li><a href="{% url 'portal:landing' %}">Home</a></li>
+                    <li><a href="{% url 'portal:about' %}">About</a></li>
+                    <li><a href="{% url 'plans' %}" class="active">Plans</a></li>
+                    <li><a href="{% url 'customers' %}">Customers</a></li>
+                    <li><a href="{% url 'portal:support' %}">Support</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="plans-hero">
+            <h1>Choose Your Plan</h1>
+            <p>Select the perfect WiFi plan for your needs</p>
+        </section>
+
+        <section class="plans-grid">
+            {% for plan in plans %}
+            <div class="plan-card">
+                <h3>{{ plan.name }}</h3>
+                <div class="price">${{ plan.price }}</div>
+                <ul class="features">
+                    <li>Duration: {{ plan.duration_minutes }} minutes</li>
+                    <li>Unlimited data usage</li>
+                    <li>High-speed internet</li>
+                    <li>24/7 support</li>
+                </ul>
+                <a href="{% url 'portal:landing' %}?mac=unknown" class="signup-btn">Sign Up</a>
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Starlex WiFi. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends 'billing/admin_base.html' %}
+{% load static %}
+{% block title %}{{ action }} Plan - Starlex WiFi{% endblock %}
+{% block page_title %}{{ action }} Plan{% endblock %}
+{% block page_subtitle %}Fill in the details below{% endblock %}
+
+{% block content %}
+<section class="max-w-2xl mx-auto py-8 px-4">
+  <div class="bg-bg-card rounded-lg shadow-sm p-6">
+    <h2 class="text-xl font-bold text-white mb-6">{{ action }} Plan</h2>
+
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+
+      <div>
+        <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
+          {{ form.name.label }}
+        </label>
+        {{ form.name }}
+        {% if form.name.errors %}
+          <p class="text-error text-sm mt-1">{{ form.name.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div>
+        <label for="{{ form.price.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
+          {{ form.price.label }}
+        </label>
+        {{ form.price }}
+        {% if form.price.errors %}
+          <p class="text-error text-sm mt-1">{{ form.price.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div>
+        <label for="{{ form.duration_minutes.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
+          {{ form.duration_minutes.label }}
+        </label>
+        {{ form.duration_minutes }}
+        {% if form.duration_minutes.errors %}
+          <p class="text-error text-sm mt-1">{{ form.duration_minutes.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div>
+        <label for="{{ form.rad_group.id_for_label }}" class="block text-sm font-medium text-text-secondary mb-2">
+          {{ form.rad_group.label }}
+        </label>
+        {{ form.rad_group }}
+        {% if form.rad_group.errors %}
+          <p class="text-error text-sm mt-1">{{ form.rad_group.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="flex justify-end space-x-4">
+        <a href="{% url 'billing:plans' %}" class="btn-admin btn-admin-secondary">Cancel</a>
+        <button type="submit" class="btn-admin btn-admin-primary">{{ action }} Plan</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

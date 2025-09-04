@@ -1,0 +1,147 @@
+/* Enhanced Responsive Layout Styles */
+@media (max-width: 1024px) {
+  :root {
+    --content-spacing: 1rem;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-xl);
+    z-index: 110;
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .content-header {
+    padding: var(--content-spacing);
+  }
+
+  .content-wrapper {
+    padding: var(--content-spacing);
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-toggle {
+    display: block;
+  }
+
+  /* Enhanced mobile overlay */
+  .sidebar-overlay.visible + .main-content {
+    filter: blur(1px);
+    transform: scale(0.98);
+  }
+
+  /* Smooth mobile transitions */
+  .sidebar, .main-content, .sidebar-overlay {
+    transition: all var(--transition-normal);
+  }
+
+  /* Touch-friendly navigation */
+  .nav-link {
+    padding: 1rem 1.25rem;
+    min-height: 3.5rem;
+    font-size: 1rem;
+  }
+
+  .sidebar-logo {
+    font-size: 1.25rem;
+  }
+}
+
+/* Tablet Layout (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .content-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .dashboard-grid-kpi {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-grid-charts {
+    grid-template-columns: 1fr;
+  }
+
+  /* Sidebar behavior on tablet */
+  .sidebar {
+    width: var(--sidebar-width-collapsed);
+  }
+
+  .sidebar[data-expanded="true"] {
+    width: var(--sidebar-width);
+  }
+
+  .main-content {
+    margin-left: var(--sidebar-width-collapsed);
+  }
+
+  .sidebar[data-expanded="true"] ~ .main-content {
+    margin-left: var(--sidebar-width);
+  }
+}
+
+/* Large Desktop (1280px - 1536px) */
+@media (min-width: 1280px) and (max-width: 1536px) {
+  .content-wrapper {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+
+  .dashboard-grid-charts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Ultra-wide Desktop (1536px+) */
+@media (min-width: 1536px) {
+  :root {
+    --content-max-width: 1920px;
+  }
+
+  .content-wrapper {
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  }
+
+  .dashboard-grid-kpi {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+
+  .dashboard-grid-charts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Small Mobile (320px - 480px) */
+@media (max-width: 480px) {
+  .content-wrapper {
+    padding: 0.75rem;
+  }
+
+  .content-header {
+    padding: 0.75rem;
+  }
+
+  .page-title h1 {
+    font-size: 1.25rem;
+  }
+
+  .page-title p {
+    font-size: 0.8125rem;
+  }
+
+  /* Stack KPI cards vertically on very small screens */
+  .dashboard-grid-kpi {
+    grid-template-columns: 1fr;
+  }
+
+  /* Reduce padding on cards */
+  .kpi-card, .chart-card, .transactions-card {
+    padding: 1rem;
+  }
+}

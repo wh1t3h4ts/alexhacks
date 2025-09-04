@@ -1,0 +1,87 @@
+{% extends 'billing/admin_base.html' %}
+{% load static %}
+{% block title %}Customer Management - Starlex WiFi{% endblock %}
+{% block page_title %}Customer Management{% endblock %}
+{% block page_subtitle %}Manage customer accounts and information{% endblock %}
+
+{% block content %}
+<section class="max-w-7xl mx-auto py-8 px-4">
+  <div class="page-header">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+      <div>
+        <h1 class="page-title">Customer Management</h1>
+        <p class="page-subtitle">Comprehensive overview of all registered customers and their account details</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="stats-card">
+          <div class="stat-label">Total Customers</div>
+          <div class="stat-value">{{ customers|length }}</div>
+        </div>
+        <a href="{% url 'billing:customers_add' %}" class="btn-admin btn-admin-primary">
+          <i class="bi bi-plus"></i> Add Customer
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="subscriptions-container">
+    <div class="overflow-x-auto">
+      <table class="subscriptions-table">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>Price</th>
+            <th>MAC Address</th>
+            <th>Status</th>
+            <th>Joined</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for customer in customers %}
+          <tr>
+            <td>
+              <div class="customer-name">
+                <div class="customer-avatar-large">
+                  {{ customer.user.get_full_name|default:customer.user.username|slice:":1"|upper }}
+                </div>
+                <div>
+                  <div class="font-semibold">{{ customer.user.get_full_name|default:customer.user.username }}</div>
+                  <div class="text-xs text-text-secondary">@{{ customer.user.username }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="text-text-secondary">{{ customer.phone|default:"N/A" }}</td>
+            <td class="amount-highlight">${{ customer.price|floatformat:2 }}</td>
+            <td class="text-text-secondary font-mono">
+              {% with device=customer.device_set.first %}
+                {{ device.mac|default:"No device" }}
+              {% endwith %}
+            </td>
+            <td>
+              <span class="plan-badge {% if customer.user.is_active %}customer-status-active{% else %}customer-status-inactive{% endif %}">
+                {% if customer.user.is_active %}Active{% else %}Inactive{% endif %}
+              </span>
+            </td>
+            <td class="date-time">{{ customer.user.date_joined|date:"M d, Y" }}</td>
+            <td>
+              <a href="{% url 'billing:customers_edit' customer.id %}" class="text-accent hover:text-accent-hover mr-4">Edit</a>
+              <a href="{% url 'billing:customers_delete' customer.id %}" class="text-error hover:text-red-400">Delete</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7" class="empty-state">
+              <i class="bi bi-people"></i>
+              <div>No customers found.</div>
+              <small>Customer accounts will appear here once they register.</small>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

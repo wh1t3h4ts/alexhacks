@@ -22,14 +22,12 @@
       </div>
       <div class="flex flex-col sm:flex-row items-start lg:items-center gap-4">
         <button id="refreshBtn" class="btn-admin btn-admin-secondary" onclick="refreshDashboard()">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
+          <i class="bi bi-arrow-clockwise"></i>
           Refresh
         </button>
         <div class="text-left lg:text-right">
-          <div class="text-text-secondary text-sm">Last Updated</div>
-          <div class="text-text font-mono text-xs" id="lastUpdate">Just now</div>
+          <div class="text-secondary text-sm">Last Updated</div>
+          <div class="text-primary font-mono text-xs" id="lastUpdate">Just now</div>
         </div>
       </div>
     </div>
@@ -42,16 +40,12 @@
     <!-- Active Users Card -->
     <article class="kpi-card" id="usersCard">
       <div class="kpi-icon bg-primary/10 text-primary">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-        </svg>
+        <i class="bi bi-people-fill"></i>
       </div>
       <div class="kpi-value text-primary" id="totalUsers">{{ total_users|default:0 }}</div>
       <div class="kpi-label">Active Users</div>
       <div class="kpi-trend up" id="usersTrend">
-        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-        </svg>
+        <i class="bi bi-arrow-up-short"></i>
         +12% from last month
       </div>
     </article>
@@ -59,16 +53,12 @@
     <!-- Total Revenue Card -->
     <article class="kpi-card" id="revenueCard">
       <div class="kpi-icon bg-success/10 text-success">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-        </svg>
+        <i class="bi bi-cash-stack"></i>
       </div>
       <div class="kpi-value text-success" id="totalRevenue">KES {{ total_revenue|default:0 }}</div>
       <div class="kpi-label">Total Revenue</div>
       <div class="kpi-trend up" id="revenueTrend">
-        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-        </svg>
+        <i class="bi bi-arrow-up-short"></i>
         +8% from last month
       </div>
     </article>
@@ -76,16 +66,12 @@
     <!-- Active Plans Card -->
     <article class="kpi-card" id="plansCard">
       <div class="kpi-icon bg-secondary/10 text-secondary">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
+        <i class="bi bi-check-circle-fill"></i>
       </div>
       <div class="kpi-value text-secondary" id="activePlans">{{ active_plans|default:0 }}</div>
       <div class="kpi-label">Active Plans</div>
       <div class="kpi-trend up" id="plansTrend">
-        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-        </svg>
+        <i class="bi bi-arrow-up-short"></i>
         +15% from last month
       </div>
     </article>
@@ -93,16 +79,12 @@
     <!-- Success Rate Card -->
     <article class="kpi-card" id="successCard">
       <div class="kpi-icon bg-accent/10 text-accent">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-        </svg>
+        <i class="bi bi-graph-up-arrow"></i>
       </div>
       <div class="kpi-value text-accent" id="successRate">98%</div>
       <div class="kpi-label">Success Rate</div>
       <div class="kpi-trend up" id="successTrend">
-        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-        </svg>
+        <i class="bi bi-arrow-up-short"></i>
         +2% from last month
       </div>
     </article>
@@ -171,10 +153,7 @@
             </span>
           </div>
           <a href="{% url 'billing:transactions' %}" class="btn-admin btn-admin-secondary">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-            </svg>
+            <i class="bi bi-eye"></i>
             View All
           </a>
         </div>
@@ -206,10 +185,7 @@
               <td class="text-text-secondary">{{ txn.created_at|date:"M d, H:i" }}</td>
               <td>
                 <button class="btn-admin btn-admin-ghost text-sm" onclick="viewTransaction('{{ txn.id }}')" aria-label="View transaction {{ txn.id }}">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                  </svg>
+                  <i class="bi bi-eye"></i>
                   View
                 </button>
               </td>
@@ -217,9 +193,7 @@
           {% empty %}
           <tr>
             <td colspan="6" class="text-center text-text-muted py-8">
-              <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-              </svg>
+              <i class="bi bi-file-earmark-x text-4xl opacity-50 mx-auto mb-4 block"></i>
               <p>No transactions found</p>
               <p class="text-sm">Transactions will appear here once users start making payments</p>
             </td>
@@ -238,9 +212,7 @@
       <div class="flex items-center justify-between p-6 border-b border-border-medium">
         <h3 class="text-lg font-semibold">Transaction Details</h3>
         <button onclick="closeModal()" class="text-text-secondary hover:text-text">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
+          <i class="bi bi-x text-xl"></i>
         </button>
       </div>
       <div class="p-6">
@@ -254,64 +226,48 @@
   <!-- Additional KPI Cards -->
   <div class="kpi-card" id="usersCard">
     <div class="kpi-icon bg-primary/10 text-primary">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-      </svg>
+      <i class="bi bi-people-fill"></i>
     </div>
     <div class="kpi-value text-primary" id="totalUsers">{{ total_users|default:0 }}</div>
     <div class="kpi-label">Active Users</div>
     <div class="kpi-trend up" id="usersTrend">
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-      </svg>
+      <i class="bi bi-arrow-up-short"></i>
       +12% from last month
     </div>
   </div>
 
   <div class="kpi-card" id="revenueCard">
     <div class="kpi-icon bg-success/10 text-success">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-      </svg>
+      <i class="bi bi-cash-stack"></i>
     </div>
     <div class="kpi-value text-success" id="totalRevenue">KES {{ total_revenue|default:0 }}</div>
     <div class="kpi-label">Total Revenue</div>
     <div class="kpi-trend up" id="revenueTrend">
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-      </svg>
+      <i class="bi bi-arrow-up-short"></i>
       +8% from last month
     </div>
   </div>
 
   <div class="kpi-card" id="plansCard">
     <div class="kpi-icon bg-secondary/10 text-secondary">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-      </svg>
+      <i class="bi bi-check-circle-fill"></i>
     </div>
     <div class="kpi-value text-secondary" id="activePlans">{{ active_plans|default:0 }}</div>
     <div class="kpi-label">Active Plans</div>
     <div class="kpi-trend up" id="plansTrend">
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-      </svg>
+      <i class="bi bi-arrow-up-short"></i>
       +15% from last month
     </div>
   </div>
 
   <div class="kpi-card" id="successCard">
     <div class="kpi-icon bg-accent/10 text-accent">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-      </svg>
+      <i class="bi bi-graph-up-arrow"></i>
     </div>
     <div class="kpi-value text-accent" id="successRate">98%</div>
     <div class="kpi-label">Success Rate</div>
     <div class="kpi-trend up" id="successTrend">
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-      </svg>
+      <i class="bi bi-arrow-up-short"></i>
       +2% from last month
     </div>
   </div>
@@ -373,10 +329,7 @@
         </span>
       </div>
       <a href="{% url 'billing:transactions' %}" class="btn-admin btn-admin-secondary">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-        </svg>
+        <i class="bi bi-eye"></i>
         View All
       </a>
     </div>
@@ -408,8 +361,7 @@
           <td class="text-text-secondary">{{ txn.created_at|date:"M d, H:i" }}</td>
           <td>
             <button class="btn-admin btn-admin-ghost text-sm" onclick="viewTransaction('{{ txn.id }}')">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <i class="bi bi-eye"></i>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
               </svg>
               View
@@ -419,9 +371,7 @@
         {% empty %}
         <tr>
           <td colspan="6" class="text-center text-text-muted py-8">
-            <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
+            <i class="bi bi-file-earmark-x text-4xl opacity-50 mx-auto mb-4 block"></i>
             <p>No transactions found</p>
             <p class="text-sm">Transactions will appear here once users start making payments</p>
           </td>
@@ -440,9 +390,7 @@
       <div class="flex items-center justify-between p-6 border-b border-border-medium">
         <h3 class="text-lg font-semibold">Transaction Details</h3>
         <button onclick="closeModal()" class="text-text-secondary hover:text-text">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
+          <i class="bi bi-x text-xl"></i>
         </button>
       </div>
       <div class="p-6">
@@ -526,11 +474,11 @@ function initializeCharts() {
       datasets: [{
         label: 'Revenue (KES)',
         data: generateRevenueData(30),
-        borderColor: '#06B6D4',
-        backgroundColor: 'rgba(6, 182, 212, 0.1)',
+        borderColor: '#EA580C',
+        backgroundColor: 'rgba(234, 88, 12, 0.1)',
         tension: 0.4,
         fill: true,
-        pointBackgroundColor: '#06B6D4',
+        pointBackgroundColor: '#EA580C',
         pointBorderColor: '#ffffff',
         pointBorderWidth: 2,
         pointRadius: 4,
@@ -827,9 +775,7 @@ function updateTrends() {
 
     trend.className = `kpi-trend ${isUp ? 'up' : 'down'}`;
     trend.innerHTML = `
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${isUp ? 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' : 'M13 17h8m0 0V9m0 8l-8-8-4 4-6-6'}"></path>
-      </svg>
+      <i class="bi bi-arrow-${isUp ? 'up' : 'down'}-short"></i>
       ${isUp ? '+' : '-'}${percentage}% from last month
     `;
   });
@@ -897,9 +843,7 @@ function showRefreshIndicator() {
   const btn = document.getElementById('refreshBtn');
   if (btn) {
     btn.innerHTML = `
-      <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-      </svg>
+      <i class="bi bi-arrow-clockwise animate-spin"></i>
       Refreshing...
     `;
     btn.disabled = true;
@@ -910,9 +854,7 @@ function hideRefreshIndicator() {
   const btn = document.getElementById('refreshBtn');
   if (btn) {
     btn.innerHTML = `
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-      </svg>
+      <i class="bi bi-arrow-clockwise"></i>
       Refresh
     `;
     btn.disabled = false;
@@ -1183,9 +1125,7 @@ function updateTrends() {
 
     trend.className = `kpi-trend ${isUp ? 'up' : 'down'}`;
     trend.innerHTML = `
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${isUp ? 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' : 'M13 17h8m0 0V9m0 8l-8-8-4 4-6-6'}"></path>
-      </svg>
+      <i class="bi bi-arrow-${isUp ? 'up' : 'down'}-short"></i>
       ${isUp ? '+' : '-'}${percentage}% from last month
     `;
   });
@@ -1242,9 +1182,7 @@ function showRefreshIndicator() {
   const btn = document.getElementById('refreshBtn');
   if (btn) {
     btn.innerHTML = `
-      <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-      </svg>
+      <i class="bi bi-arrow-clockwise animate-spin"></i>
       Refreshing...
     `;
     btn.disabled = true;
@@ -1255,9 +1193,7 @@ function hideRefreshIndicator() {
   const btn = document.getElementById('refreshBtn');
   if (btn) {
     btn.innerHTML = `
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-      </svg>
+      <i class="bi bi-arrow-clockwise"></i>
       Refresh
     `;
     btn.disabled = false;
