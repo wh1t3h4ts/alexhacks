@@ -789,21 +789,73 @@
   flex-direction: column;
 }
 
+/* Modern SaaS Sidebar Styles */
 .admin-sidebar {
-  width: 256px; /* Fixed width */
-  background: linear-gradient(180deg, var(--color-bg-card) 0%, var(--color-bg-main) 100%);
-  backdrop-filter: blur(20px);
-  border-right: 1px solid var(--border-medium);
-  display: flex;
-  flex-direction: column;
+  --sidebar-width-expanded: 240px;
+  --sidebar-width-collapsed: 80px;
+  
+  width: var(--sidebar-width-expanded);
+  height: 100vh;
+  background-color: var(--color-bg-panel);
+  border-right: 1px solid var(--color-border);
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;
-  overflow-y: auto;
-  transition: transform var(--transition-smooth);
-  box-shadow: var(--shadow-lg);
   z-index: 50;
+  display: flex;
+  flex-direction: column;
+  transition: width var(--transition-normal), transform var(--transition-normal);
+  overflow: hidden;
+}
+
+.admin-sidebar[data-expanded="false"] {
+  width: var(--sidebar-width-collapsed);
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.sidebar-logo-text {
+  transition: opacity var(--transition-normal);
+  white-space: nowrap;
+}
+
+.admin-sidebar[data-expanded="false"] .sidebar-logo-text {
+  opacity: 0;
+}
+
+.sidebar-toggle {
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
+}
+
+.sidebar-toggle:hover {
+  color: var(--color-text-primary);
+  background: var(--color-bg-card);
+}
+
+.admin-sidebar[data-expanded="false"] .sidebar-toggle i {
+  transform: rotate(180deg);
 }
 
 .admin-navbar {
@@ -827,26 +879,83 @@
 }
 
 /* Sidebar Navigation */
-.admin-nav-link {
+/* Sidebar Navigation */
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-link {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-lg);
+  gap: 0.875rem;
+  padding: 0.75rem 1rem;
   color: var(--color-text-secondary);
   text-decoration: none;
-  font-weight: var(--weight-medium);
-  transition: all var(--transition-smooth);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
   position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(10px);
-  border: 1px solid transparent;
-  width: 100%;
-  justify-content: flex-start;
-  min-height: 48px; /* Ensure consistent height */
-  animation: fadeInUp 0.5s ease-out forwards;
+  white-space: nowrap;
+}
+
+.nav-link i {
+  font-size: 1.25rem;
+  min-width: 1.25rem;
+  transition: transform var(--transition-normal);
+}
+
+.nav-link .nav-text {
+  font-weight: 500;
+  transition: opacity var(--transition-normal);
+}
+
+.admin-sidebar[data-expanded="false"] .nav-text {
   opacity: 0;
-  transform: translateY(10px);
+}
+
+.nav-link:hover {
+  color: var(--color-text-primary);
+  background: var(--color-bg-card);
+}
+
+.nav-link.active {
+  color: var(--color-text-primary);
+  background: var(--color-bg-card);
+  box-shadow: inset 4px 0 0 var(--color-accent);
+}
+
+/* Tooltip for collapsed state */
+.nav-link[data-tooltip] {
+  position: relative;
+}
+
+.admin-sidebar[data-expanded="false"] .nav-link[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 0.75rem);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+  z-index: 60;
 }
 
 .admin-nav-link span {

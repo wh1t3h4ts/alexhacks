@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="{% static 'css/starlex.css' %}">
   <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{% static 'js/sidebar.js' %}"></script>
 
 </head>
 <body class="bg-bg text-text font-body min-h-screen">
@@ -19,50 +20,60 @@
     <div class="sidebar-overlay fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden opacity-0 invisible transition-all duration-300" id="sidebarOverlay"></div>
 
     <!-- Admin Sidebar -->
-    <aside class="admin-sidebar w-64 bg-bg-alt border-r border-border-medium flex flex-col fixed lg:static inset-y-0 left-0 z-50 lg:z-auto" id="adminSidebar">
-      <!-- Logo -->
-      <div class="logo-section">
-        <h1 class="gradient-text">Starlex</h1>
+    <aside class="admin-sidebar" id="adminSidebar" data-expanded="true">
+      <!-- Logo Section -->
+      <div class="sidebar-header">
+        <h1 class="sidebar-logo">
+          <i class="bi bi-star-fill text-accent"></i>
+          <span class="sidebar-logo-text">Starlex</span>
+        </h1>
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+          <i class="bi bi-chevron-left"></i>
+        </button>
       </div>
 
       <!-- Navigation -->
-      <nav class="flex-1 px-6 py-4">
-        <div class="space-y-1">
-          <!-- Dashboard -->
-          <a href="{% url 'billing:admin_dashboard' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
-            <i class="bi bi-speedometer2"></i>
-            <span class="font-medium">Dashboard</span>
-          </a>
+      <nav class="sidebar-nav" role="navigation">
+        <div class="nav-section">
+          <div class="nav-group">
+            <!-- Dashboard -->
+            <a href="{% url 'billing:admin_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" data-tooltip="Dashboard">
+              <i class="bi bi-speedometer2"></i>
+              <span class="nav-text">Dashboard</span>
+            </a>
 
-          <!-- Transactions -->
-          <a href="{% url 'billing:transactions' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'transactions' %}active{% endif %}">
-            <i class="bi bi-credit-card"></i>
-            <span class="font-medium">Transactions</span>
-          </a>
+            <!-- Transactions -->
+            <a href="{% url 'billing:transactions' %}" class="nav-link {% if request.resolver_match.url_name == 'transactions' %}active{% endif %}" data-tooltip="Transactions">
+              <i class="bi bi-credit-card"></i>
+              <span class="nav-text">Transactions</span>
+            </a>
 
-          <!-- Plans -->
-          <a href="{% url 'admin:index' %}billing/plan/" class="admin-nav-link">
-            <i class="bi bi-file-earmark-text"></i>
-            <span class="font-medium">Plans</span>
-          </a>
+            <!-- Plans -->
+            <a href="{% url 'admin:index' %}billing/plan/" class="nav-link" data-tooltip="Plans">
+              <i class="bi bi-file-earmark-text"></i>
+              <span class="nav-text">Plans</span>
+            </a>
 
-          <!-- Users -->
-          <a href="{% url 'admin:index' %}billing/customer/" class="admin-nav-link">
-            <i class="bi bi-people"></i>
-            <span class="font-medium">Users</span>
-          </a>
+            <!-- Users -->
+            <a href="{% url 'admin:index' %}billing/customer/" class="nav-link" data-tooltip="Users">
+              <i class="bi bi-people"></i>
+              <span class="nav-text">Users</span>
+            </a>
+          </div>
 
-          <!-- Settings -->
-          <a href="{% url 'billing:settings' %}" class="admin-nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
-            <i class="bi bi-gear"></i>
-            <span class="font-medium">Settings</span>
-          </a>
+          <div class="nav-group mt-auto">
+            <!-- Settings -->
+            <a href="{% url 'billing:settings' %}" class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}" data-tooltip="Settings">
+              <i class="bi bi-gear"></i>
+              <span class="nav-text">Settings</span>
+            </a>
 
-          <!-- Help -->
-          <a href="#" class="admin-nav-link">
-            <i class="bi bi-question-circle"></i>
-            <span class="font-medium">Help</span>
-          </a>
+            <!-- Help -->
+            <a href="#" class="nav-link" data-tooltip="Help & Support">
+              <i class="bi bi-question-circle"></i>
+              <span class="nav-text">Help</span>
+            </a>
+          </div>
         </div>
       </nav>
     </aside>
